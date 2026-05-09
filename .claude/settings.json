@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bunx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack --eslint --yes)",
+      "Bash(mv CLAUDE.md /tmp/CLAUDE.md.agendaae && bunx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack --eslint --yes 2>&1 | tail -20; mv /tmp/CLAUDE.md.agendaae CLAUDE.md)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}
