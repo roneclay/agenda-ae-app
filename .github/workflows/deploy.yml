@@ -1,0 +1,19 @@
+name: Deploy
+on:
+  push:
+    branches: [staging, main]
+
+jobs:
+  deploy-staging:
+    if: github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify — Staging
+        run: curl --silent --fail -X GET "${{ secrets.COOLIFY_STAGING_WEBHOOK }}"
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Coolify — Produção
+        run: curl --silent --fail -X GET "${{ secrets.COOLIFY_PRODUCTION_WEBHOOK }}"

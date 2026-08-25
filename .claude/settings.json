@@ -2,10 +2,17 @@
   "permissions": {
     "allow": [
       "Bash(bunx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack --eslint --yes)",
-      "Bash(mv CLAUDE.md /tmp/CLAUDE.md.agendaae && bunx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack --eslint --yes 2>&1 | tail -20; mv /tmp/CLAUDE.md.agendaae CLAUDE.md)"
+      "Bash(mv CLAUDE.md /tmp/CLAUDE.md.agendaae && bunx create-next-app@latest . --typescript --tailwind --app --src-dir --import-alias \"@/*\" --use-bun --no-turbopack --eslint --yes 2>&1 | tail -20; mv /tmp/CLAUDE.md.agendaae CLAUDE.md)",
+      "Bash(bun add *)",
+      "Bash(bunx shadcn@latest init --defaults --yes)",
+      "Bash(bunx shadcn@latest add button input label card badge sonner calendar dialog sheet tabs avatar separator skeleton select textarea form --yes --overwrite)",
+      "Bash(bunx shadcn@latest add form --yes)",
+      "Bash(bunx --bun shadcn@latest add form --yes)",
+      "Bash(bunx shadcn@latest add form)",
+      "Bash(bunx playwright *)",
+      "Bash(openssl rand *)",
+      "Bash(bun run *)"
     ],
-    "additionalDirectories": [
-      "/tmp"
-    ]
+    "additionalDirectories": ["/tmp"]
   }
 }

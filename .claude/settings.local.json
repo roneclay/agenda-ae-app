@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk read *)",
+      "Bash(bun test *)",
+      "Bash(rtk grep *)",
+      "Bash(rtk wc *)",
+      "Bash(bun --bun test tests/unit/email.test.ts)",
+      "Bash(bun /tmp/heading_test.tsx)",
+      "Bash(bunx @biomejs/biome check --write .)",
+      "Bash(rtk find *)",
+      "Bash(proxy find *)",
+      "Bash(rtk proxy *)",
+      "Bash(PORT=3000 bun run dev)",
+      "Bash(rtk curl *)",
+      "Bash(psql -d agendaae_dev -t -c \"SELECT id FROM service WHERE name='Manutenção' LIMIT 1\")",
+      "Bash(bunx @biomejs/biome check --write src/app/\\\\\\(onboarding\\\\\\)/onboarding/step-service.tsx src/app/\\\\\\(dashboard\\\\\\)/layout.tsx)",
+      "Bash(psql agendaae_dev)"
+    ]
+  }
+}
