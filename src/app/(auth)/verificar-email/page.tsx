@@ -28,8 +28,7 @@ export default async function VerificarEmailPage({
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground">
         <p>
-          Clique no link da mensagem para ativar sua conta. Em desenvolvimento, o email é impresso
-          no console do servidor (procure por <code>📧 [EMAIL MOCK]</code>).
+          Clique no link da mensagem para ativar sua conta. Verifique também a pasta de spam.
         </p>
       </CardContent>
       <CardFooter>

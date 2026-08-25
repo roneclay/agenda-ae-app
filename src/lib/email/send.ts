@@ -28,7 +28,11 @@ async function send({
     console.log(`\n📧 [EMAIL MOCK] Para: ${to} | Assunto: ${subject}`)
     return { id: 'mock-id' }
   }
-  return getResend().emails.send({ from: FROM, to, subject, react: react() })
+  const result = await getResend().emails.send({ from: FROM, to, subject, react: react() })
+  if ('error' in result && result.error) {
+    console.error(`[RESEND ERROR] Para: ${to} | ${JSON.stringify(result.error)}`)
+  }
+  return result
 }
 
 export async function sendVerificationEmail({

@@ -23,6 +23,17 @@ export default function CadastroPage() {
     const email = String(form.get('email') ?? '').trim()
     const password = String(form.get('password') ?? '')
 
+    const check = await fetch('/api/auth/check-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    if (check.ok && (await check.json()).exists) {
+      setLoading(false)
+      toast.error('Este email já está cadastrado. Tente fazer login.')
+      return
+    }
+
     const { error } = await signUp.email({ name, email, password })
     setLoading(false)
 
