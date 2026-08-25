@@ -4,32 +4,32 @@ import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getCurrentProfessional, getSession } from '@/lib/auth/session'
 import { db, professional } from '@/lib/db'
-import { sendAssinaturaAtiva, sendCancelamento, sendPagamentoConfirmado } from '@/lib/email/send'
+import { sendCancelamento } from '@/lib/email/send'
+import { createPaymentPreference } from '@/lib/mercadopago'
+import { activatePro } from '@/lib/subscription'
 
 const MOCK = process.env.PAYMENT_MOCK === 'true'
 
-export async function activateProMock() {
+export async function createCheckout(): Promise<{ url?: string; error?: string }> {
   const pro = await getCurrentProfessional()
-  const session = await getSession()
-  if (!pro || !session) return
-  if (!MOCK) throw new Error('Em produção, use o checkout AbacatePay/Stripe.')
+  if (!pro) return { error: 'Não autenticado' }
 
-  await db
-    .update(professional)
-    .set({ plan: 'pro', subscriptionStatus: 'active' })
-    .where(eq(professional.id, pro.id))
+  if (MOCK) {
+    await activatePro(pro.id)
+    revalidatePath('/dashboard/financeiro')
+    return { url: '/dashboard/financeiro' }
+  }
 
-  const month = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })
-  await sendAssinaturaAtiva({ to: session.user.email, name: session.user.name })
-  await sendPagamentoConfirmado({
-    to: session.user.email,
-    name: session.user.name,
-    amount: 'R$ 49,00',
-    month,
-  })
-
-  revalidatePath('/dashboard/financeiro')
-  revalidatePath('/dashboard')
+  try {
+    const { initPoint } = await createPaymentPreference({
+      professionalId: pro.id,
+      professionalName: pro.name,
+    })
+    return { url: initPoint }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Erro ao criar checkout'
+    return { error: message }
+  }
 }
 
 export async function cancelSubscriptionMock() {
