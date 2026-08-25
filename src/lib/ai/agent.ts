@@ -82,10 +82,15 @@ export async function runAgent({
       content: m.content ?? '',
     }))
 
+  const today = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' })
+  const todayISO = new Date().toLocaleDateString('sv', { timeZone: 'America/Sao_Paulo' })
+
   const system = `Você é o assistente de agendamento de ${pro.name} (${niche.professionalNoun}).
 Tom: ${niche.reminderTone}. Atende ${niche.customerNoun}s no nicho ${pro.niche}.
+Hoje é ${today} (${todayISO}).
 SEMPRE chame check_availability antes de book_appointment.
-Confirme dados antes de agendar. Responda em pt-BR, curto e direto.`
+Confirme dados antes de agendar. Responda em pt-BR, curto e direto.
+IMPORTANTE: Aceite datas em linguagem natural ("amanhã", "sexta", "semana que vem") e converta internamente para YYYY-MM-DD ao usar as tools. NUNCA peça que o usuário digite datas em formato técnico.`
 
   const toolCalls: AgentReply['toolCalls'] = []
   let lastText = ''
