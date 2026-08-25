@@ -23,7 +23,6 @@ export async function createCheckout(): Promise<{ url?: string; error?: string }
   try {
     const { initPoint } = await createPaymentPreference({
       professionalId: pro.id,
-      professionalName: pro.name,
     })
     return { url: initPoint }
   } catch (err) {

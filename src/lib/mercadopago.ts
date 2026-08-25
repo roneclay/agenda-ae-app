@@ -2,10 +2,8 @@ const BASE = 'https://api.mercadopago.com'
 
 export async function createPaymentPreference({
   professionalId,
-  professionalName,
 }: {
   professionalId: string
-  professionalName: string
 }): Promise<{ id: string; initPoint: string }> {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL!
 
@@ -19,7 +17,7 @@ export async function createPaymentPreference({
       items: [
         {
           id: 'agendaae-pro',
-          title: `AgendaAe Pro — ${professionalName}`,
+          title: 'AgendaAe Pro — Plano Mensal',
           quantity: 1,
           currency_id: 'BRL',
           unit_price: 49.0,
