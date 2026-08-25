@@ -1,4 +1,4 @@
-import { eq, inArray } from 'drizzle-orm'
+import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { appointment, appointmentService, customer, db, professional, service, user } from '@/lib/db'
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   const { slug, serviceIds, scheduledAt, customer: customerInput, notes } = parsed.data
 
   const [pro] = await db
-    .select({ ...professional, userEmail: user.email })
+    .select({ ...getTableColumns(professional), userEmail: user.email })
     .from(professional)
     .innerJoin(user, eq(user.id, professional.userId))
     .where(eq(professional.slug, slug))
