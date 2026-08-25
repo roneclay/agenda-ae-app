@@ -1,9 +1,8 @@
 import { eq, inArray } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { appointment, appointmentService, customer, db, professional, service } from '@/lib/db'
+import { appointment, appointmentService, customer, db, professional, service, user } from '@/lib/db'
 import { sendConfirmacaoCliente, sendNovoAgendamentoProfissional } from '@/lib/email/send'
-import { getSession } from '@/lib/auth/session'
 import { addDays, todayInBRT } from '@/lib/dates'
 
 const BodySchema = z.object({
@@ -13,7 +12,7 @@ const BodySchema = z.object({
   customer: z.object({
     name: z.string().trim().min(2),
     whatsappId: z.string().trim().min(8),
-    email: z.email().optional(),
+    email: z.email(),
   }),
   notes: z.string().optional(),
 })
@@ -27,7 +26,12 @@ export async function POST(req: NextRequest) {
 
   const { slug, serviceIds, scheduledAt, customer: customerInput, notes } = parsed.data
 
-  const [pro] = await db.select().from(professional).where(eq(professional.slug, slug)).limit(1)
+  const [pro] = await db
+    .select({ ...professional, userEmail: user.email })
+    .from(professional)
+    .innerJoin(user, eq(user.id, professional.userId))
+    .where(eq(professional.slug, slug))
+    .limit(1)
 
   if (!pro) return NextResponse.json({ error: 'Profissional não encontrado' }, { status: 404 })
   if (!pro.isAcceptingBookings)
@@ -102,27 +106,21 @@ export async function POST(req: NextRequest) {
       timeStyle: 'short',
     })
 
-    const session = await getSession()
-    const proEmail = session?.user.email
-    if (proEmail) {
-      await sendNovoAgendamentoProfissional({
-        to: proEmail,
-        professionalName: pro.name,
-        customerName: customerInput.name,
-        service: services.map((s) => s.name).join(', '),
-        scheduledAt: friendlyDate,
-      })
-    }
+    await sendNovoAgendamentoProfissional({
+      to: pro.userEmail,
+      professionalName: pro.name,
+      customerName: customerInput.name,
+      service: services.map((s) => s.name).join(', '),
+      scheduledAt: friendlyDate,
+    })
 
-    if (customerInput.email) {
-      await sendConfirmacaoCliente({
-        to: customerInput.email,
-        customerName: customerInput.name,
-        professionalName: pro.name,
-        service: services.map((s) => s.name).join(', '),
-        scheduledAt: friendlyDate,
-      })
-    }
+    await sendConfirmacaoCliente({
+      to: customerInput.email,
+      customerName: customerInput.name,
+      professionalName: pro.name,
+      service: services.map((s) => s.name).join(', '),
+      scheduledAt: friendlyDate,
+    })
 
     return NextResponse.json({ id: appt.id }, { status: 201 })
   } catch (err) {

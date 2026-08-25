@@ -138,6 +138,23 @@ export async function saveFirstService(
   redirect('/onboarding')
 }
 
+export async function saveServices(
+  services: Array<{ name: string; priceReais: string; durationMinutes: number }>,
+): Promise<{ error?: string }> {
+  const pro = await getCurrentProfessional()
+  if (!pro) return { error: 'Conclua a etapa anterior antes' }
+
+  const rows = services.map((s) => ({
+    professionalId: pro.id,
+    name: s.name,
+    priceCents: Math.round(Number(String(s.priceReais).replace(',', '.')) * 100),
+    durationMinutes: s.durationMinutes,
+  }))
+
+  await db.insert(service).values(rows)
+  redirect('/onboarding')
+}
+
 const TIME = z.string().regex(/^\d{2}:\d{2}$/, 'Formato HH:MM')
 
 const WindowSchema = z

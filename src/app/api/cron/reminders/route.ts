@@ -1,16 +1,19 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { dispatchReminders } from '@/lib/reminders'
 
-export async function POST(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const kind = searchParams.get('kind') ?? 'reminder_24h'
-
-  if (kind !== 'reminder_24h' && kind !== 'reminder_2h') {
-    return NextResponse.json({ error: 'kind inválido' }, { status: 400 })
+export async function GET(req: NextRequest) {
+  const secret = req.headers.get('authorization')
+  if (process.env.CRON_SECRET && secret !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const result = await dispatchReminders(kind)
-  return NextResponse.json(result)
+  const [r24, r6, r2] = await Promise.all([
+    dispatchReminders('reminder_24h'),
+    dispatchReminders('reminder_6h'),
+    dispatchReminders('reminder_2h'),
+  ])
+
+  return NextResponse.json({ reminder_24h: r24, reminder_6h: r6, reminder_2h: r2 })
 }
 
-export const GET = POST
+export const POST = GET

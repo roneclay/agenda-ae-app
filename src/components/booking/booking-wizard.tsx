@@ -261,8 +261,11 @@ export function BookingWizard({
             <Input id="whatsapp" name="whatsapp" required placeholder="+5548999999999" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email (opcional)</Label>
-            <Input id="email" name="email" type="email" />
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" required />
+            <p className="text-xs text-muted-foreground">
+              Você receberá a confirmação e lembretes do agendamento por email.
+            </p>
           </div>
 
           <div className="flex gap-2">

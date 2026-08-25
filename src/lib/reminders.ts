@@ -3,10 +3,11 @@ import { appointment, customer, db, notificationLog, professional } from '@/lib/
 import { sendLembreteCliente } from '@/lib/email/send'
 import { sendWhatsApp } from '@/lib/whatsapp/send'
 
-type WindowKind = 'reminder_24h' | 'reminder_2h'
+type WindowKind = 'reminder_24h' | 'reminder_6h' | 'reminder_2h'
 
 const WINDOWS: Record<WindowKind, { hours: number; toleranceMin: number }> = {
   reminder_24h: { hours: 24, toleranceMin: 30 },
+  reminder_6h: { hours: 6, toleranceMin: 20 },
   reminder_2h: { hours: 2, toleranceMin: 15 },
 }
 
@@ -53,7 +54,9 @@ export async function dispatchReminders(kind: WindowKind, now = new Date()) {
     const body =
       kind === 'reminder_24h'
         ? `Oi ${c.customerName ?? ''}! Lembrete: você tem horário com ${c.proName} amanhã às ${friendlyDate}. Confirma? 😊`
-        : `Oi ${c.customerName ?? ''}! Em 2h você tem horário com ${c.proName} (${friendlyDate}). Até já! ⏰`
+        : kind === 'reminder_6h'
+          ? `Oi ${c.customerName ?? ''}! Em 6h você tem horário com ${c.proName} (${friendlyDate}). Não esqueça! 📅`
+          : `Oi ${c.customerName ?? ''}! Em 2h você tem horário com ${c.proName} (${friendlyDate}). Até já! ⏰`
 
     await sendWhatsApp({
       phoneNumberId: c.proPhoneNumberId,

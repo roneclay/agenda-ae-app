@@ -28,6 +28,7 @@ export const appointmentStatusEnum = pgEnum('appointment_status', [
 export const reminderTypeEnum = pgEnum('reminder_type', [
   'confirmation',
   'reminder_24h',
+  'reminder_6h',
   'reminder_2h',
   'followup',
 ])
