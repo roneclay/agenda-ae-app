@@ -9,4 +9,4 @@ export function getResend(): Resend {
   return _resend
 }
 
-export const FROM = process.env.EMAIL_FROM ?? 'AgendaAe <noreply@agendaae.com.br>'
+export const FROM = process.env.EMAIL_FROM ?? 'Agendadinho <noreply@agendadinho.com.br>'

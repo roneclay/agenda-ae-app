@@ -121,8 +121,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
             <Label htmlFor="phone">WhatsApp</Label>
             <Input id="phone" name="phone" required placeholder="+5548999999999" inputMode="tel" />
             <p className="text-xs text-muted-foreground">
-              Usado para contato e como fallback enquanto a integração WhatsApp Business não está
-              conectada.
+              É por aqui que você recebe nossos avisos e mantém contato com seus clientes.
             </p>
             {state.fieldErrors?.phone && (
               <p className="text-sm text-destructive">{state.fieldErrors.phone}</p>

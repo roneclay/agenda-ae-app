@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { cancelSubscriptionMock, createCheckout } from './actions'
 
-export function ActivateProButton() {
+export function ActivateProButton({ priceLabel }: { priceLabel: string }) {
   const [pending, start] = useTransition()
   return (
     <Button
@@ -21,7 +21,7 @@ export function ActivateProButton() {
         })
       }
     >
-      {pending ? 'Redirecionando...' : 'Assinar Pro — R$ 49/mês'}
+      {pending ? 'Redirecionando...' : `Assinar Pro — ${priceLabel}/mês`}
     </Button>
   )
 }

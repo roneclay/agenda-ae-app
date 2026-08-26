@@ -20,7 +20,7 @@ export function PagamentoConfirmadoTemplate({
       <Text style={styles.text}>
         Sua assinatura segue ativa. Sem boleto, sem fatura, sem dor de cabeça.
       </Text>
-      <Text style={{ ...styles.small, marginTop: 24 }}>Obrigado por confiar no AgendaAe!</Text>
+      <Text style={{ ...styles.small, marginTop: 24 }}>Obrigado por confiar no Agendadinho!</Text>
     </EmailLayout>
   )
 }

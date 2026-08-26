@@ -1,8 +1,8 @@
 import { headers } from 'next/headers'
+import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
-import { WhatsappSetupBanner } from '@/components/dashboard/whatsapp-setup-banner'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
 
 const NAV = [
@@ -10,7 +10,6 @@ const NAV = [
   { href: '/dashboard/horarios', label: 'Horários' },
   { href: '/dashboard/servicos', label: 'Serviços' },
   { href: '/dashboard/clientes', label: 'Clientes' },
-  { href: '/dashboard/whatsapp', label: 'WhatsApp' },
   { href: '/dashboard/financeiro', label: 'Financeiro' },
   { href: '/dashboard/configuracoes', label: 'Configurações' },
 ]
@@ -34,8 +33,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <header className="border-b">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="text-lg font-semibold tracking-tight">
-              AgendaAe
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-lg font-semibold tracking-tight"
+            >
+              <Image
+                src="/logo-agendadinho.png"
+                alt=""
+                width={26}
+                height={26}
+                className="rounded-lg"
+              />
+              Agendadinho
             </Link>
             <nav className="hidden gap-6 text-sm md:flex">
               {NAV.map((item) => (
@@ -55,10 +64,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">
-        {!pro.whatsappPhoneNumberId && <WhatsappSetupBanner />}
-        {children}
-      </main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">{children}</main>
     </div>
   )
 }

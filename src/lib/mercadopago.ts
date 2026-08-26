@@ -17,7 +17,7 @@ export async function createPaymentPreference({
       items: [
         {
           id: 'agendaae-pro',
-          title: 'AgendaAe Pro — Plano Mensal',
+          title: 'Agendadinho Pro — Plano Mensal',
           quantity: 1,
           currency_id: 'BRL',
           unit_price: 49.0,

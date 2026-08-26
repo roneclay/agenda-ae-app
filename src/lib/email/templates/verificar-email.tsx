@@ -6,7 +6,7 @@ export function VerificarEmailTemplate({ name, url }: { name: string; url: strin
     <EmailLayout>
       <Heading style={styles.heading}>Confirme seu email</Heading>
       <Text style={styles.text}>
-        Oi, {name}! Para finalizar seu cadastro no AgendaAe, confirme seu email clicando no botão
+        Oi, {name}! Para finalizar seu cadastro no Agendadinho, confirme seu email clicando no botão
         abaixo.
       </Text>
       <Button href={url} style={styles.button}>

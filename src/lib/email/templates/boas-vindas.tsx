@@ -4,7 +4,7 @@ import { EmailLayout, styles } from './_layout'
 export function BoasVindasEmail({ name }: { name: string }) {
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Bem-vindo(a) ao AgendaAe! 🎉</Heading>
+      <Heading style={styles.heading}>Bem-vindo(a) ao Agendadinho! 🎉</Heading>
       <Text style={styles.text}>
         Oi, {name}! Sua conta foi criada com sucesso. Agora é só configurar seus serviços e horários
         para começar a receber agendamentos.

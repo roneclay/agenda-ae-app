@@ -1,7 +1,15 @@
 import { Button, Heading, Text } from '@react-email/components'
 import { EmailLayout, styles } from './_layout'
 
-export function TrialExpirandoTemplate({ name, daysLeft }: { name: string; daysLeft: number }) {
+export function TrialExpirandoTemplate({
+  name,
+  daysLeft,
+  priceLabel,
+}: {
+  name: string
+  daysLeft: number
+  priceLabel: string
+}) {
   return (
     <EmailLayout>
       <Heading style={styles.heading}>
@@ -18,7 +26,7 @@ export function TrialExpirandoTemplate({ name, daysLeft }: { name: string; daysL
         Ativar plano Pro →
       </Button>
       <Text style={{ ...styles.small, marginTop: 24 }}>
-        Apenas R$49/mês via PIX. Cancele quando quiser.
+        Apenas {priceLabel}/mês via Pix ou cartão. Cancele quando quiser.
       </Text>
     </EmailLayout>
   )

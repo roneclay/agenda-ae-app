@@ -11,6 +11,7 @@ import { PagamentoFalhouTemplate } from './templates/pagamento-falhou'
 import { ResetarSenhaTemplate } from './templates/resetar-senha'
 import { TrialExpiradoTemplate } from './templates/trial-expirado'
 import { TrialExpirandoTemplate } from './templates/trial-expirando'
+import { VagaLiberadaTemplate } from './templates/vaga-liberada'
 import { VerificarEmailTemplate } from './templates/verificar-email'
 
 const MOCK = process.env.EMAIL_MOCK === 'true'
@@ -49,7 +50,7 @@ export async function sendVerificationEmail({
   }
   return send({
     to,
-    subject: 'Confirme seu email — AgendaAe',
+    subject: 'Confirme seu email — Agendadinho',
     react: () => VerificarEmailTemplate({ name, url }),
   })
 }
@@ -68,7 +69,7 @@ export async function sendResetPasswordEmail({
   }
   return send({
     to,
-    subject: 'Redefinir sua senha — AgendaAe',
+    subject: 'Redefinir sua senha — Agendadinho',
     react: () => ResetarSenhaTemplate({ name, url }),
   })
 }
@@ -76,7 +77,7 @@ export async function sendResetPasswordEmail({
 export async function sendBoasVindas({ to, name }: { to: string; name: string }) {
   return send({
     to,
-    subject: `Bem-vindo(a) ao AgendaAe, ${name}!`,
+    subject: `Bem-vindo(a) ao Agendadinho, ${name}!`,
     react: () => BoasVindasEmail({ name }),
   })
 }
@@ -85,15 +86,17 @@ export async function sendTrialExpirando({
   to,
   name,
   daysLeft,
+  priceLabel,
 }: {
   to: string
   name: string
   daysLeft: number
+  priceLabel: string
 }) {
   return send({
     to,
-    subject: `Faltam ${daysLeft} dias do seu trial — AgendaAe`,
-    react: () => TrialExpirandoTemplate({ name, daysLeft }),
+    subject: `Faltam ${daysLeft} dias do seu trial — Agendadinho`,
+    react: () => TrialExpirandoTemplate({ name, daysLeft, priceLabel }),
   })
 }
 
@@ -108,7 +111,7 @@ export async function sendTrialExpirado({ to, name }: { to: string; name: string
 export async function sendAssinaturaAtiva({ to, name }: { to: string; name: string }) {
   return send({
     to,
-    subject: 'Assinatura Pro ativada! 🎉 — AgendaAe',
+    subject: 'Assinatura Pro ativada! 🎉 — Agendadinho',
     react: () => AssinaturaAtivaTemplate({ name }),
   })
 }
@@ -150,7 +153,7 @@ export async function sendCancelamento({
 }) {
   return send({
     to,
-    subject: 'Assinatura cancelada — AgendaAe',
+    subject: 'Assinatura cancelada — Agendadinho',
     react: () => CancelamentoTemplate({ name, endsAt }),
   })
 }
@@ -178,6 +181,24 @@ export async function sendNovoAgendamentoProfissional({
         service,
         scheduledAt,
       }),
+  })
+}
+
+export async function sendVagaLiberada({
+  to,
+  professionalName,
+  customerName,
+  scheduledAt,
+}: {
+  to: string
+  professionalName: string
+  customerName: string
+  scheduledAt: string
+}) {
+  return send({
+    to,
+    subject: 'Um horário abriu na sua agenda',
+    react: () => VagaLiberadaTemplate({ professionalName, customerName, scheduledAt }),
   })
 }
 

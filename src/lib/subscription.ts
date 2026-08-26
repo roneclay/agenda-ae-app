@@ -1,6 +1,11 @@
 import { eq } from 'drizzle-orm'
+import { NICHES } from '@/lib/config/niches'
 import { db, professional, user } from '@/lib/db'
 import { sendAssinaturaAtiva, sendPagamentoConfirmado } from '@/lib/email/send'
+
+function formatBRL(cents: number) {
+  return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 export async function activatePro(professionalId: string) {
   const trialEndsAt = new Date()
@@ -12,7 +17,12 @@ export async function activatePro(professionalId: string) {
     .where(eq(professional.id, professionalId))
 
   const [pro] = await db
-    .select({ name: professional.name, userEmail: user.email, userName: user.name })
+    .select({
+      name: professional.name,
+      niche: professional.niche,
+      userEmail: user.email,
+      userName: user.name,
+    })
     .from(professional)
     .innerJoin(user, eq(user.id, professional.userId))
     .where(eq(professional.id, professionalId))
@@ -24,7 +34,7 @@ export async function activatePro(professionalId: string) {
     await sendPagamentoConfirmado({
       to: pro.userEmail,
       name: pro.userName,
-      amount: 'R$ 49,00',
+      amount: formatBRL(NICHES[pro.niche].proPriceCents),
       month,
     })
   }

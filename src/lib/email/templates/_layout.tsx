@@ -23,7 +23,7 @@ export function EmailLayout({ children }: { children: ReactNode }) {
           {children}
           <Hr style={{ margin: '32px 0', borderColor: '#E2D0C0' }} />
           <Text style={{ color: '#8A6A58', fontSize: 12 }}>
-            AgendaAe · Agendamento WhatsApp-first para profissionais autônomos
+            Agendadinho · Agendamento WhatsApp-first para profissionais autônomos
           </Text>
         </Container>
       </Body>

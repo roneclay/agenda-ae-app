@@ -1,7 +1,12 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
+import { NICHES } from '@/lib/config/niches'
 import { ActivateProButton, CancelSubButton } from './buttons'
+
+function formatBRL(cents: number) {
+  return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 export default async function FinanceiroPage({
   searchParams,
@@ -11,6 +16,7 @@ export default async function FinanceiroPage({
   const pro = await getCurrentProfessional()
   if (!pro) return null
 
+  const priceLabel = formatBRL(NICHES[pro.niche].proPriceCents)
   const { trial, assinatura } = await searchParams
   const isActive = pro.subscriptionStatus === 'active'
   const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true
@@ -24,7 +30,7 @@ export default async function FinanceiroPage({
 
       {trial === 'expirado' && !isActive && (
         <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
-          Seu período de trial encerrou. Assine o plano Pro para continuar usando o AgendaAe.
+          Seu período de trial encerrou. Assine o plano Pro para continuar usando o Agendadinho.
         </div>
       )}
 
@@ -53,8 +59,8 @@ export default async function FinanceiroPage({
 
           {!isActive ? (
             <div className="space-y-2">
-              <p>Plano Pro: agendamentos ilimitados, lembretes automáticos, bot de IA.</p>
-              <ActivateProButton />
+              <p>Plano Pro: agendamentos ilimitados e lembretes automáticos.</p>
+              <ActivateProButton priceLabel={priceLabel} />
             </div>
           ) : (
             <div className="space-y-2">

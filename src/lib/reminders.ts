@@ -1,6 +1,6 @@
 import { and, between, eq, ne } from 'drizzle-orm'
-import { appointment, customer, db, notificationLog, professional } from '@/lib/db'
-import { sendLembreteCliente } from '@/lib/email/send'
+import { appointment, customer, db, notificationLog, professional, user } from '@/lib/db'
+import { sendLembreteCliente, sendVagaLiberada } from '@/lib/email/send'
 import { sendWhatsApp } from '@/lib/whatsapp/send'
 
 type WindowKind = 'reminder_24h' | 'reminder_6h' | 'reminder_2h'
@@ -20,8 +20,10 @@ export async function dispatchReminders(kind: WindowKind, now = new Date()) {
   const candidates = await db
     .select({
       apptId: appointment.id,
+      status: appointment.status,
       proId: professional.id,
       proName: professional.name,
+      proEmail: user.email,
       proPhoneNumberId: professional.whatsappPhoneNumberId,
       proAccessToken: professional.whatsappAccessToken,
       scheduledAt: appointment.scheduledAt,
@@ -33,6 +35,7 @@ export async function dispatchReminders(kind: WindowKind, now = new Date()) {
     })
     .from(appointment)
     .innerJoin(professional, eq(professional.id, appointment.professionalId))
+    .innerJoin(user, eq(user.id, professional.userId))
     .innerJoin(customer, eq(customer.id, appointment.customerId))
     .where(and(between(appointment.scheduledAt, lo, hi), ne(appointment.status, 'cancelled')))
 
@@ -51,11 +54,45 @@ export async function dispatchReminders(kind: WindowKind, now = new Date()) {
       timeStyle: 'short',
     })
 
+    // Se pedimos confirmação às 6h e, na janela de 2h, ainda não confirmou — cancela e libera a vaga
+    if (kind === 'reminder_2h' && c.status === 'scheduled') {
+      const [wasAskedToConfirm] = await db
+        .select({ id: notificationLog.id })
+        .from(notificationLog)
+        .where(
+          and(eq(notificationLog.appointmentId, c.apptId), eq(notificationLog.type, 'reminder_6h')),
+        )
+        .limit(1)
+
+      if (wasAskedToConfirm) {
+        await db
+          .update(appointment)
+          .set({ status: 'cancelled' })
+          .where(eq(appointment.id, c.apptId))
+        await sendVagaLiberada({
+          to: c.proEmail,
+          professionalName: c.proName,
+          customerName: c.customerName ?? 'Cliente',
+          scheduledAt: friendlyDate,
+        })
+        await db.insert(notificationLog).values({
+          professionalId: c.proId,
+          customerId: c.customerId,
+          appointmentId: c.apptId,
+          type: kind,
+          channel: 'email',
+        })
+        sent++
+        continue
+      }
+    }
+
+    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/confirmar/${c.apptId}`
     const body =
       kind === 'reminder_24h'
         ? `Oi ${c.customerName ?? ''}! Lembrete: você tem horário com ${c.proName} amanhã às ${friendlyDate}. Confirma? 😊`
         : kind === 'reminder_6h'
-          ? `Oi ${c.customerName ?? ''}! Em 6h você tem horário com ${c.proName} (${friendlyDate}). Não esqueça! 📅`
+          ? `Oi ${c.customerName ?? ''}! Seu horário com ${c.proName} é em 6h (${friendlyDate}). Confirma sua presença aqui: ${confirmUrl} — se não confirmar até 2h antes, o horário libera automaticamente. 🙏`
           : `Oi ${c.customerName ?? ''}! Em 2h você tem horário com ${c.proName} (${friendlyDate}). Até já! ⏰`
 
     await sendWhatsApp({

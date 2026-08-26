@@ -1,6 +1,11 @@
 import { and, eq, isNotNull, lte } from 'drizzle-orm'
+import { NICHES } from '@/lib/config/niches'
 import { db, notificationLog, professional, user } from '@/lib/db'
 import { sendTrialExpirado, sendTrialExpirando } from '@/lib/email/send'
+
+function formatBRL(cents: number) {
+  return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 export async function dispatchTrialNotifications(now = new Date()) {
   const in3days = new Date(now.getTime() + 3 * 24 * 3600_000)
@@ -9,6 +14,7 @@ export async function dispatchTrialNotifications(now = new Date()) {
     .select({
       proId: professional.id,
       proName: professional.name,
+      niche: professional.niche,
       trialEndsAt: professional.trialEndsAt,
       userEmail: user.email,
       userName: user.name,
@@ -44,7 +50,12 @@ export async function dispatchTrialNotifications(now = new Date()) {
     if (isExpired) {
       await sendTrialExpirado({ to: c.userEmail, name: c.userName })
     } else {
-      await sendTrialExpirando({ to: c.userEmail, name: c.userName, daysLeft })
+      await sendTrialExpirando({
+        to: c.userEmail,
+        name: c.userName,
+        daysLeft,
+        priceLabel: formatBRL(NICHES[c.niche].proPriceCents),
+      })
     }
 
     await db.insert(notificationLog).values({
