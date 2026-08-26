@@ -31,6 +31,8 @@ export const reminderTypeEnum = pgEnum('reminder_type', [
   'reminder_6h',
   'reminder_2h',
   'followup',
+  'trial_expiring',
+  'trial_expired',
 ])
 export const messageRoleEnum = pgEnum('message_role', ['user', 'assistant', 'tool'])
 export const nicheEnum = pgEnum('niche', ['beauty', 'legal', 'petcare', 'fitness'])
