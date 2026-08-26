@@ -1,7 +1,7 @@
 import { and, eq, gte, lte } from 'drizzle-orm'
 import { getCurrentProfessional } from '@/lib/auth/session'
-import { dateOverride, dateOverrideWindow, db, weeklyScheduleWindow } from '@/lib/db'
 import { addDays, nextNDates, todayInBRT } from '@/lib/dates'
+import { dateOverride, dateOverrideWindow, db, weeklyScheduleWindow } from '@/lib/db'
 import { HorariosClient } from './horarios-client'
 
 export default async function HorariosPage() {

@@ -225,9 +225,7 @@ export async function saveSchedule(
   }
 
   await db.transaction(async (tx) => {
-    await tx
-      .delete(weeklyScheduleWindow)
-      .where(eq(weeklyScheduleWindow.professionalId, pro.id))
+    await tx.delete(weeklyScheduleWindow).where(eq(weeklyScheduleWindow.professionalId, pro.id))
     if (parsed.data.windows.length > 0) {
       await tx.insert(weeklyScheduleWindow).values(
         parsed.data.windows.map((w) => ({

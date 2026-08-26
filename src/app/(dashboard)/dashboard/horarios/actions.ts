@@ -4,13 +4,8 @@ import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { getCurrentProfessional } from '@/lib/auth/session'
-import {
-  dateOverride,
-  dateOverrideWindow,
-  db,
-  weeklyScheduleWindow,
-} from '@/lib/db'
 import { todayInBRT } from '@/lib/dates'
+import { dateOverride, dateOverrideWindow, db, weeklyScheduleWindow } from '@/lib/db'
 
 const TIME = z.string().regex(/^\d{2}:\d{2}$/, 'Formato HH:MM')
 const ISO_DATE = z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -119,9 +114,7 @@ export async function saveOverride(
     const [existing] = await tx
       .select({ id: dateOverride.id })
       .from(dateOverride)
-      .where(
-        and(eq(dateOverride.professionalId, pro.id), eq(dateOverride.date, parsed.data.date)),
-      )
+      .where(and(eq(dateOverride.professionalId, pro.id), eq(dateOverride.date, parsed.data.date)))
       .limit(1)
 
     if (existing) await tx.delete(dateOverride).where(eq(dateOverride.id, existing.id))
@@ -161,4 +154,3 @@ export async function clearOverride(date: string) {
     .where(and(eq(dateOverride.professionalId, pro.id), eq(dateOverride.date, date)))
   revalidatePath('/dashboard/horarios')
 }
-

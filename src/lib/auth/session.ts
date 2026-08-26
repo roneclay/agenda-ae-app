@@ -1,6 +1,6 @@
+import { eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { db, professional } from '@/lib/db'
 

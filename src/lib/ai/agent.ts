@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { and, desc, eq } from 'drizzle-orm'
-import { conversation, customer, db, message, type professional } from '@/lib/db'
 import { NICHES } from '@/lib/config/niches'
+import { conversation, type customer, db, message, type professional } from '@/lib/db'
 import { mockAgentResponse } from './mock'
 import { AGENT_CONFIG, AGENT_TOOLS } from './tools'
 import { executeTool } from './tools-executor'
@@ -82,7 +82,13 @@ export async function runAgent({
       content: m.content ?? '',
     }))
 
-  const today = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' })
+  const today = new Date().toLocaleDateString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    weekday: 'long',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
   const todayISO = new Date().toLocaleDateString('sv', { timeZone: 'America/Sao_Paulo' })
 
   const system = `Você é o assistente de agendamento de ${pro.name} (${niche.professionalNoun}).

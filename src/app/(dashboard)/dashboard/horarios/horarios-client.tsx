@@ -136,11 +136,7 @@ function DayRow({
   const dayKey = dayKeyFor(date)
   const isToday = date === todayInBRT()
 
-  const effectiveWindows = override
-    ? override.isOpen
-      ? override.windows
-      : []
-    : template[dayKey]
+  const effectiveWindows = override ? (override.isOpen ? override.windows : []) : template[dayKey]
 
   return (
     <>
@@ -234,9 +230,7 @@ function DaySheet({
           <SheetTitle>
             {dayLabel(dayKey)} — {formatBrDateShort(date)}
           </SheetTitle>
-          <SheetDescription>
-            Ajuste apenas este dia. Não mexe no padrão semanal.
-          </SheetDescription>
+          <SheetDescription>Ajuste apenas este dia. Não mexe no padrão semanal.</SheetDescription>
         </SheetHeader>
 
         <form action={action} className="space-y-4 px-4 pb-2">
@@ -301,9 +295,7 @@ function DaySheet({
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  setWindows([...windows, { startTime: '13:00', endTime: '18:00' }])
-                }
+                onClick={() => setWindows([...windows, { startTime: '13:00', endTime: '18:00' }])}
               >
                 + Adicionar janela
               </Button>

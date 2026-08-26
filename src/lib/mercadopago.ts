@@ -5,7 +5,7 @@ export async function createPaymentPreference({
 }: {
   professionalId: string
 }): Promise<{ id: string; initPoint: string }> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL!
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://agenda-ae-app-self.vercel.app'
 
   const res = await fetch(`${BASE}/checkout/preferences`, {
     method: 'POST',

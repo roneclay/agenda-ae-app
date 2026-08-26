@@ -3,7 +3,7 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { createCheckout, cancelSubscriptionMock } from './actions'
+import { cancelSubscriptionMock, createCheckout } from './actions'
 
 export function ActivateProButton() {
   const [pending, start] = useTransition()

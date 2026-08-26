@@ -27,9 +27,7 @@ export default async function VerificarEmailPage({
         </CardDescription>
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground">
-        <p>
-          Clique no link da mensagem para ativar sua conta. Verifique também a pasta de spam.
-        </p>
+        <p>Clique no link da mensagem para ativar sua conta. Verifique também a pasta de spam.</p>
       </CardContent>
       <CardFooter>
         <Link href="/login" className={buttonVariants({ variant: 'outline', className: 'w-full' })}>

@@ -58,6 +58,7 @@ export function WhatsAppSimulator({ slug }: { slug: string }) {
         )}
         {history.map((m, i) => (
           <div
+            // biome-ignore lint/suspicious/noArrayIndexKey: lista imutável de histórico
             key={i}
             className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
               m.role === 'user' ? 'ml-auto bg-foreground text-background' : 'bg-background border'

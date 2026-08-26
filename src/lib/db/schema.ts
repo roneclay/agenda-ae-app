@@ -36,15 +36,7 @@ export const reminderTypeEnum = pgEnum('reminder_type', [
 ])
 export const messageRoleEnum = pgEnum('message_role', ['user', 'assistant', 'tool'])
 export const nicheEnum = pgEnum('niche', ['beauty', 'legal', 'petcare', 'fitness'])
-export const dayKeyEnum = pgEnum('day_key', [
-  'MON',
-  'TUE',
-  'WED',
-  'THU',
-  'FRI',
-  'SAT',
-  'SUN',
-])
+export const dayKeyEnum = pgEnum('day_key', ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'])
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),

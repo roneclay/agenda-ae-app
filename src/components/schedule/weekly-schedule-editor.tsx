@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { type DayKey, DAY_KEYS_ORDER, dayLabel } from '@/lib/dates'
+import { DAY_KEYS_ORDER, type DayKey, dayLabel } from '@/lib/dates'
 
 export type Window = { startTime: string; endTime: string }
 export type WeeklyState = Record<DayKey, Window[]>

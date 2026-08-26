@@ -1,6 +1,6 @@
-import { and, eq, isNotNull, lte, ne } from 'drizzle-orm'
+import { and, eq, isNotNull, lte } from 'drizzle-orm'
 import { db, notificationLog, professional, user } from '@/lib/db'
-import { sendTrialExpirando, sendTrialExpirado } from '@/lib/email/send'
+import { sendTrialExpirado, sendTrialExpirando } from '@/lib/email/send'
 
 export async function dispatchTrialNotifications(now = new Date()) {
   const in3days = new Date(now.getTime() + 3 * 24 * 3600_000)
@@ -34,12 +34,7 @@ export async function dispatchTrialNotifications(now = new Date()) {
     const [already] = await db
       .select({ id: notificationLog.id })
       .from(notificationLog)
-      .where(
-        and(
-          eq(notificationLog.professionalId, c.proId),
-          eq(notificationLog.type, kind),
-        ),
-      )
+      .where(and(eq(notificationLog.professionalId, c.proId), eq(notificationLog.type, kind)))
       .limit(1)
 
     if (already) continue

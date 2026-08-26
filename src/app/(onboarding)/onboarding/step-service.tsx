@@ -41,11 +41,13 @@ export function ServiceStep() {
     }
 
     setPending(true)
-    const result = await saveServices(rows.map((r) => ({
-      name: r.name.trim(),
-      priceReais: r.priceReais,
-      durationMinutes: Number(r.durationMinutes),
-    })))
+    const result = await saveServices(
+      rows.map((r) => ({
+        name: r.name.trim(),
+        priceReais: r.priceReais,
+        durationMinutes: Number(r.durationMinutes),
+      })),
+    )
     setPending(false)
 
     if (result?.error) setError(result.error)
@@ -66,7 +68,11 @@ export function ServiceStep() {
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-muted-foreground">Serviço {i + 1}</span>
                   {rows.length > 1 && (
-                    <button type="button" onClick={() => removeRow(row.id)} className="text-muted-foreground hover:text-destructive">
+                    <button
+                      type="button"
+                      onClick={() => removeRow(row.id)}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   )}

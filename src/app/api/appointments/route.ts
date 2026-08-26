@@ -1,9 +1,17 @@
 import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { appointment, appointmentService, customer, db, professional, service, user } from '@/lib/db'
-import { sendConfirmacaoCliente, sendNovoAgendamentoProfissional } from '@/lib/email/send'
 import { addDays, todayInBRT } from '@/lib/dates'
+import {
+  appointment,
+  appointmentService,
+  customer,
+  db,
+  professional,
+  service,
+  user,
+} from '@/lib/db'
+import { sendConfirmacaoCliente, sendNovoAgendamentoProfissional } from '@/lib/email/send'
 
 const BodySchema = z.object({
   slug: z.string().min(1),

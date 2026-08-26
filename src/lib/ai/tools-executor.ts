@@ -1,6 +1,6 @@
 import { and, desc, eq, gte, inArray } from 'drizzle-orm'
-import { appointment, appointmentService, customer, db, type professional, service } from '@/lib/db'
 import { computeSlots } from '@/lib/availability'
+import { appointment, appointmentService, customer, db, type professional, service } from '@/lib/db'
 
 type Pro = typeof professional.$inferSelect
 type Customer = typeof customer.$inferSelect
