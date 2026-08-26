@@ -108,6 +108,7 @@ export const professional = pgTable('professional', {
   subscriptionStatus: subscriptionStatusEnum('subscription_status').notNull().default('trial'),
   trialEndsAt: timestamp('trial_ends_at', { withTimezone: true }),
   abacatepayCustomerId: text('abacatepay_customer_id'),
+  mercadopagoPreapprovalId: text('mercadopago_preapproval_id'),
   onboardingCompleted: boolean('onboarding_completed').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),

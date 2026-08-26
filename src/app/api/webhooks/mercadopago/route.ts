@@ -1,7 +1,9 @@
 import { createHmac } from 'node:crypto'
 import { eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
-import { db, professional } from '@/lib/db'
+import { db, professional, user } from '@/lib/db'
+import { sendPagamentoFalhou } from '@/lib/email/send'
+import { getSubscription } from '@/lib/mercadopago'
 import { activatePro } from '@/lib/subscription'
 
 function verifySignature(req: NextRequest, dataId: string): boolean {
@@ -27,32 +29,81 @@ async function getPayment(paymentId: string) {
   return res.json()
 }
 
+async function getAuthorizedPayment(authorizedPaymentId: string) {
+  const res = await fetch(
+    `https://api.mercadopago.com/authorized_payments/${authorizedPaymentId}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` },
+    },
+  )
+  return res.json()
+}
+
+async function findProByPreapprovalId(preapprovalId: string) {
+  const [pro] = await db
+    .select({ id: professional.id, email: user.email, name: user.name })
+    .from(professional)
+    .innerJoin(user, eq(user.id, professional.userId))
+    .where(eq(professional.mercadopagoPreapprovalId, preapprovalId))
+    .limit(1)
+  return pro
+}
+
 export async function POST(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const topic = searchParams.get('topic') ?? searchParams.get('type')
-  const id = searchParams.get('id') ?? searchParams.get('data.id')
+  const body = await req.json().catch(() => ({}) as Record<string, unknown>)
 
-  if (topic !== 'payment' || !id) return NextResponse.json({ ok: true })
+  // Pagamento único legado (Checkout Pro) — vem por query string
+  const legacyTopic = searchParams.get('topic')
+  const legacyId = searchParams.get('id')
+  if (legacyTopic === 'payment' && legacyId) {
+    if (!verifySignature(req, legacyId)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const payment = await getPayment(legacyId)
+    if (payment.status === 'approved' && payment.external_reference) {
+      await activatePro(payment.external_reference)
+    }
+    return NextResponse.json({ ok: true })
+  }
 
-  if (!verifySignature(req, id)) {
+  // Assinatura recorrente (preapproval) — vem no corpo JSON
+  const type = (body as { type?: string }).type
+  const dataId = (body as { data?: { id?: string } }).data?.id
+  if (!type || !dataId) return NextResponse.json({ ok: true })
+
+  if (!verifySignature(req, dataId)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const payment = await getPayment(id)
-  if (payment.status !== 'approved') return NextResponse.json({ ok: true })
+  if (type === 'subscription_preapproval') {
+    const preapproval = await getSubscription(dataId)
+    if (preapproval.status === 'authorized' && preapproval.external_reference) {
+      await activatePro(preapproval.external_reference)
+    }
+    return NextResponse.json({ ok: true })
+  }
 
-  const professionalId = payment.external_reference
-  if (!professionalId) return NextResponse.json({ ok: true })
+  if (type === 'subscription_authorized_payment') {
+    const authorizedPayment = await getAuthorizedPayment(dataId)
+    const preapprovalId = authorizedPayment.preapproval_id
+    if (!preapprovalId) return NextResponse.json({ ok: true })
 
-  const [pro] = await db
-    .select({ id: professional.id })
-    .from(professional)
-    .where(eq(professional.id, professionalId))
-    .limit(1)
+    const pro = await findProByPreapprovalId(preapprovalId)
+    if (!pro) return NextResponse.json({ ok: true })
 
-  if (!pro) return NextResponse.json({ ok: true })
-
-  await activatePro(professionalId)
+    if (authorizedPayment.status === 'processed') {
+      // Cobrança do ciclo aprovada — renova o acesso Pro por mais 30 dias
+      await activatePro(pro.id)
+    } else if (authorizedPayment.status === 'rejected') {
+      await db
+        .update(professional)
+        .set({ subscriptionStatus: 'past_due' })
+        .where(eq(professional.id, pro.id))
+      await sendPagamentoFalhou({ to: pro.email, name: pro.name })
+    }
+    return NextResponse.json({ ok: true })
+  }
 
   return NextResponse.json({ ok: true })
 }

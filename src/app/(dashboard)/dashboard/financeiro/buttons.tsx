@@ -3,7 +3,7 @@
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { cancelSubscriptionMock, createCheckout } from './actions'
+import { cancelSubscription, createCheckout } from './actions'
 
 export function ActivateProButton({ priceLabel }: { priceLabel: string }) {
   const [pending, start] = useTransition()
@@ -35,7 +35,7 @@ export function CancelSubButton() {
       onClick={() => {
         if (!confirm('Cancelar assinatura?')) return
         start(async () => {
-          await cancelSubscriptionMock()
+          await cancelSubscription()
           toast.success('Assinatura cancelada')
         })
       }}
