@@ -19,7 +19,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const session = await requireSession()
   const pro = await getCurrentProfessional()
 
-  if (!pro || !pro.onboardingCompleted) redirect('/onboarding')
+  if (!pro?.onboardingCompleted) redirect('/onboarding')
 
   const pathname = (await headers()).get('x-pathname') ?? ''
   const isActive = pro.subscriptionStatus === 'active'
