@@ -7,13 +7,19 @@ jobs:
   deploy-staging:
     if: github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
+    env:
+      WEBHOOK: ${{ secrets.COOLIFY_STAGING_WEBHOOK }}
     steps:
       - name: Trigger Coolify — Staging
-        run: curl --silent --fail -X GET "${{ secrets.COOLIFY_STAGING_WEBHOOK }}"
+        if: ${{ env.WEBHOOK != '' }}
+        run: curl --silent --fail -X GET "$WEBHOOK"
 
   deploy-production:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      WEBHOOK: ${{ secrets.COOLIFY_PRODUCTION_WEBHOOK }}
     steps:
       - name: Trigger Coolify — Produção
-        run: curl --silent --fail -X GET "${{ secrets.COOLIFY_PRODUCTION_WEBHOOK }}"
+        if: ${{ env.WEBHOOK != '' }}
+        run: curl --silent --fail -X GET "$WEBHOOK"
