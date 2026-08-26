@@ -10,6 +10,7 @@ export async function middleware(req: NextRequest) {
 
   const res = NextResponse.next()
   res.headers.set('x-niche', niche.niche)
+  res.headers.set('x-pathname', pathname)
 
   if (PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))) {
     const sessionCookie =

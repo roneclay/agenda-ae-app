@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
@@ -19,6 +20,14 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const pro = await getCurrentProfessional()
 
   if (!pro || !pro.onboardingCompleted) redirect('/onboarding')
+
+  const pathname = (await headers()).get('x-pathname') ?? ''
+  const isActive = pro.subscriptionStatus === 'active'
+  const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true
+  const isBlocked = !isActive && trialExpired
+  if (isBlocked && !pathname.startsWith('/dashboard/financeiro')) {
+    redirect('/dashboard/financeiro?trial=expirado')
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

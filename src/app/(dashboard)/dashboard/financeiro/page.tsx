@@ -3,12 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
 import { ActivateProButton, CancelSubButton } from './buttons'
 
-export default async function FinanceiroPage() {
+export default async function FinanceiroPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ trial?: string; assinatura?: string }>
+}) {
   const pro = await getCurrentProfessional()
   if (!pro) return null
 
+  const { trial, assinatura } = await searchParams
   const isActive = pro.subscriptionStatus === 'active'
-  const isMock = process.env.PAYMENT_MOCK === 'true'
+  const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true
 
   return (
     <div className="space-y-6">
@@ -16,6 +21,18 @@ export default async function FinanceiroPage() {
         <h1 className="text-3xl font-semibold tracking-tight">Financeiro</h1>
         <p className="text-muted-foreground">Assinatura e plano.</p>
       </div>
+
+      {trial === 'expirado' && !isActive && (
+        <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+          Seu período de trial encerrou. Assine o plano Pro para continuar usando o AgendaAe.
+        </div>
+      )}
+
+      {assinatura === 'ok' && (
+        <div className="rounded-xl border border-green-500/50 bg-green-500/10 p-4 text-sm text-green-700">
+          Pagamento confirmado! Seu plano Pro está ativo.
+        </div>
+      )}
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
@@ -28,7 +45,7 @@ export default async function FinanceiroPage() {
           <Badge>{pro.plan.toUpperCase()}</Badge>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
-          {pro.subscriptionStatus === 'trial' && pro.trialEndsAt && (
+          {pro.subscriptionStatus === 'trial' && pro.trialEndsAt && !trialExpired && (
             <p className="text-muted-foreground">
               Seu trial termina em {pro.trialEndsAt.toLocaleDateString('pt-BR')}.
             </p>
@@ -38,14 +55,16 @@ export default async function FinanceiroPage() {
             <div className="space-y-2">
               <p>Plano Pro: agendamentos ilimitados, lembretes automáticos, bot de IA.</p>
               <ActivateProButton />
-              {isMock && (
-                <p className="text-xs text-muted-foreground">
-                  Modo mock: ativa imediatamente sem cobrança real.
-                </p>
-              )}
             </div>
           ) : (
-            <CancelSubButton />
+            <div className="space-y-2">
+              {pro.trialEndsAt && (
+                <p className="text-muted-foreground">
+                  Acesso garantido até {pro.trialEndsAt.toLocaleDateString('pt-BR')}.
+                </p>
+              )}
+              <CancelSubButton />
+            </div>
           )}
         </CardContent>
       </Card>
