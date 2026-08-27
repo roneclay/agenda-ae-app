@@ -42,7 +42,13 @@ export async function createSubscription({
   })
 
   const json = await res.json()
-  if (!res.ok) throw new Error(json.message ?? 'Erro Mercado Pago')
+  if (!res.ok) {
+    console.error('[mercadopago] createSubscription falhou', { status: res.status, body: json })
+    const cause = Array.isArray(json.cause)
+      ? json.cause.map((c: { description?: string }) => c.description).join('; ')
+      : undefined
+    throw new Error(cause || json.message || 'Erro Mercado Pago')
+  }
   return { id: json.id, initPoint: json.init_point }
 }
 
