@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { PIX_RECEIVER_LEGAL_NAME } from '@/lib/config/niches'
 import { cancelSubscription, checkPixPayment, createCheckout, createPixCheckout } from './actions'
 
 export function ActivateProButton({ priceLabel }: { priceLabel: string }) {
@@ -38,6 +39,12 @@ export function PixCheckoutButton({ priceLabel }: { priceLabel: string }) {
     return (
       <div className="space-y-3 rounded-xl border p-4">
         <p className="text-sm font-medium">{t('pixTitle')}</p>
+        <p className="text-xs text-muted-foreground">
+          {t.rich('pixNameNotice', {
+            name: PIX_RECEIVER_LEGAL_NAME,
+            b: (chunks: React.ReactNode) => <strong className="text-foreground">{chunks}</strong>,
+          })}
+        </p>
         {pix.qrCodeBase64 && (
           // biome-ignore lint/performance/noImgElement: data URI (QR base64), next/image não otimiza isso
           <img

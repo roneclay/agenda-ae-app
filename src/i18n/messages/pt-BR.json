@@ -78,6 +78,7 @@
     "pixButton": "Pagar com Pix — {price}/mês",
     "generatingPix": "Gerando Pix...",
     "pixTitle": "Escaneie o QR code ou copie o código Pix",
+    "pixNameNotice": "Antes de confirmar, veja se o nome que seu banco mostrar bate com o do Representante Comercial do Agendadinho: <b>{name}</b>. É uma exigência do Banco Central em toda transação Pix, não é engano nem erro.",
     "pixCopyButton": "Copiar código Pix",
     "pixCopied": "Código copiado!",
     "pixCheckButton": "Já paguei, verificar",

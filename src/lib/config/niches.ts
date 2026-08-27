@@ -4,6 +4,15 @@ export type NicheId = 'beauty' | 'legal' | 'petcare' | 'fitness'
 /** Preço único do plano Pro pra todos os nichos — não varia por nicho. */
 export const PRO_PRICE_CENTS = 2990
 
+/**
+ * Nome que o banco do pagador exibe ao confirmar um Pix pro Agendadinho —
+ * exigência do Banco Central, é o nome/razão social registrado na conta
+ * Mercado Pago que recebe, não algo que a gente define livremente. Hoje é
+ * pessoa física (Roni). Se a conta migrar pra CNPJ, atualizar aqui pra
+ * refletir a razão social nova.
+ */
+export const PIX_RECEIVER_LEGAL_NAME = 'RONI CLEI JESUS DOS SANTOS'
+
 export type NichePalette = {
   /** Base brand color (buttons, links, active states) */
   base: string
