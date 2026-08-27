@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm'
-import { PRO_PRICE_CENTS } from '@/lib/config/niches'
+import { getProPriceCents } from '@/lib/config/settings'
 import { db, professional, user } from '@/lib/db'
 import { sendAssinaturaAtiva, sendPagamentoConfirmado } from '@/lib/email/send'
 
@@ -33,7 +33,7 @@ export async function activatePro(professionalId: string) {
     await sendPagamentoConfirmado({
       to: pro.userEmail,
       name: pro.userName,
-      amount: formatBRL(PRO_PRICE_CENTS),
+      amount: formatBRL(await getProPriceCents()),
       month,
     })
   }

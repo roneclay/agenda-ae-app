@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
-import { PRO_PRICE_CENTS } from '@/lib/config/niches'
+import { getProPriceCents } from '@/lib/config/settings'
 import { ActivateProButton, CancelSubButton, PixCheckoutButton } from './buttons'
 
 function formatBRL(cents: number) {
@@ -16,7 +16,7 @@ export default async function FinanceiroPage({
   const pro = await getCurrentProfessional()
   if (!pro) return null
 
-  const priceLabel = formatBRL(PRO_PRICE_CENTS)
+  const priceLabel = formatBRL(await getProPriceCents())
   const { trial, assinatura } = await searchParams
   const isActive = pro.subscriptionStatus === 'active'
   const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true

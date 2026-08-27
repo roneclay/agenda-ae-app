@@ -1,5 +1,5 @@
 import { and, eq, isNotNull, lte } from 'drizzle-orm'
-import { PRO_PRICE_CENTS } from '@/lib/config/niches'
+import { getProPriceCents } from '@/lib/config/settings'
 import { db, professional, user } from '@/lib/db'
 import { sendPagamentoFalhou } from '@/lib/email/send'
 import { createPixPayment, getPayment } from '@/lib/mercadopago'
@@ -34,6 +34,7 @@ export async function dispatchPixBilling(now = new Date()) {
     )
 
   let charged = 0
+  const priceCents = await getProPriceCents()
 
   for (const pro of due) {
     if (pro.pixChargeId) {
@@ -50,7 +51,7 @@ export async function dispatchPixBilling(now = new Date()) {
     const { id } = await createPixPayment({
       professionalId: pro.id,
       payerEmail: pro.userEmail,
-      priceCents: PRO_PRICE_CENTS,
+      priceCents,
       description: 'Agendadinho Pro — Plano Mensal',
     })
     await db.update(professional).set({ pixChargeId: id }).where(eq(professional.id, pro.id))

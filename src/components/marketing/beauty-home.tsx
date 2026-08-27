@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { type NicheConfig, PRO_PRICE_CENTS } from '@/lib/config/niches'
+import type { NicheConfig } from '@/lib/config/niches'
 import { HeroVideo } from './hero-video'
 
 function formatBRL(cents: number) {
@@ -12,7 +12,13 @@ function formatBRL(cents: number) {
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
-export function BeautyHome({ niche }: { niche: NicheConfig }) {
+export function BeautyHome({
+  niche,
+  proPriceCents,
+}: {
+  niche: NicheConfig
+  proPriceCents: number
+}) {
   const { appointmentNoun, customerNoun, professionalNoun, brandName } = niche
   const mockDomain = `${brandName.toLowerCase()}.com.br`
 
@@ -67,7 +73,7 @@ export function BeautyHome({ niche }: { niche: NicheConfig }) {
         description: `${brandName} organiza agenda, confirma presença e envia lembrete automático pra ${professionalNoun}s autônomos.`,
         offers: {
           '@type': 'Offer',
-          price: (PRO_PRICE_CENTS / 100).toFixed(2),
+          price: (proPriceCents / 100).toFixed(2),
           priceCurrency: 'BRL',
           priceSpecification: {
             '@type': 'UnitPriceSpecification',
@@ -429,7 +435,7 @@ export function BeautyHome({ niche }: { niche: NicheConfig }) {
           <p className="text-sm font-semibold text-primary">Plano Profissional</p>
           <div className="mt-2 flex items-baseline gap-1.5">
             <span className="text-5xl font-extrabold text-foreground">
-              {formatBRL(PRO_PRICE_CENTS)}
+              {formatBRL(proPriceCents)}
             </span>
             <span className="text-sm text-muted-foreground">/ mês</span>
           </div>

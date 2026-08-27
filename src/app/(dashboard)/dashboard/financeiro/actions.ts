@@ -3,7 +3,8 @@
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getCurrentProfessional, getSession } from '@/lib/auth/session'
-import { NICHES, PRO_PRICE_CENTS } from '@/lib/config/niches'
+import { NICHES } from '@/lib/config/niches'
+import { getProPriceCents } from '@/lib/config/settings'
 import { db, professional } from '@/lib/db'
 import { sendCancelamento } from '@/lib/email/send'
 import {
@@ -32,7 +33,7 @@ export async function createCheckout(): Promise<{ url?: string; error?: string }
     const { id, initPoint } = await createSubscription({
       professionalId: pro.id,
       payerEmail: session.user.email,
-      priceCents: PRO_PRICE_CENTS,
+      priceCents: await getProPriceCents(),
       brandName: niche.brandName,
     })
     await db
@@ -65,7 +66,7 @@ export async function createPixCheckout(): Promise<{
     const { id, qrCode, qrCodeBase64 } = await createPixPayment({
       professionalId: pro.id,
       payerEmail: session.user.email,
-      priceCents: PRO_PRICE_CENTS,
+      priceCents: await getProPriceCents(),
       description: 'Agendadinho Pro — Plano Mensal',
     })
     await db

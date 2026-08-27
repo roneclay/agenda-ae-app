@@ -270,3 +270,10 @@ export const emailLog = pgTable('email_log', {
   status: text('status').notNull().default('sent'),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 })
+
+/** Config editável direto no banco (sem deploy) — sempre uma única linha, id fixo 1. */
+export const appSettings = pgTable('app_settings', {
+  id: integer('id').primaryKey().default(1),
+  proPriceCents: integer('pro_price_cents').notNull().default(2990),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow(),
+})

@@ -1,5 +1,5 @@
 import { and, eq, isNotNull, lte } from 'drizzle-orm'
-import { PRO_PRICE_CENTS } from '@/lib/config/niches'
+import { getProPriceCents } from '@/lib/config/settings'
 import { db, notificationLog, professional, user } from '@/lib/db'
 import { sendTrialExpirado, sendTrialExpirando } from '@/lib/email/send'
 
@@ -9,6 +9,7 @@ function formatBRL(cents: number) {
 
 export async function dispatchTrialNotifications(now = new Date()) {
   const in3days = new Date(now.getTime() + 3 * 24 * 3600_000)
+  const priceLabel = formatBRL(await getProPriceCents())
 
   const candidates = await db
     .select({
@@ -53,7 +54,7 @@ export async function dispatchTrialNotifications(now = new Date()) {
         to: c.userEmail,
         name: c.userName,
         daysLeft,
-        priceLabel: formatBRL(PRO_PRICE_CENTS),
+        priceLabel,
       })
     }
 

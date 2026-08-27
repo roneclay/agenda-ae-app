@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { PIX_RECEIVER_LEGAL_NAME } from '@/lib/config/niches'
@@ -35,6 +35,24 @@ export function PixCheckoutButton({ priceLabel }: { priceLabel: string }) {
   const [checking, startCheck] = useTransition()
   const [pix, setPix] = useState<{ qrCode: string; qrCodeBase64: string } | null>(null)
 
+  useEffect(() => {
+    if (!pix) return
+    let cancelled = false
+    const interval = setInterval(async () => {
+      const result = await checkPixPayment()
+      if (cancelled) return
+      if (result.paid) {
+        clearInterval(interval)
+        toast.success(t('pixPaid'))
+        window.location.reload()
+      }
+    }, 4000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [pix, t])
+
   if (pix) {
     return (
       <div className="space-y-3 rounded-xl border p-4">
@@ -64,8 +82,10 @@ export function PixCheckoutButton({ priceLabel }: { priceLabel: string }) {
         >
           {t('pixCopyButton')}
         </Button>
+        <p className="text-center text-xs text-muted-foreground">{t('pixAutoChecking')}</p>
         <Button
           type="button"
+          variant="outline"
           className="w-full"
           disabled={checking}
           onClick={() =>
