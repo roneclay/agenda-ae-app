@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { getNicheFromHost, NICHES } from '@/lib/config/niches'
+import { getNicheFromHost, NICHES, PRO_PRICE_CENTS } from '@/lib/config/niches'
 
 describe('NICHES config', () => {
   test('todos os nichos têm campos obrigatórios', () => {
@@ -7,8 +7,11 @@ describe('NICHES config', () => {
       expect(config.niche).toBe(key as never)
       expect(config.primaryColor).toMatch(/^#[0-9A-F]{6}$/i)
       expect(config.appointmentNoun).toBeTruthy()
-      expect(config.proPriceCents).toBeGreaterThan(0)
     }
+  })
+
+  test('preço do Pro é único, independe do nicho', () => {
+    expect(PRO_PRICE_CENTS).toBe(2990)
   })
 
   test('getNicheFromHost retorna beauty como fallback em produção', () => {

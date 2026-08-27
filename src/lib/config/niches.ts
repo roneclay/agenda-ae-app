@@ -1,6 +1,9 @@
 export type ReminderTone = 'informal' | 'formal' | 'affectionate'
 export type NicheId = 'beauty' | 'legal' | 'petcare' | 'fitness'
 
+/** Preço único do plano Pro pra todos os nichos — não varia por nicho. */
+export const PRO_PRICE_CENTS = 2990
+
 export type NichePalette = {
   /** Base brand color (buttons, links, active states) */
   base: string
@@ -40,7 +43,6 @@ export type NicheConfig = {
   fullAgendaSlang: string
   reminderTone: ReminderTone
   whatsappGreeting: string
-  proPriceCents: number
   defaultServices: Array<{
     name: string
     durationMinutes: number
@@ -75,7 +77,6 @@ export const NICHES: Record<NicheId, NicheConfig> = {
     fullAgendaSlang: 'agenda travada',
     reminderTone: 'informal',
     whatsappGreeting: 'Oi! 😊 Sou a assistente de {name}. Posso ajudar com agendamentos!',
-    proPriceCents: 2990,
     defaultServices: [{ name: 'Atendimento', durationMinutes: 60, priceCents: 8000 }],
   },
   legal: {
@@ -104,7 +105,6 @@ export const NICHES: Record<NicheId, NicheConfig> = {
     fullAgendaSlang: 'agenda cheia',
     reminderTone: 'formal',
     whatsappGreeting: 'Olá! Sou o assistente do(a) {name}. Como posso ajudá-lo(a)?',
-    proPriceCents: 9700,
     defaultServices: [{ name: 'Consulta inicial', durationMinutes: 60, priceCents: 0 }],
   },
   petcare: {
@@ -133,7 +133,6 @@ export const NICHES: Record<NicheId, NicheConfig> = {
     fullAgendaSlang: 'agenda lotada',
     reminderTone: 'affectionate',
     whatsappGreeting: 'Olá! 🐾 Sou a assistente de {name}. Posso ajudar a agendar para seu pet!',
-    proPriceCents: 7900,
     defaultServices: [{ name: 'Banho e tosa', durationMinutes: 90, priceCents: 8000 }],
   },
   fitness: {
@@ -161,7 +160,6 @@ export const NICHES: Record<NicheId, NicheConfig> = {
     fullAgendaSlang: 'sem horário disponível',
     reminderTone: 'informal',
     whatsappGreeting: 'Oi! 💪 Sou o assistente de {name}. Bora agendar seu treino?',
-    proPriceCents: 4900,
     defaultServices: [{ name: 'Treino personalizado', durationMinutes: 60, priceCents: 10000 }],
   },
 }

@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getCurrentProfessional, getSession } from '@/lib/auth/session'
-import { NICHES } from '@/lib/config/niches'
+import { NICHES, PRO_PRICE_CENTS } from '@/lib/config/niches'
 import { db, professional } from '@/lib/db'
 import { sendCancelamento } from '@/lib/email/send'
 import {
@@ -30,7 +30,7 @@ export async function createCheckout(): Promise<{ url?: string; error?: string }
     const { id, initPoint } = await createSubscription({
       professionalId: pro.id,
       payerEmail: session.user.email,
-      priceCents: niche.proPriceCents,
+      priceCents: PRO_PRICE_CENTS,
       brandName: niche.brandName,
     })
     await db

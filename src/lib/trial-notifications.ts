@@ -1,5 +1,5 @@
 import { and, eq, isNotNull, lte } from 'drizzle-orm'
-import { NICHES } from '@/lib/config/niches'
+import { PRO_PRICE_CENTS } from '@/lib/config/niches'
 import { db, notificationLog, professional, user } from '@/lib/db'
 import { sendTrialExpirado, sendTrialExpirando } from '@/lib/email/send'
 
@@ -14,7 +14,6 @@ export async function dispatchTrialNotifications(now = new Date()) {
     .select({
       proId: professional.id,
       proName: professional.name,
-      niche: professional.niche,
       trialEndsAt: professional.trialEndsAt,
       userEmail: user.email,
       userName: user.name,
@@ -54,7 +53,7 @@ export async function dispatchTrialNotifications(now = new Date()) {
         to: c.userEmail,
         name: c.userName,
         daysLeft,
-        priceLabel: formatBRL(NICHES[c.niche].proPriceCents),
+        priceLabel: formatBRL(PRO_PRICE_CENTS),
       })
     }
 
