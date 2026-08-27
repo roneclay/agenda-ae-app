@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -9,8 +10,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { signUp } from '@/lib/auth/client'
+import { authErrorKey } from '@/lib/auth/error-messages'
 
 export default function CadastroPage() {
+  const t = useTranslations('auth')
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
@@ -30,38 +33,38 @@ export default function CadastroPage() {
     })
     if (check.ok && (await check.json()).exists) {
       setLoading(false)
-      toast.error('Este email já está cadastrado. Tente fazer login.')
+      toast.error(t('signup.emailAlreadyRegistered'))
       return
     }
 
-    const { error } = await signUp.email({ name, email, password })
+    const { error } = await signUp.email({ name, email, password, callbackURL: '/dashboard' })
     setLoading(false)
 
     if (error) {
-      toast.error(error.message ?? 'Erro ao criar conta')
+      toast.error(t(`errors.${authErrorKey(error.message, 'genericSignup')}`))
       return
     }
-    toast.success('Conta criada! Verifique seu email para confirmar.')
+    toast.success(t('signup.accountCreated'))
     router.push(`/verificar-email?email=${encodeURIComponent(email)}`)
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Criar conta</CardTitle>
+        <CardTitle>{t('signup.title')}</CardTitle>
       </CardHeader>
       <form onSubmit={onSubmit}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Seu nome</Label>
+            <Label htmlFor="name">{t('signup.nameLabel')}</Label>
             <Input id="name" name="name" required autoComplete="name" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('signup.emailLabel')}</Label>
             <Input id="email" name="email" type="email" required autoComplete="email" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
+            <Label htmlFor="password">{t('signup.passwordLabel')}</Label>
             <Input
               id="password"
               name="password"
@@ -74,12 +77,12 @@ export default function CadastroPage() {
         </CardContent>
         <CardFooter className="flex flex-col gap-3">
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Criando...' : 'Criar conta'}
+            {loading ? t('signup.submitting') : t('signup.submit')}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            Já tem conta?{' '}
+            {t('signup.alreadyHaveAccount')}{' '}
             <Link href="/login" className="underline">
-              Entrar
+              {t('signup.login')}
             </Link>
           </p>
         </CardFooter>

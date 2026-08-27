@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
@@ -51,6 +52,7 @@ export function BookingWizard({
   services: Service[]
   appointmentNoun: string
 }) {
+  const t = useTranslations('booking')
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [date, setDate] = useState(todayISO())
@@ -63,6 +65,8 @@ export function BookingWizard({
   const selectedServices = services.filter((s) => selected.has(s.id))
   const totalDuration = selectedServices.reduce((a, s) => a + s.durationMinutes, 0)
   const totalCents = selectedServices.reduce((a, s) => a + s.priceCents, 0)
+  const availableSlots = slots.filter((s) => s.status === 'available')
+  const partialSlots = slots.filter((s) => s.status === 'partial')
 
   useEffect(() => {
     if (step !== 2 || selected.size === 0) return
@@ -93,6 +97,7 @@ export function BookingWizard({
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
         slug,
+        date,
         serviceIds: [...selected],
         scheduledAt: chosenSlot,
         customer: {
@@ -105,7 +110,7 @@ export function BookingWizard({
     setSubmitting(false)
     if (!res.ok) {
       const data = await res.json().catch(() => ({}))
-      toast.error(data.error ?? 'Erro ao agendar')
+      toast.error(data.error ?? t('genericError'))
       return
     }
     setDone(true)
@@ -116,11 +121,9 @@ export function BookingWizard({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{appointmentNoun} confirmado! 🎉</CardTitle>
+          <CardTitle>{t('doneTitle', { appointmentNoun })}</CardTitle>
         </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          Você receberá um lembrete pelo WhatsApp 24h antes do horário marcado.
-        </CardContent>
+        <CardContent className="text-sm text-muted-foreground">{t('doneDescription')}</CardContent>
       </Card>
     )
   }
@@ -128,7 +131,7 @@ export function BookingWizard({
   return (
     <div className="space-y-6">
       <ol className="flex items-center gap-2 text-xs text-muted-foreground">
-        {['Serviços', 'Horário', 'Seus dados'].map((label, i) => {
+        {[t('steps.services'), t('steps.schedule'), t('steps.details')].map((label, i) => {
           const n = (i + 1) as 1 | 2 | 3
           const active = step === n
           return (
@@ -178,13 +181,16 @@ export function BookingWizard({
           {selected.size > 0 && (
             <div className="rounded-xl border bg-muted/40 p-4 text-sm">
               <p className="font-medium">
-                {selectedServices.length} serviço(s) · {formatDuration(totalDuration)} ·{' '}
-                {formatBRL(totalCents)}
+                {t('servicesSummary', {
+                  count: selectedServices.length,
+                  duration: formatDuration(totalDuration),
+                  price: formatBRL(totalCents),
+                })}
               </p>
             </div>
           )}
           <Button disabled={selected.size === 0} onClick={() => setStep(2)} className="w-full">
-            Continuar
+            {t('continue')}
           </Button>
         </div>
       )}
@@ -192,7 +198,7 @@ export function BookingWizard({
       {step === 2 && (
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="date">Data</Label>
+            <Label htmlFor="date">{t('dateLabel')}</Label>
             <Input
               id="date"
               type="date"
@@ -204,35 +210,55 @@ export function BookingWizard({
           </div>
 
           {loadingSlots ? (
-            <p className="text-sm text-muted-foreground">Buscando horários...</p>
+            <p className="text-sm text-muted-foreground">{t('loadingSlots')}</p>
           ) : slots.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Sem horários nesta data.</p>
+            <p className="text-sm text-muted-foreground">{t('noSlots')}</p>
           ) : (
-            <div className="grid grid-cols-3 gap-2">
-              {slots.map((slot) => (
-                <button
-                  key={slot.startsAt}
-                  type="button"
-                  onClick={() => {
-                    setChosenSlot(slot.startsAt)
-                    setStep(3)
-                  }}
-                  className={`rounded-lg border px-3 py-2 text-sm transition hover:bg-muted ${
-                    slot.status === 'partial' ? 'border-dashed text-muted-foreground' : ''
-                  }`}
-                >
-                  <div>{formatTime(slot.startsAt)}</div>
-                  {slot.status === 'partial' && (
-                    <Badge variant="outline" className="mt-1 text-[10px]">
-                      cabe {slot.fittingDurationMin}min
-                    </Badge>
-                  )}
-                </button>
-              ))}
-            </div>
+            <>
+              {availableSlots.length > 0 ? (
+                <div className="grid grid-cols-3 gap-2">
+                  {availableSlots.map((slot) => (
+                    <button
+                      key={slot.startsAt}
+                      type="button"
+                      onClick={() => {
+                        setChosenSlot(slot.startsAt)
+                        setStep(3)
+                      }}
+                      className="rounded-lg border px-3 py-2 text-sm transition hover:bg-muted"
+                    >
+                      {formatTime(slot.startsAt)}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">{t('noFullSlots')}</p>
+              )}
+
+              {partialSlots.length > 0 && (
+                <div className="space-y-2 rounded-xl border border-dashed p-3">
+                  <p className="text-xs text-muted-foreground">
+                    {t('partialSlotsHint', { duration: formatDuration(totalDuration) })}
+                  </p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {partialSlots.map((slot) => (
+                      <div
+                        key={slot.startsAt}
+                        className="cursor-not-allowed rounded-lg border border-dashed px-3 py-2 text-sm text-muted-foreground opacity-70"
+                      >
+                        <div>{formatTime(slot.startsAt)}</div>
+                        <Badge variant="outline" className="mt-1 text-[10px]">
+                          {t('partialBadge', { minutes: slot.fittingDurationMin })}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
           <Button variant="ghost" onClick={() => setStep(1)} className="w-full">
-            Voltar
+            {t('back')}
           </Button>
         </div>
       )}
@@ -253,27 +279,25 @@ export function BookingWizard({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="name">Seu nome</Label>
+            <Label htmlFor="name">{t('nameLabel')}</Label>
             <Input id="name" name="name" required />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="whatsapp">WhatsApp</Label>
+            <Label htmlFor="whatsapp">{t('whatsappLabel')}</Label>
             <Input id="whatsapp" name="whatsapp" required placeholder="+5548999999999" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t('emailLabel')}</Label>
             <Input id="email" name="email" type="email" required />
-            <p className="text-xs text-muted-foreground">
-              Você receberá a confirmação e lembretes do agendamento por email.
-            </p>
+            <p className="text-xs text-muted-foreground">{t('emailHint')}</p>
           </div>
 
           <div className="flex gap-2">
             <Button type="button" variant="ghost" onClick={() => setStep(2)} className="flex-1">
-              Voltar
+              {t('back')}
             </Button>
             <Button type="submit" disabled={submitting} className="flex-1">
-              {submitting ? 'Confirmando...' : 'Confirmar'}
+              {submitting ? t('confirming') : t('confirm')}
             </Button>
           </div>
         </form>

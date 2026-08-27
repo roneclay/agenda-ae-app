@@ -1,6 +1,8 @@
 import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
+import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
+import { isRangeAvailable } from '@/lib/availability'
 import { addDays, todayInBRT } from '@/lib/dates'
 import {
   appointment,
@@ -15,6 +17,7 @@ import { sendConfirmacaoCliente, sendNovoAgendamentoProfissional } from '@/lib/e
 
 const BodySchema = z.object({
   slug: z.string().min(1),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   serviceIds: z.array(z.string().uuid()).min(1),
   scheduledAt: z.string().datetime({ offset: true }),
   customer: z.object({
@@ -32,7 +35,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
   }
 
-  const { slug, serviceIds, scheduledAt, customer: customerInput, notes } = parsed.data
+  const { slug, date, serviceIds, scheduledAt, customer: customerInput, notes } = parsed.data
 
   const [pro] = await db
     .select({ ...getTableColumns(professional), userEmail: user.email })
@@ -45,10 +48,9 @@ export async function POST(req: NextRequest) {
   if (!pro.isAcceptingBookings)
     return NextResponse.json({ error: 'Não está aceitando agendamentos' }, { status: 403 })
 
-  const dateOnly = scheduledAt.slice(0, 10)
   const today = todayInBRT()
   const horizon = addDays(today, 6)
-  if (dateOnly < today || dateOnly > horizon) {
+  if (date < today || date > horizon) {
     return NextResponse.json(
       { error: 'Só é possível agendar dentro dos próximos 7 dias' },
       { status: 400 },
@@ -62,6 +64,17 @@ export async function POST(req: NextRequest) {
 
   const totalDurationMin = services.reduce((acc, s) => acc + s.durationMinutes, 0)
   const totalCents = services.reduce((acc, s) => acc + s.priceCents, 0)
+
+  const available = await isRangeAvailable({
+    pro,
+    date,
+    startsAtIso: scheduledAt,
+    durationMin: totalDurationMin,
+  })
+  if (!available) {
+    const t = await getTranslations('booking')
+    return NextResponse.json({ error: t('slotConflict') }, { status: 409 })
+  }
 
   // Upsert customer
   const [existing] = await db
@@ -128,6 +141,7 @@ export async function POST(req: NextRequest) {
       professionalName: pro.name,
       service: services.map((s) => s.name).join(', '),
       scheduledAt: friendlyDate,
+      manageUrl: `${process.env.NEXT_PUBLIC_APP_URL}/confirmar/${appt.id}`,
     })
 
     return NextResponse.json({ id: appt.id }, { status: 201 })

@@ -1,0 +1,145 @@
+{
+  "auth": {
+    "errors": {
+      "invalidEmailOrPassword": "Email ou senha inválidos",
+      "emailNotVerified": "Confirme seu email antes de entrar. Verifique sua caixa de entrada.",
+      "userNotFound": "Usuário não encontrado",
+      "userAlreadyExists": "Já existe uma conta com esse email",
+      "passwordTooShort": "Senha muito curta",
+      "passwordTooLong": "Senha muito longa",
+      "invalidEmail": "Email inválido",
+      "invalidPassword": "Senha inválida",
+      "invalidToken": "Link inválido ou expirado",
+      "tokenExpired": "Link expirado — solicite um novo",
+      "sessionExpired": "Sessão expirada, entre novamente",
+      "genericLogin": "Email ou senha inválidos",
+      "genericSignup": "Erro ao criar conta",
+      "genericResetRequest": "Erro ao solicitar redefinição",
+      "genericResetPassword": "Erro ao redefinir"
+    },
+    "login": {
+      "title": "Entrar",
+      "description": "Acesse sua agenda.",
+      "emailLabel": "Email",
+      "passwordLabel": "Senha",
+      "forgotPassword": "Esqueci minha senha",
+      "submit": "Entrar",
+      "submitting": "Entrando...",
+      "noAccount": "Não tem conta?",
+      "createAccount": "Criar conta"
+    },
+    "signup": {
+      "title": "Criar conta",
+      "nameLabel": "Seu nome",
+      "emailLabel": "Email",
+      "passwordLabel": "Senha",
+      "submit": "Criar conta",
+      "submitting": "Criando...",
+      "alreadyHaveAccount": "Já tem conta?",
+      "login": "Entrar",
+      "emailAlreadyRegistered": "Este email já está cadastrado. Tente fazer login.",
+      "accountCreated": "Conta criada! Verifique seu email para confirmar."
+    },
+    "verifyEmail": {
+      "title": "Confirme seu email",
+      "descriptionWithEmail": "Enviamos um link de confirmação para {email}.",
+      "descriptionGeneric": "Enviamos um link de confirmação para o seu email.",
+      "instructions": "Clique no link da mensagem para ativar sua conta. Verifique também a pasta de spam.",
+      "backToLogin": "Voltar para o login"
+    },
+    "resetPasswordRequest": {
+      "title": "Redefinir senha",
+      "description": "Informe seu email e enviaremos um link para criar uma nova senha.",
+      "sentTitle": "Pronto! Verifique sua caixa de entrada.",
+      "emailLabel": "Email",
+      "submit": "Enviar link",
+      "submitting": "Enviando...",
+      "success": "Enviamos um link para o seu email.",
+      "backToLogin": "Voltar para o login"
+    },
+    "resetPassword": {
+      "title": "Nova senha",
+      "description": "Defina uma nova senha para sua conta.",
+      "missingToken": "Token de redefinição ausente ou inválido.",
+      "requestNewLink": "Solicitar novo link",
+      "newPasswordLabel": "Nova senha",
+      "submit": "Redefinir senha",
+      "submitting": "Salvando...",
+      "success": "Senha redefinida! Faça login novamente."
+    }
+  },
+  "onboarding": {
+    "slugTaken": "Este link já está em uso. Escolha outro.",
+    "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda."
+  },
+  "booking": {
+    "steps": {
+      "services": "Serviços",
+      "schedule": "Horário",
+      "details": "Seus dados"
+    },
+    "continue": "Continuar",
+    "back": "Voltar",
+    "servicesSummary": "{count} serviço(s) · {duration} · {price}",
+    "dateLabel": "Data",
+    "loadingSlots": "Buscando horários...",
+    "noSlots": "Sem horários nesta data.",
+    "noFullSlots": "Nenhum horário comporta todos os serviços selecionados nesta data. Tente outra data ou remova algum serviço.",
+    "partialSlotsHint": "Estes horários têm menos tempo livre do que o necessário ({duration}) — escolha outro horário ou outra data:",
+    "partialBadge": "cabe {minutes}min",
+    "nameLabel": "Seu nome",
+    "whatsappLabel": "WhatsApp",
+    "emailLabel": "Email",
+    "emailHint": "Você receberá a confirmação e lembretes do agendamento por email.",
+    "confirm": "Confirmar",
+    "confirming": "Confirmando...",
+    "doneTitle": "{appointmentNoun} confirmado! 🎉",
+    "doneDescription": "Você receberá um lembrete pelo WhatsApp 24h antes do horário marcado.",
+    "genericError": "Erro ao agendar",
+    "slotConflict": "Esse horário não comporta a duração total dos serviços selecionados. Escolha outro horário ou remova um serviço."
+  },
+  "confirmPage": {
+    "notFoundTitle": "Agendamento não encontrado",
+    "notFoundDescription": "Confira se o link está completo e tente de novo.",
+    "defaultTitle": "Seu agendamento",
+    "confirmedMessage": "✓ Presença confirmada! {customerName}, te esperamos.",
+    "cancelledMessage": "Esse agendamento foi cancelado.",
+    "closedMessage": "Esse agendamento já foi encerrado.",
+    "confirmButton": "Confirmar presença",
+    "confirmNote": "Se não confirmar até 2h antes, o horário libera automaticamente.",
+    "rescheduleButton": "Remarcar",
+    "cancelButton": "Cancelar"
+  },
+  "emails": {
+    "layout": {
+      "footer": "{brandName} · Agenda online para profissionais autônomos"
+    },
+    "confirmacaoCliente": {
+      "subject": "Agendamento confirmado — {service}",
+      "heading": "Agendamento confirmado ✅",
+      "greeting": "Oi, {customerName}!",
+      "intro": "Seu agendamento com <b>{professionalName}</b> foi confirmado:",
+      "serviceLabel": "Serviço",
+      "dateLabel": "Data",
+      "reminderNote": "Você receberá um lembrete automático antes do horário.",
+      "manageButton": "Ver ou alterar meu agendamento →",
+      "manageNote": "Guarde este email — é por ele que você acessa esse link a qualquer momento pra remarcar ou cancelar, mesmo depois de já ter confirmado presença."
+    },
+    "lembreteCliente": {
+      "subject": "Lembrete — seu agendamento é amanhã ⏰",
+      "heading": "Seu agendamento é amanhã ⏰",
+      "greeting": "Oi, {customerName}!",
+      "intro": "Lembrete do seu agendamento com <b>{professionalName}</b>:",
+      "serviceLabel": "Serviço",
+      "dateLabel": "Data",
+      "manageButton": "Confirmar, remarcar ou cancelar →"
+    },
+    "vagaLiberada": {
+      "subject": "Um horário abriu na sua agenda",
+      "heading": "Um horário abriu na sua agenda",
+      "greeting": "Oi, {professionalName}!",
+      "body": "<b>{customerName}</b> não confirmou presença no horário das <b>{scheduledAt}</b>, então cancelamos automaticamente e liberamos a vaga.",
+      "note": "Você já pode oferecer esse horário para outra pessoa."
+    }
+  }
+}

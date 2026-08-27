@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react'
+import { getEmailTranslator } from './get-translator'
 import { FROM, getResend } from './index'
 import { AssinaturaAtivaTemplate } from './templates/assinatura-ativa'
 import { BoasVindasEmail } from './templates/boas-vindas'
@@ -195,9 +196,10 @@ export async function sendVagaLiberada({
   customerName: string
   scheduledAt: string
 }) {
+  const t = getEmailTranslator('emails.vagaLiberada')
   return send({
     to,
-    subject: 'Um horário abriu na sua agenda',
+    subject: t('subject'),
     react: () => VagaLiberadaTemplate({ professionalName, customerName, scheduledAt }),
   })
 }
@@ -208,22 +210,26 @@ export async function sendConfirmacaoCliente({
   professionalName,
   service,
   scheduledAt,
+  manageUrl,
 }: {
   to: string
   customerName: string
   professionalName: string
   service: string
   scheduledAt: string
+  manageUrl: string
 }) {
+  const t = getEmailTranslator('emails.confirmacaoCliente')
   return send({
     to,
-    subject: `Agendamento confirmado — ${service}`,
+    subject: t('subject', { service }),
     react: () =>
       ConfirmacaoClienteTemplate({
         customerName,
         professionalName,
         service,
         scheduledAt,
+        manageUrl,
       }),
   })
 }
@@ -234,22 +240,26 @@ export async function sendLembreteCliente({
   professionalName,
   service,
   scheduledAt,
+  manageUrl,
 }: {
   to: string
   customerName: string
   professionalName: string
   service: string
   scheduledAt: string
+  manageUrl: string
 }) {
+  const t = getEmailTranslator('emails.lembreteCliente')
   return send({
     to,
-    subject: 'Lembrete — seu agendamento é amanhã ⏰',
+    subject: t('subject'),
     react: () =>
       LembreteClienteTemplate({
         customerName,
         professionalName,
         service,
         scheduledAt,
+        manageUrl,
       }),
   })
 }

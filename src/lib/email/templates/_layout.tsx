@@ -1,7 +1,10 @@
 import { Body, Container, Head, Hr, Html, Text } from '@react-email/components'
 import type { ReactNode } from 'react'
+import { getEmailTranslator } from '../get-translator'
 
 export function EmailLayout({ children }: { children: ReactNode }) {
+  const t = getEmailTranslator('emails.layout')
+
   return (
     <Html>
       <Head />
@@ -23,7 +26,7 @@ export function EmailLayout({ children }: { children: ReactNode }) {
           {children}
           <Hr style={{ margin: '32px 0', borderColor: '#E2D0C0' }} />
           <Text style={{ color: '#8A6A58', fontSize: 12 }}>
-            Agendadinho · Agendamento WhatsApp-first para profissionais autônomos
+            {t('footer', { brandName: 'Agendadinho' })}
           </Text>
         </Container>
       </Body>

@@ -199,7 +199,7 @@ export function BeautyHome({ niche }: { niche: NicheConfig }) {
               <span className="size-2.5 rounded-full bg-[#28c840]" />
             </div>
             <div className="rounded-md border border-border bg-background px-3 py-1 font-mono text-xs text-muted-foreground">
-              {mockDomain}/seu-nome
+              {mockDomain}/agendar/seu-nome
             </div>
           </div>
           <div className="grid gap-6 p-6 sm:grid-cols-[1fr_1.2fr] md:p-8">

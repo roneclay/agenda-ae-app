@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import { headers } from 'next/headers'
+import { NextIntlClientProvider } from 'next-intl'
 import { Toaster } from '@/components/ui/sonner'
 import { getNicheFromHost } from '@/lib/config/niches'
 import './globals.css'
@@ -69,8 +70,10 @@ export default async function RootLayout({
       style={brandStyle}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <Toaster richColors position="top-center" />
+        <NextIntlClientProvider>
+          {children}
+          <Toaster richColors position="top-center" />
+        </NextIntlClientProvider>
       </body>
     </html>
   )

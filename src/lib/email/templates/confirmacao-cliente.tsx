@@ -1,4 +1,5 @@
-import { Heading, Text } from '@react-email/components'
+import { Button, Heading, Text } from '@react-email/components'
+import { getEmailTranslator } from '../get-translator'
 import { EmailLayout, styles } from './_layout'
 
 export function ConfirmacaoClienteTemplate({
@@ -6,26 +7,35 @@ export function ConfirmacaoClienteTemplate({
   professionalName,
   service,
   scheduledAt,
+  manageUrl,
 }: {
   customerName: string
   professionalName: string
   service: string
   scheduledAt: string
+  manageUrl: string
 }) {
+  const t = getEmailTranslator('emails.confirmacaoCliente')
+
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Agendamento confirmado ✅</Heading>
-      <Text style={styles.text}>Oi, {customerName}!</Text>
+      <Heading style={styles.heading}>{t('heading')}</Heading>
+      <Text style={styles.text}>{t('greeting', { customerName })}</Text>
       <Text style={styles.text}>
-        Seu agendamento com <strong>{professionalName}</strong> foi confirmado:
+        {t.rich('intro', {
+          professionalName,
+          b: (chunks: React.ReactNode) => <strong>{chunks}</strong>,
+        })}
       </Text>
       <Text style={styles.text}>
-        • Serviço: <strong>{service}</strong>
-        <br />• Data: <strong>{scheduledAt}</strong>
+        • {t('serviceLabel')}: <strong>{service}</strong>
+        <br />• {t('dateLabel')}: <strong>{scheduledAt}</strong>
       </Text>
-      <Text style={{ ...styles.small, marginTop: 24 }}>
-        Você receberá um lembrete 24h antes pelo WhatsApp.
-      </Text>
+      <Text style={{ ...styles.small, marginTop: 24 }}>{t('reminderNote')}</Text>
+      <Button href={manageUrl} style={{ ...styles.button, marginTop: 16 }}>
+        {t('manageButton')}
+      </Button>
+      <Text style={{ ...styles.small, marginTop: 16 }}>{t('manageNote')}</Text>
     </EmailLayout>
   )
 }

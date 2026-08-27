@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { buttonVariants } from '@/components/ui/button'
 import {
   Card,
@@ -15,23 +16,22 @@ export default async function VerificarEmailPage({
   searchParams: Promise<{ email?: string }>
 }) {
   const { email } = await searchParams
+  const t = await getTranslations('auth.verifyEmail')
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Confirme seu email</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
         <CardDescription>
-          {email
-            ? `Enviamos um link de confirmação para ${email}.`
-            : 'Enviamos um link de confirmação para o seu email.'}
+          {email ? t('descriptionWithEmail', { email }) : t('descriptionGeneric')}
         </CardDescription>
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground">
-        <p>Clique no link da mensagem para ativar sua conta. Verifique também a pasta de spam.</p>
+        <p>{t('instructions')}</p>
       </CardContent>
       <CardFooter>
         <Link href="/login" className={buttonVariants({ variant: 'outline', className: 'w-full' })}>
-          Voltar para o login
+          {t('backToLogin')}
         </Link>
       </CardFooter>
     </Card>

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Suspense, useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -16,8 +17,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { signIn } from '@/lib/auth/client'
+import { authErrorKey } from '@/lib/auth/error-messages'
 
 function LoginForm() {
+  const t = useTranslations('auth')
   const router = useRouter()
   const search = useSearchParams()
   const redirect = search.get('redirect') ?? '/dashboard'
@@ -35,7 +38,7 @@ function LoginForm() {
     setLoading(false)
 
     if (error) {
-      toast.error(error.message ?? 'Email ou senha inválidos')
+      toast.error(t(`errors.${authErrorKey(error.message, 'genericLogin')}`))
       return
     }
     router.push(redirect)
@@ -46,14 +49,14 @@ function LoginForm() {
     <form onSubmit={onSubmit}>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('login.emailLabel')}</Label>
           <Input id="email" name="email" type="email" required autoComplete="email" />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password">Senha</Label>
+            <Label htmlFor="password">{t('login.passwordLabel')}</Label>
             <Link href="/resetar-senha" className="text-xs text-muted-foreground underline">
-              Esqueci minha senha
+              {t('login.forgotPassword')}
             </Link>
           </div>
           <Input
@@ -67,12 +70,12 @@ function LoginForm() {
       </CardContent>
       <CardFooter className="flex flex-col gap-3">
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Entrando...' : 'Entrar'}
+          {loading ? t('login.submitting') : t('login.submit')}
         </Button>
         <p className="text-center text-sm text-muted-foreground">
-          Não tem conta?{' '}
+          {t('login.noAccount')}{' '}
           <Link href="/cadastro" className="underline">
-            Criar conta
+            {t('login.createAccount')}
           </Link>
         </p>
       </CardFooter>
@@ -81,11 +84,12 @@ function LoginForm() {
 }
 
 export default function LoginPage() {
+  const t = useTranslations('auth')
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Entrar</CardTitle>
-        <CardDescription>Acesse sua agenda.</CardDescription>
+        <CardTitle>{t('login.title')}</CardTitle>
+        <CardDescription>{t('login.description')}</CardDescription>
       </CardHeader>
       <Suspense fallback={null}>
         <LoginForm />

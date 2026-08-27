@@ -2,9 +2,11 @@
 
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { getCurrentProfessional } from '@/lib/auth/session'
 import { db, professional } from '@/lib/db'
+import { normalizePhone } from '@/lib/phone'
 
 const Schema = z.object({
   name: z.string().trim().min(2),
@@ -26,6 +28,21 @@ export async function updateProfile(_prev: ConfigState, formData: FormData): Pro
     address: formData.get('address') || undefined,
   })
   if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Dados inválidos' }
+
+  if (parsed.data.phone) {
+    const normalizedPhone = normalizePhone(parsed.data.phone)
+    const others = await db
+      .select({ id: professional.id, phone: professional.phone })
+      .from(professional)
+
+    const phoneConflict = others.some(
+      (o) => o.id !== pro.id && o.phone && normalizePhone(o.phone) === normalizedPhone,
+    )
+    if (phoneConflict) {
+      const t = await getTranslations('onboarding')
+      return { error: t('phoneTaken') }
+    }
+  }
 
   await db
     .update(professional)

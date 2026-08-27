@@ -1,6 +1,6 @@
 # AgendaAe — CLAUDE.md
 
-> SaaS de agendamento WhatsApp-first multi-nicho · Next.js 16 + Bun · Postgres na VPS · sem Supabase, sem Docker em dev.
+> SaaS de agendamento online multi-nicho (bot de WhatsApp é visão futura, fora do escopo do v1 — ver seção PRODUTO) · Next.js 16 + Bun · Vercel + Neon · sem Supabase, sem Docker em dev.
 
 ---
 

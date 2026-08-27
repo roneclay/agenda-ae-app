@@ -1,7 +1,8 @@
 import { eq } from 'drizzle-orm'
+import { getTranslations } from 'next-intl/server'
 import { NICHES } from '@/lib/config/niches'
 import { appointment, appointmentService, customer, db, professional, service } from '@/lib/db'
-import { confirmAppointment } from './actions'
+import { cancelAppointment, confirmAppointment, rescheduleAppointment } from './actions'
 
 function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -9,6 +10,7 @@ function formatBRL(cents: number) {
 
 export default async function ConfirmarPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  const t = await getTranslations('confirmPage')
 
   const [appt] = await db
     .select({
@@ -18,6 +20,7 @@ export default async function ConfirmarPage({ params }: { params: Promise<{ id: 
       totalCents: appointment.totalCents,
       customerName: customer.name,
       professionalName: professional.name,
+      professionalSlug: professional.slug,
       niche: professional.niche,
     })
     .from(appointment)
@@ -29,10 +32,8 @@ export default async function ConfirmarPage({ params }: { params: Promise<{ id: 
   if (!appt) {
     return (
       <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-        <h1 className="text-xl font-bold text-foreground">Agendamento não encontrado</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Confira se o link está completo e tente de novo.
-        </p>
+        <h1 className="text-xl font-bold text-foreground">{t('notFoundTitle')}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t('notFoundDescription')}</p>
       </div>
     )
   }
@@ -50,6 +51,8 @@ export default async function ConfirmarPage({ params }: { params: Promise<{ id: 
     timeStyle: 'short',
   })
 
+  const canManage = appt.status === 'scheduled' || appt.status === 'confirmed'
+
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
       <div
@@ -60,37 +63,58 @@ export default async function ConfirmarPage({ params }: { params: Promise<{ id: 
           {appt.professionalName}
         </p>
         <h1 className="mt-2 text-2xl font-extrabold text-foreground">
-          {services.map((s) => s.name).join(', ') || 'Seu agendamento'}
+          {services.map((s) => s.name).join(', ') || t('defaultTitle')}
         </h1>
         <p className="mt-3 text-base text-muted-foreground">{friendlyDate}</p>
         <p className="mt-1 text-sm text-muted-foreground">{formatBRL(appt.totalCents)}</p>
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-col gap-3">
           {appt.status === 'confirmed' && (
             <p className="font-semibold text-primary">
-              ✓ Presença confirmada! {appt.customerName}, te esperamos.
+              {t('confirmedMessage', { customerName: appt.customerName ?? '' })}
             </p>
           )}
           {appt.status === 'cancelled' && (
-            <p className="font-semibold text-muted-foreground">Esse agendamento foi cancelado.</p>
+            <p className="font-semibold text-muted-foreground">{t('cancelledMessage')}</p>
           )}
           {(appt.status === 'completed' || appt.status === 'no_show') && (
-            <p className="font-semibold text-muted-foreground">
-              Esse agendamento já foi encerrado.
-            </p>
+            <p className="font-semibold text-muted-foreground">{t('closedMessage')}</p>
           )}
+
           {appt.status === 'scheduled' && (
             <form action={confirmAppointment.bind(null, appt.id)}>
               <button
                 type="submit"
                 className="flex h-12 w-full items-center justify-center rounded-xl bg-primary text-base font-semibold text-primary-foreground transition hover:opacity-90"
               >
-                Confirmar presença
+                {t('confirmButton')}
               </button>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Se não confirmar até 2h antes, o horário libera automaticamente.
-              </p>
+              <p className="mt-3 text-xs text-muted-foreground">{t('confirmNote')}</p>
             </form>
+          )}
+
+          {canManage && (
+            <div className="flex gap-3">
+              <form
+                action={rescheduleAppointment.bind(null, appt.id, appt.professionalSlug)}
+                className="flex-1"
+              >
+                <button
+                  type="submit"
+                  className="flex h-11 w-full items-center justify-center rounded-xl border border-border bg-background text-sm font-semibold text-foreground transition hover:bg-muted"
+                >
+                  {t('rescheduleButton')}
+                </button>
+              </form>
+              <form action={cancelAppointment.bind(null, appt.id)} className="flex-1">
+                <button
+                  type="submit"
+                  className="flex h-11 w-full items-center justify-center rounded-xl border border-destructive/40 bg-background text-sm font-semibold text-destructive transition hover:bg-destructive/10"
+                >
+                  {t('cancelButton')}
+                </button>
+              </form>
+            </div>
           )}
         </div>
       </div>

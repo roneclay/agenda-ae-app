@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Suspense, useState } from 'react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -16,8 +17,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { authClient } from '@/lib/auth/client'
+import { authErrorKey } from '@/lib/auth/error-messages'
 
 function ResetForm() {
+  const t = useTranslations('auth')
   const router = useRouter()
   const search = useSearchParams()
   const token = search.get('token') ?? ''
@@ -26,9 +29,9 @@ function ResetForm() {
   if (!token) {
     return (
       <CardContent className="space-y-3 text-sm">
-        <p className="text-destructive">Token de redefinição ausente ou inválido.</p>
+        <p className="text-destructive">{t('resetPassword.missingToken')}</p>
         <Link href="/resetar-senha" className={buttonVariants({ variant: 'outline' })}>
-          Solicitar novo link
+          {t('resetPassword.requestNewLink')}
         </Link>
       </CardContent>
     )
@@ -43,10 +46,10 @@ function ResetForm() {
     const { error } = await authClient.resetPassword({ newPassword, token })
     setLoading(false)
     if (error) {
-      toast.error(error.message ?? 'Erro ao redefinir')
+      toast.error(t(`errors.${authErrorKey(error.message, 'genericResetPassword')}`))
       return
     }
-    toast.success('Senha redefinida! Faça login novamente.')
+    toast.success(t('resetPassword.success'))
     router.push('/login')
   }
 
@@ -54,7 +57,7 @@ function ResetForm() {
     <form onSubmit={onSubmit}>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="password">Nova senha</Label>
+          <Label htmlFor="password">{t('resetPassword.newPasswordLabel')}</Label>
           <Input
             id="password"
             name="password"
@@ -67,7 +70,7 @@ function ResetForm() {
       </CardContent>
       <CardFooter>
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Salvando...' : 'Redefinir senha'}
+          {loading ? t('resetPassword.submitting') : t('resetPassword.submit')}
         </Button>
       </CardFooter>
     </form>
@@ -75,11 +78,12 @@ function ResetForm() {
 }
 
 export default function RedefinirSenhaPage() {
+  const t = useTranslations('auth')
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Nova senha</CardTitle>
-        <CardDescription>Defina uma nova senha para sua conta.</CardDescription>
+        <CardTitle>{t('resetPassword.title')}</CardTitle>
+        <CardDescription>{t('resetPassword.description')}</CardDescription>
       </CardHeader>
       <Suspense fallback={null}>
         <ResetForm />

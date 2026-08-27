@@ -109,6 +109,7 @@ export async function dispatchReminders(kind: WindowKind, now = new Date()) {
         professionalName: c.proName,
         service: '',
         scheduledAt: friendlyDate,
+        manageUrl: confirmUrl,
       })
     }
 

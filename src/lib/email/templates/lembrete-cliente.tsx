@@ -1,4 +1,5 @@
-import { Heading, Text } from '@react-email/components'
+import { Button, Heading, Text } from '@react-email/components'
+import { getEmailTranslator } from '../get-translator'
 import { EmailLayout, styles } from './_layout'
 
 export function LembreteClienteTemplate({
@@ -6,26 +7,33 @@ export function LembreteClienteTemplate({
   professionalName,
   service,
   scheduledAt,
+  manageUrl,
 }: {
   customerName: string
   professionalName: string
   service: string
   scheduledAt: string
+  manageUrl: string
 }) {
+  const t = getEmailTranslator('emails.lembreteCliente')
+
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Seu agendamento é amanhã ⏰</Heading>
-      <Text style={styles.text}>Oi, {customerName}!</Text>
+      <Heading style={styles.heading}>{t('heading')}</Heading>
+      <Text style={styles.text}>{t('greeting', { customerName })}</Text>
       <Text style={styles.text}>
-        Lembrete do seu agendamento com <strong>{professionalName}</strong>:
+        {t.rich('intro', {
+          professionalName,
+          b: (chunks: React.ReactNode) => <strong>{chunks}</strong>,
+        })}
       </Text>
       <Text style={styles.text}>
-        • Serviço: <strong>{service}</strong>
-        <br />• Data: <strong>{scheduledAt}</strong>
+        • {t('serviceLabel')}: <strong>{service}</strong>
+        <br />• {t('dateLabel')}: <strong>{scheduledAt}</strong>
       </Text>
-      <Text style={{ ...styles.small, marginTop: 24 }}>
-        Precisa remarcar? É só responder este email ou falar pelo WhatsApp.
-      </Text>
+      <Button href={manageUrl} style={{ ...styles.button, marginTop: 16 }}>
+        {t('manageButton')}
+      </Button>
     </EmailLayout>
   )
 }

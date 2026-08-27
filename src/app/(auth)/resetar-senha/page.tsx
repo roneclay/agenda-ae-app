@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -15,8 +16,10 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { authClient } from '@/lib/auth/client'
+import { authErrorKey } from '@/lib/auth/error-messages'
 
 export default function ResetarSenhaPage() {
+  const t = useTranslations('auth')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
 
@@ -34,32 +37,30 @@ export default function ResetarSenhaPage() {
     setLoading(false)
 
     if (error) {
-      toast.error(error.message ?? 'Erro ao solicitar redefinição')
+      toast.error(t(`errors.${authErrorKey(error.message, 'genericResetRequest')}`))
       return
     }
     setSent(true)
-    toast.success('Enviamos um link para o seu email.')
+    toast.success(t('resetPasswordRequest.success'))
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Redefinir senha</CardTitle>
-        <CardDescription>
-          Informe seu email e enviaremos um link para criar uma nova senha.
-        </CardDescription>
+        <CardTitle>{t('resetPasswordRequest.title')}</CardTitle>
+        <CardDescription>{t('resetPasswordRequest.description')}</CardDescription>
       </CardHeader>
       {sent ? (
         <>
           <CardContent className="text-sm text-muted-foreground">
-            Pronto! Verifique sua caixa de entrada.
+            {t('resetPasswordRequest.sentTitle')}
           </CardContent>
           <CardFooter>
             <Link
               href="/login"
               className={buttonVariants({ variant: 'outline', className: 'w-full' })}
             >
-              Voltar para o login
+              {t('resetPasswordRequest.backToLogin')}
             </Link>
           </CardFooter>
         </>
@@ -67,17 +68,17 @@ export default function ResetarSenhaPage() {
         <form onSubmit={onSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('resetPasswordRequest.emailLabel')}</Label>
               <Input id="email" name="email" type="email" required autoComplete="email" />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-3">
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Enviando...' : 'Enviar link'}
+              {loading ? t('resetPasswordRequest.submitting') : t('resetPasswordRequest.submit')}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
               <Link href="/login" className="underline">
-                Voltar para o login
+                {t('resetPasswordRequest.backToLogin')}
               </Link>
             </p>
           </CardFooter>

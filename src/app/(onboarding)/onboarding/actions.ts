@@ -2,10 +2,13 @@
 
 import { and, eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
+import { dayLabel } from '@/lib/dates'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 import { sendBoasVindas } from '@/lib/email/send'
+import { normalizePhone } from '@/lib/phone'
 
 const slugify = (input: string) =>
   input
@@ -59,6 +62,7 @@ export async function saveBasics(
   }
 
   const { name, slug, niche, phone } = parsed.data
+  const t = await getTranslations('onboarding')
 
   const [conflict] = await db
     .select({ id: professional.id, userId: professional.userId })
@@ -67,7 +71,19 @@ export async function saveBasics(
     .limit(1)
 
   if (conflict && conflict.userId !== session.user.id) {
-    return { fieldErrors: { slug: 'Este link já está em uso. Escolha outro.' } }
+    return { fieldErrors: { slug: t('slugTaken') } }
+  }
+
+  const normalizedPhone = normalizePhone(phone)
+  const others = await db
+    .select({ id: professional.id, userId: professional.userId, phone: professional.phone })
+    .from(professional)
+
+  const phoneConflict = others.some(
+    (o) => o.userId !== session.user.id && o.phone && normalizePhone(o.phone) === normalizedPhone,
+  )
+  if (phoneConflict) {
+    return { fieldErrors: { phone: t('phoneTaken') } }
   }
 
   const trialEndsAt = new Date()
@@ -204,7 +220,7 @@ export async function saveSchedule(
 
   for (const w of parsed.data.windows) {
     const inner = WindowSchema.safeParse({ startTime: w.startTime, endTime: w.endTime })
-    if (!inner.success) return { error: `Janela inválida em ${w.dayKey}` }
+    if (!inner.success) return { error: `Janela inválida em ${dayLabel(w.dayKey)}` }
   }
 
   const byDay = new Map<string, { start: number; end: number }[]>()
