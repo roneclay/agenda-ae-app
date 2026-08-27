@@ -49,9 +49,10 @@ export async function sendVerificationEmail({
   if (MOCK) {
     console.log(`\n📧 [EMAIL MOCK] Verificação para ${to}\n🔗 ${url}\n`)
   }
+  const t = getEmailTranslator('emails.verificarEmail')
   return send({
     to,
-    subject: 'Confirme seu email — Agendadinho',
+    subject: t('subject'),
     react: () => VerificarEmailTemplate({ name, url }),
   })
 }
@@ -68,17 +69,19 @@ export async function sendResetPasswordEmail({
   if (MOCK) {
     console.log(`\n📧 [EMAIL MOCK] Reset de senha para ${to}\n🔗 ${url}\n`)
   }
+  const t = getEmailTranslator('emails.resetarSenha')
   return send({
     to,
-    subject: 'Redefinir sua senha — Agendadinho',
+    subject: t('subject'),
     react: () => ResetarSenhaTemplate({ name, url }),
   })
 }
 
 export async function sendBoasVindas({ to, name }: { to: string; name: string }) {
+  const t = getEmailTranslator('emails.boasVindas')
   return send({
     to,
-    subject: `Bem-vindo(a) ao Agendadinho, ${name}!`,
+    subject: t('subject', { name }),
     react: () => BoasVindasEmail({ name }),
   })
 }
@@ -94,25 +97,28 @@ export async function sendTrialExpirando({
   daysLeft: number
   priceLabel: string
 }) {
+  const t = getEmailTranslator('emails.trialExpirando')
   return send({
     to,
-    subject: `Faltam ${daysLeft} dias do seu trial — Agendadinho`,
+    subject: t('subject', { daysLeft }),
     react: () => TrialExpirandoTemplate({ name, daysLeft, priceLabel }),
   })
 }
 
 export async function sendTrialExpirado({ to, name }: { to: string; name: string }) {
+  const t = getEmailTranslator('emails.trialExpirado')
   return send({
     to,
-    subject: 'Seu trial acabou — não perca seu link 😢',
+    subject: t('subject'),
     react: () => TrialExpiradoTemplate({ name }),
   })
 }
 
 export async function sendAssinaturaAtiva({ to, name }: { to: string; name: string }) {
+  const t = getEmailTranslator('emails.assinaturaAtiva')
   return send({
     to,
-    subject: 'Assinatura Pro ativada! 🎉 — Agendadinho',
+    subject: t('subject'),
     react: () => AssinaturaAtivaTemplate({ name }),
   })
 }
@@ -128,17 +134,19 @@ export async function sendPagamentoConfirmado({
   amount: string
   month: string
 }) {
+  const t = getEmailTranslator('emails.pagamentoConfirmado')
   return send({
     to,
-    subject: `Pagamento confirmado — ${month}`,
+    subject: t('subject', { month }),
     react: () => PagamentoConfirmadoTemplate({ name, amount, month }),
   })
 }
 
 export async function sendPagamentoFalhou({ to, name }: { to: string; name: string }) {
+  const t = getEmailTranslator('emails.pagamentoFalhou')
   return send({
     to,
-    subject: 'Não conseguimos cobrar sua assinatura ⚠️',
+    subject: t('subject'),
     react: () => PagamentoFalhouTemplate({ name }),
   })
 }
@@ -152,9 +160,10 @@ export async function sendCancelamento({
   name: string
   endsAt: string
 }) {
+  const t = getEmailTranslator('emails.cancelamento')
   return send({
     to,
-    subject: 'Assinatura cancelada — Agendadinho',
+    subject: t('subject'),
     react: () => CancelamentoTemplate({ name, endsAt }),
   })
 }
@@ -172,9 +181,10 @@ export async function sendNovoAgendamentoProfissional({
   service: string
   scheduledAt: string
 }) {
+  const t = getEmailTranslator('emails.novoAgendamentoProfissional')
   return send({
     to,
-    subject: `Novo agendamento — ${customerName}`,
+    subject: t('subject', { customerName }),
     react: () =>
       NovoAgendamentoProfissionalTemplate({
         professionalName,

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
@@ -16,6 +17,8 @@ export default async function FinanceiroPage({
   const pro = await getCurrentProfessional()
   if (!pro) return null
 
+  const t = await getTranslations('financeiro')
+  const tStatus = await getTranslations('financeiro.subscriptionStatus')
   const priceLabel = formatBRL(await getProPriceCents())
   const { trial, assinatura } = await searchParams
   const isActive = pro.subscriptionStatus === 'active'
@@ -24,42 +27,42 @@ export default async function FinanceiroPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Financeiro</h1>
-        <p className="text-muted-foreground">Assinatura e plano.</p>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
       </div>
 
       {trial === 'expirado' && !isActive && (
         <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
-          Seu período de trial encerrou. Assine o plano Pro para continuar usando o Agendadinho.
+          {t('trialExpiredBanner')}
         </div>
       )}
 
       {assinatura === 'ok' && (
         <div className="rounded-xl border border-green-500/50 bg-green-500/10 p-4 text-sm text-green-700">
-          Pagamento confirmado! Seu plano Pro está ativo.
+          {t('paymentConfirmedBanner')}
         </div>
       )}
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Plano atual</CardTitle>
+            <CardTitle>{t('currentPlan')}</CardTitle>
             <p className="mt-1 text-sm text-muted-foreground">
-              Status: <Badge variant="outline">{pro.subscriptionStatus}</Badge>
+              {t('statusLabel')} <Badge variant="outline">{tStatus(pro.subscriptionStatus)}</Badge>
             </p>
           </div>
-          <Badge>{pro.plan.toUpperCase()}</Badge>
+          <Badge>{pro.plan === 'pro' ? 'PRO' : t('planFree')}</Badge>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           {pro.subscriptionStatus === 'trial' && pro.trialEndsAt && !trialExpired && (
             <p className="text-muted-foreground">
-              Seu trial termina em {pro.trialEndsAt.toLocaleDateString('pt-BR')}.
+              {t('trialEndsAt', { date: pro.trialEndsAt.toLocaleDateString('pt-BR') })}
             </p>
           )}
 
           {!isActive ? (
             <div className="space-y-2">
-              <p>Plano Pro: agendamentos ilimitados e lembretes automáticos.</p>
+              <p>{t('proDescription')}</p>
               <div className="flex flex-col gap-2">
                 <ActivateProButton priceLabel={priceLabel} />
                 <PixCheckoutButton priceLabel={priceLabel} />
@@ -69,7 +72,7 @@ export default async function FinanceiroPage({
             <div className="space-y-2">
               {pro.trialEndsAt && (
                 <p className="text-muted-foreground">
-                  Acesso garantido até {pro.trialEndsAt.toLocaleDateString('pt-BR')}.
+                  {t('accessUntil', { date: pro.trialEndsAt.toLocaleDateString('pt-BR') })}
                 </p>
               )}
               <CancelSubButton />

@@ -1,4 +1,5 @@
 import { Heading, Text } from '@react-email/components'
+import { getEmailTranslator } from '../get-translator'
 import { EmailLayout, styles } from './_layout'
 
 export function NovoAgendamentoProfissionalTemplate({
@@ -12,15 +13,20 @@ export function NovoAgendamentoProfissionalTemplate({
   service: string
   scheduledAt: string
 }) {
+  const t = getEmailTranslator('emails.novoAgendamentoProfissional')
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Novo agendamento 📅</Heading>
-      <Text style={styles.text}>Oi, {professionalName}!</Text>
+      <Heading style={styles.heading}>{t('heading')}</Heading>
+      <Text style={styles.text}>{t('greeting', { professionalName })}</Text>
       <Text style={styles.text}>
-        <strong>{customerName}</strong> agendou <strong>{service}</strong> para{' '}
-        <strong>{scheduledAt}</strong>.
+        {t.rich('body', {
+          customerName,
+          service,
+          scheduledAt,
+          b: (chunks: React.ReactNode) => <strong>{chunks}</strong>,
+        })}
       </Text>
-      <Text style={{ ...styles.small, marginTop: 24 }}>Veja todos os detalhes no painel.</Text>
+      <Text style={{ ...styles.small, marginTop: 24 }}>{t('footer')}</Text>
     </EmailLayout>
   )
 }

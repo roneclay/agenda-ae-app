@@ -1,20 +1,17 @@
 import { Button, Heading, Text } from '@react-email/components'
+import { getEmailTranslator } from '../get-translator'
 import { EmailLayout, styles } from './_layout'
 
 export function ResetarSenhaTemplate({ name, url }: { name: string; url: string }) {
+  const t = getEmailTranslator('emails.resetarSenha')
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Redefinir sua senha</Heading>
-      <Text style={styles.text}>
-        Oi, {name}! Recebemos um pedido para redefinir sua senha. Clique no botão abaixo para criar
-        uma nova.
-      </Text>
+      <Heading style={styles.heading}>{t('heading')}</Heading>
+      <Text style={styles.text}>{t('intro', { name })}</Text>
       <Button href={url} style={styles.button}>
-        Redefinir senha →
+        {t('button')}
       </Button>
-      <Text style={{ ...styles.small, marginTop: 24 }}>
-        Este link expira em 1 hora. Se você não pediu isso, ignore o email.
-      </Text>
+      <Text style={{ ...styles.small, marginTop: 24 }}>{t('footer')}</Text>
     </EmailLayout>
   )
 }

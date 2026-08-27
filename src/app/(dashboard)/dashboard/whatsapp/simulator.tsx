@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,7 @@ import { Label } from '@/components/ui/label'
 type Msg = { role: 'user' | 'assistant'; content: string; tools?: unknown[] }
 
 export function WhatsAppSimulator({ slug }: { slug: string }) {
+  const t = useTranslations('dashboard.whatsappSimulator')
   const [whatsappId, setWhatsappId] = useState('+5548911112222')
   const [name, setName] = useState('João Cliente')
   const [input, setInput] = useState('')
@@ -30,7 +32,7 @@ export function WhatsAppSimulator({ slug }: { slug: string }) {
 
     setLoading(false)
     if (!res.ok) {
-      toast.error('Erro ao enviar')
+      toast.error(t('sendError'))
       return
     }
     const data = (await res.json()) as { reply: string; toolCalls: unknown[] }
@@ -41,20 +43,18 @@ export function WhatsAppSimulator({ slug }: { slug: string }) {
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
-          <Label htmlFor="wid">Cliente WhatsApp</Label>
+          <Label htmlFor="wid">{t('customerLabel')}</Label>
           <Input id="wid" value={whatsappId} onChange={(e) => setWhatsappId(e.target.value)} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="cname">Nome (1ª vez)</Label>
+          <Label htmlFor="cname">{t('nameLabel')}</Label>
           <Input id="cname" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
       </div>
 
       <div className="h-80 space-y-2 overflow-y-auto rounded-xl border bg-muted/30 p-4">
         {history.length === 0 && (
-          <p className="text-center text-sm text-muted-foreground">
-            Mande uma mensagem como se fosse o cliente: "quero agendar unhas amanhã às 10h".
-          </p>
+          <p className="text-center text-sm text-muted-foreground">{t('helpText')}</p>
         )}
         {history.map((m, i) => (
           <div
@@ -64,10 +64,10 @@ export function WhatsAppSimulator({ slug }: { slug: string }) {
               m.role === 'user' ? 'ml-auto bg-foreground text-background' : 'bg-background border'
             }`}
           >
-            {m.content || <em className="text-muted-foreground">(sem texto)</em>}
+            {m.content || <em className="text-muted-foreground">{t('emptyMessage')}</em>}
             {m.tools && m.tools.length > 0 && (
               <details className="mt-2 text-xs opacity-70">
-                <summary>Tool calls ({m.tools.length})</summary>
+                <summary>{t('toolCalls', { count: m.tools.length })}</summary>
                 <pre className="mt-1 whitespace-pre-wrap break-all">
                   {JSON.stringify(m.tools, null, 2)}
                 </pre>
@@ -87,11 +87,11 @@ export function WhatsAppSimulator({ slug }: { slug: string }) {
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Digite uma mensagem..."
+          placeholder={t('inputPlaceholder')}
           disabled={loading}
         />
         <Button type="submit" disabled={loading}>
-          {loading ? '...' : 'Enviar'}
+          {loading ? t('sending') : t('send')}
         </Button>
       </form>
     </div>

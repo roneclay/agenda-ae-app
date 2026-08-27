@@ -1,9 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import type { NicheConfig } from '@/lib/config/niches'
-import { NAV_LINKS } from './nav'
+import { getNavLinks } from './nav'
 
-export function MarketingFooter({ niche }: { niche: NicheConfig }) {
+export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
+  const t = await getTranslations('marketing')
+  const navLinks = await getNavLinks()
+
   return (
     <footer className="border-t border-border/60 bg-muted/40">
       <div className="mx-auto max-w-6xl px-6 py-12">
@@ -15,15 +19,12 @@ export function MarketingFooter({ niche }: { niche: NicheConfig }) {
               )}
               <p className="text-xl font-extrabold text-foreground">{niche.brandName}</p>
             </div>
-            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              A agenda que trabalha enquanto você atende. Feito no Brasil pra quem vive de
-              atendimento.
-            </p>
+            <p className="mt-3 max-w-xs text-sm text-muted-foreground">{t('footer.tagline')}</p>
           </div>
           <div>
-            <p className="text-sm font-bold text-foreground">Produto</p>
+            <p className="text-sm font-bold text-foreground">{t('footer.productHeading')}</p>
             <ul className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
                   <a href={link.href} className="hover:text-foreground">
                     {link.label}
@@ -33,23 +34,23 @@ export function MarketingFooter({ niche }: { niche: NicheConfig }) {
             </ul>
           </div>
           <div>
-            <p className="text-sm font-bold text-foreground">Conta</p>
+            <p className="text-sm font-bold text-foreground">{t('footer.accountHeading')}</p>
             <ul className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground">
               <li>
                 <Link href="/login" className="hover:text-foreground">
-                  Entrar
+                  {t('nav.login')}
                 </Link>
               </li>
               <li>
                 <Link href="/cadastro" className="hover:text-foreground">
-                  Criar conta
+                  {t('nav.createAccount')}
                 </Link>
               </li>
             </ul>
           </div>
         </div>
         <div className="mt-10 border-t border-border/60 pt-6 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} {niche.brandName} — feito no Brasil 🇧🇷
+          {t('footer.copyright', { year: new Date().getFullYear(), brandName: niche.brandName })}
         </div>
       </div>
     </footer>

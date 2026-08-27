@@ -1,5 +1,6 @@
 import { and, eq, gte, lte, ne } from 'drizzle-orm'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { CancelAppointmentButton } from '@/components/dashboard/cancel-appointment'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
@@ -24,6 +25,8 @@ export default async function DashboardPage() {
   const pro = await getCurrentProfessional()
   if (!pro) return null
 
+  const t = await getTranslations('dashboard.home')
+  const tStatus = await getTranslations('dashboard.appointmentStatus')
   const niche = NICHES[pro.niche]
   const start = new Date()
   start.setHours(0, 0, 0, 0)
@@ -55,7 +58,7 @@ export default async function DashboardPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Sua agenda hoje</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground">
             {start.toLocaleDateString('pt-BR', {
               weekday: 'long',
@@ -69,15 +72,14 @@ export default async function DashboardPage() {
           target="_blank"
           className={buttonVariants({ variant: 'outline' })}
         >
-          Ver link público
+          {t('publicLink')}
         </Link>
       </div>
 
       {todayAppointments.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
-            Nenhum {niche.appointmentNoun} agendado para hoje. Compartilhe seu link público para
-            receber agendamentos:
+            {t('emptyState', { appointmentNoun: niche.appointmentNoun })}
             <div className="mt-3 font-mono text-sm text-foreground">/agendar/{pro.slug}</div>
           </CardContent>
         </Card>
@@ -87,10 +89,10 @@ export default async function DashboardPage() {
             <Card key={a.id}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-base">
-                  {formatTime(a.scheduledAt)} — {a.customerName ?? 'Cliente'}
+                  {formatTime(a.scheduledAt)} — {a.customerName ?? t('customerFallback')}
                 </CardTitle>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline">{a.status}</Badge>
+                  <Badge variant="outline">{tStatus(a.status)}</Badge>
                   <CancelAppointmentButton id={a.id} />
                 </div>
               </CardHeader>

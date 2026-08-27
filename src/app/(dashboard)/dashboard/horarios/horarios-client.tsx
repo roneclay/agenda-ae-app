@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useActionState, useEffect, useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import {
@@ -60,6 +61,7 @@ export function HorariosClient({
   dates: string[]
   overrides: Override[]
 }) {
+  const t = useTranslations('dashboard.horarios')
   const initialWeekly = templateToState(template)
   const [weekly, setWeekly] = useState<WeeklyState>(initialWeekly)
   const [tplState, tplAction, tplPending] = useActionState<TemplateState, FormData>(
@@ -68,34 +70,30 @@ export function HorariosClient({
   )
 
   useEffect(() => {
-    if (tplState.ok) toast.success('Padrão semanal salvo')
+    if (tplState.ok) toast.success(t('weeklySaved'))
     else if (tplState.error) toast.error(tplState.error)
-  }, [tplState])
+  }, [tplState, t])
 
   const flattened = flattenForSubmit(weekly)
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Horários</h1>
-        <p className="text-muted-foreground">
-          Padrão semanal recorrente + ajustes pontuais nos próximos 7 dias.
-        </p>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Padrão semanal</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Esses horários se repetem toda semana, indefinidamente.
-          </p>
+          <CardTitle>{t('weeklyCardTitle')}</CardTitle>
+          <p className="text-sm text-muted-foreground">{t('weeklyCardDescription')}</p>
         </CardHeader>
         <CardContent>
           <form action={tplAction} className="space-y-4">
             <input type="hidden" name="payload" value={JSON.stringify({ windows: flattened })} />
             <WeeklyScheduleEditor initial={initialWeekly} onChange={setWeekly} />
             <Button type="submit" disabled={tplPending}>
-              {tplPending ? 'Salvando...' : 'Salvar padrão'}
+              {tplPending ? t('saving') : t('saveWeekly')}
             </Button>
           </form>
         </CardContent>
@@ -103,10 +101,8 @@ export function HorariosClient({
 
       <Card>
         <CardHeader>
-          <CardTitle>Próximos 7 dias</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Sobrescreva dias específicos sem mexer no padrão.
-          </p>
+          <CardTitle>{t('next7Title')}</CardTitle>
+          <p className="text-sm text-muted-foreground">{t('next7Description')}</p>
         </CardHeader>
         <CardContent className="space-y-2">
           {dates.map((d) => (
@@ -132,6 +128,7 @@ function DayRow({
   template: WeeklyState
   override?: Override
 }) {
+  const t = useTranslations('dashboard.horarios')
   const [open, setOpen] = useState(false)
   const dayKey = dayKeyFor(date)
   const isToday = date === todayInBRT()
@@ -151,18 +148,18 @@ function DayRow({
             <span className="text-sm text-muted-foreground">{formatBrDateShort(date)}</span>
             {isToday && (
               <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs text-primary">
-                hoje
+                {t('todayBadge')}
               </span>
             )}
             {override && (
               <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-900 dark:bg-amber-500/20 dark:text-amber-100">
-                ajustado
+                {t('overrideBadge')}
               </span>
             )}
           </div>
           <p className="mt-1 truncate text-sm text-muted-foreground">
             {effectiveWindows.length === 0
-              ? 'Fechado'
+              ? t('closed')
               : effectiveWindows.map((w) => `${w.startTime}–${w.endTime}`).join(' · ')}
           </p>
         </div>
@@ -193,6 +190,7 @@ function DaySheet({
   defaultWindows: Window[]
   hasOverride: boolean
 }) {
+  const t = useTranslations('dashboard.horarios')
   const [isOpen, setIsOpen] = useState(defaultWindows.length > 0)
   const [windows, setWindows] = useState<Window[]>(
     defaultWindows.length > 0 ? defaultWindows : [{ startTime: '09:00', endTime: '18:00' }],
@@ -202,10 +200,10 @@ function DaySheet({
 
   useEffect(() => {
     if (state.ok) {
-      toast.success('Dia atualizado')
+      toast.success(t('dayUpdated'))
       onOpenChange(false)
     } else if (state.error) toast.error(state.error)
-  }, [state, onOpenChange])
+  }, [state, onOpenChange, t])
 
   useEffect(() => {
     if (open) {
@@ -230,7 +228,7 @@ function DaySheet({
           <SheetTitle>
             {dayLabel(dayKey)} — {formatBrDateShort(date)}
           </SheetTitle>
-          <SheetDescription>Ajuste apenas este dia. Não mexe no padrão semanal.</SheetDescription>
+          <SheetDescription>{t('sheetDescription')}</SheetDescription>
         </SheetHeader>
 
         <form action={action} className="space-y-4 px-4 pb-2">
@@ -245,7 +243,7 @@ function DaySheet({
               onChange={(e) => setIsOpen(e.target.checked)}
             />
             <label htmlFor="dayOpen" className="text-sm font-medium">
-              {isOpen ? 'Aberto neste dia' : 'Fechado neste dia'}
+              {isOpen ? t('openThisDay') : t('closedThisDay')}
             </label>
           </div>
 
@@ -263,9 +261,9 @@ function DaySheet({
                       setWindows(next)
                     }}
                     className="flex-1 min-w-0"
-                    aria-label="Início"
+                    aria-label={t('startTimeLabel')}
                   />
-                  <span className="text-xs text-muted-foreground">até</span>
+                  <span className="text-xs text-muted-foreground">{t('until')}</span>
                   <Input
                     type="time"
                     value={w.endTime}
@@ -275,7 +273,7 @@ function DaySheet({
                       setWindows(next)
                     }}
                     className="flex-1 min-w-0"
-                    aria-label="Fim"
+                    aria-label={t('endTimeLabel')}
                   />
                   {windows.length > 1 && (
                     <Button
@@ -283,7 +281,7 @@ function DaySheet({
                       variant="ghost"
                       size="sm"
                       className="h-9 px-2"
-                      aria-label="Remover janela"
+                      aria-label={t('removeWindow')}
                       onClick={() => setWindows(windows.filter((_, idx) => idx !== i))}
                     >
                       ✕
@@ -297,7 +295,7 @@ function DaySheet({
                 size="sm"
                 onClick={() => setWindows([...windows, { startTime: '13:00', endTime: '18:00' }])}
               >
-                + Adicionar janela
+                {t('addWindow')}
               </Button>
             </div>
           )}
@@ -306,7 +304,7 @@ function DaySheet({
 
           <SheetFooter className="flex-col gap-2 sm:flex-row">
             <Button type="submit" className="w-full" disabled={pending}>
-              {pending ? 'Salvando...' : 'Salvar ajuste'}
+              {pending ? t('saving') : t('saveOverride')}
             </Button>
             {hasOverride && (
               <Button
@@ -317,12 +315,12 @@ function DaySheet({
                 onClick={() => {
                   startClear(async () => {
                     await clearOverride(date)
-                    toast.success('Ajuste removido — voltou ao padrão')
+                    toast.success(t('overrideRemoved'))
                     onOpenChange(false)
                   })
                 }}
               >
-                Voltar ao padrão
+                {t('resetToDefault')}
               </Button>
             )}
           </SheetFooter>

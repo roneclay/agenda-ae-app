@@ -1,20 +1,24 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
 import { getSession } from '@/lib/auth/session'
 import type { NicheConfig } from '@/lib/config/niches'
 
-const NAV_LINKS = [
-  { href: '#como', label: 'Como funciona' },
-  { href: '#beneficios', label: 'Benefícios' },
-  { href: '#precos', label: 'Preços' },
-  { href: '#faq', label: 'Perguntas' },
-]
-
-export { NAV_LINKS }
+export async function getNavLinks() {
+  const t = await getTranslations('marketing.nav')
+  return [
+    { href: '#como', label: t('howItWorks') },
+    { href: '#beneficios', label: t('benefits') },
+    { href: '#precos', label: t('pricing') },
+    { href: '#faq', label: t('faq') },
+  ]
+}
 
 export async function MarketingNav({ niche }: { niche: NicheConfig }) {
   const session = await getSession()
+  const t = await getTranslations('marketing.nav')
+  const navLinks = await getNavLinks()
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-md">
@@ -29,7 +33,7 @@ export async function MarketingNav({ niche }: { niche: NicheConfig }) {
           {niche.brandName}
         </Link>
         <nav className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -47,7 +51,7 @@ export async function MarketingNav({ niche }: { niche: NicheConfig }) {
                 href="/dashboard"
                 className="inline-flex items-center rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
               >
-                Ir para o painel
+                {t('goToDashboard')}
               </Link>
             </>
           ) : (
@@ -56,13 +60,13 @@ export async function MarketingNav({ niche }: { niche: NicheConfig }) {
                 href="/login"
                 className="hidden rounded-lg px-3.5 py-2 text-sm font-medium text-foreground transition hover:bg-muted sm:inline-flex"
               >
-                Entrar
+                {t('login')}
               </Link>
               <Link
                 href="/cadastro"
                 className="inline-flex items-center rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
               >
-                Criar conta
+                {t('createAccount')}
               </Link>
             </>
           )}

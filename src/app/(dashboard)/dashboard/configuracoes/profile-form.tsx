@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useActionState, useEffect, useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -19,23 +20,22 @@ type Pro = {
 }
 
 export function ProfileForm({ pro }: { pro: Pro }) {
+  const t = useTranslations('dashboard.configuracoes')
   const [state, action, pending] = useActionState<ConfigState, FormData>(updateProfile, {})
   const [togglePending, startToggle] = useTransition()
 
   useEffect(() => {
-    if (state.ok) toast.success('Perfil atualizado')
+    if (state.ok) toast.success(t('profileUpdated'))
     else if (state.error) toast.error(state.error)
-  }, [state])
+  }, [state, t])
 
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Aceitando agendamentos</CardTitle>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Quando desativado, seu link público mostra "ainda configurando".
-            </p>
+            <CardTitle>{t('acceptingTitle')}</CardTitle>
+            <p className="mt-1 text-sm text-muted-foreground">{t('acceptingDescription')}</p>
           </div>
           <Button
             variant={pro.isAcceptingBookings ? 'destructive' : 'default'}
@@ -43,11 +43,11 @@ export function ProfileForm({ pro }: { pro: Pro }) {
             onClick={() =>
               startToggle(async () => {
                 await toggleAcceptingBookings()
-                toast.success('Atualizado')
+                toast.success(t('toggled'))
               })
             }
           >
-            {pro.isAcceptingBookings ? 'Pausar agenda' : 'Reabrir agenda'}
+            {pro.isAcceptingBookings ? t('pause') : t('resume')}
           </Button>
         </CardHeader>
       </Card>
@@ -55,32 +55,32 @@ export function ProfileForm({ pro }: { pro: Pro }) {
       <Card>
         <form action={action}>
           <CardHeader>
-            <CardTitle>Perfil</CardTitle>
+            <CardTitle>{t('profileTitle')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nome de exibição</Label>
+              <Label htmlFor="name">{t('nameLabel')}</Label>
               <Input id="name" name="name" required defaultValue={pro.name} />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="bio">Bio</Label>
+              <Label htmlFor="bio">{t('bioLabel')}</Label>
               <Textarea id="bio" name="bio" rows={2} defaultValue={pro.bio ?? ''} />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="phone">WhatsApp</Label>
+                <Label htmlFor="phone">{t('whatsappLabel')}</Label>
                 <Input id="phone" name="phone" defaultValue={pro.phone ?? ''} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="address">Endereço</Label>
+                <Label htmlFor="address">{t('addressLabel')}</Label>
                 <Input id="address" name="address" defaultValue={pro.address ?? ''} />
               </div>
             </div>
 
             <Button type="submit" disabled={pending}>
-              {pending ? 'Salvando...' : 'Salvar alterações'}
+              {pending ? t('saving') : t('save')}
             </Button>
           </CardContent>
         </form>

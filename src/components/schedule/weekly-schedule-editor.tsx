@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -39,6 +40,7 @@ export function WeeklyScheduleEditor({
   initial?: WeeklyState
   onChange?: (s: WeeklyState) => void
 }) {
+  const t = useTranslations('schedule')
   const [state, setState] = useState<WeeklyState>(() => initial ?? buildDefaultWeeklyState())
 
   const update = (next: WeeklyState) => {
@@ -72,7 +74,7 @@ export function WeeklyScheduleEditor({
                   }}
                 />
                 <span className="font-medium">{dayLabel(day)}</span>
-                {!enabled && <span className="text-xs text-muted-foreground">— Fechado</span>}
+                {!enabled && <span className="text-xs text-muted-foreground">{t('closed')}</span>}
               </label>
               {enabled && (
                 <Button
@@ -87,7 +89,7 @@ export function WeeklyScheduleEditor({
                     })
                   }
                 >
-                  + Janela
+                  {t('addWindow')}
                 </Button>
               )}
             </div>
@@ -106,9 +108,9 @@ export function WeeklyScheduleEditor({
                         update({ ...state, [day]: next })
                       }}
                       className="flex-1 min-w-0"
-                      aria-label="Início"
+                      aria-label={t('startTimeLabel')}
                     />
-                    <span className="text-xs text-muted-foreground">até</span>
+                    <span className="text-xs text-muted-foreground">{t('until')}</span>
                     <Input
                       type="time"
                       value={w.endTime}
@@ -118,7 +120,7 @@ export function WeeklyScheduleEditor({
                         update({ ...state, [day]: next })
                       }}
                       className="flex-1 min-w-0"
-                      aria-label="Fim"
+                      aria-label={t('endTimeLabel')}
                     />
                     {windows.length > 1 && (
                       <Button
@@ -126,7 +128,7 @@ export function WeeklyScheduleEditor({
                         variant="ghost"
                         size="sm"
                         className="h-9 px-2"
-                        aria-label="Remover janela"
+                        aria-label={t('removeWindow')}
                         onClick={() => {
                           const next = windows.filter((_, idx) => idx !== i)
                           update({ ...state, [day]: next })
@@ -143,9 +145,7 @@ export function WeeklyScheduleEditor({
         )
       })}
 
-      {totalWindows === 0 && (
-        <p className="text-sm text-destructive">Adicione pelo menos uma janela em algum dia.</p>
-      )}
+      {totalWindows === 0 && <p className="text-sm text-destructive">{t('noWindowsError')}</p>}
     </div>
   )
 }

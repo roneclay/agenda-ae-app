@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import { headers } from 'next/headers'
 import { NextIntlClientProvider } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import { Toaster } from '@/components/ui/sonner'
 import { getNicheFromHost } from '@/lib/config/niches'
 import './globals.css'
@@ -21,8 +22,9 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers()
   const niche = getNicheFromHost(headersList.get('host') ?? '')
-  const title = `${niche.brandName} — Agenda online para quem vive de atendimento`
-  const description = `${niche.brandName} organiza sua agenda, confirma presença e envia lembrete automático. Link público de agendamento, sem complicação.`
+  const t = await getTranslations('meta')
+  const title = t('title', { brandName: niche.brandName })
+  const description = t('description', { brandName: niche.brandName })
 
   return {
     metadataBase: new URL(APP_URL),

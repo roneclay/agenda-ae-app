@@ -1,11 +1,13 @@
 import { and, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { BookingWizard } from '@/components/booking/booking-wizard'
 import { NICHES } from '@/lib/config/niches'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 
 export default async function AgendarPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  const t = await getTranslations('agendarPage')
 
   const [pro] = await db.select().from(professional).where(eq(professional.slug, slug)).limit(1)
 
@@ -34,8 +36,10 @@ export default async function AgendarPage({ params }: { params: Promise<{ slug: 
         <div>
           <h1 className="text-2xl font-semibold">{pro.name}</h1>
           <p className="mt-3 text-muted-foreground">
-            Esse{niche.professionalNoun === 'profissional' ? '' : 'a'} {niche.professionalNoun}{' '}
-            ainda está configurando a agenda. Volta em breve! 🧡
+            {t('notReadyMessage', {
+              article: niche.professionalNoun === 'profissional' ? '' : 'a',
+              professionalNoun: niche.professionalNoun,
+            })}
           </p>
         </div>
       </div>
@@ -50,9 +54,7 @@ export default async function AgendarPage({ params }: { params: Promise<{ slug: 
       </header>
 
       {services.length === 0 ? (
-        <p className="text-muted-foreground">
-          Este profissional ainda não cadastrou serviços disponíveis.
-        </p>
+        <p className="text-muted-foreground">{t('noServicesMessage')}</p>
       ) : (
         <BookingWizard
           slug={pro.slug}

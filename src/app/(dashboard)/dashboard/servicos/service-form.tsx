@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useActionState, useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -31,17 +32,18 @@ export function ServiceFormDialog({
   service?: Service
   trigger: React.ReactNode
 }) {
+  const t = useTranslations('dashboard.servicos')
   const [state, action, pending] = useActionState<ActionState, FormData>(upsertService, {})
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     if (state.ok) {
-      toast.success(service ? 'Serviço atualizado' : 'Serviço criado')
+      toast.success(service ? t('updated') : t('created'))
       closeRef.current?.click()
     } else if (state.error) {
       toast.error(state.error)
     }
-  }, [state, service])
+  }, [state, service, t])
 
   return (
     <Dialog>
@@ -49,18 +51,18 @@ export function ServiceFormDialog({
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{service ? 'Editar serviço' : 'Novo serviço'}</DialogTitle>
+          <DialogTitle>{service ? t('editTitle') : t('newTitle')}</DialogTitle>
         </DialogHeader>
         <form action={action} className="space-y-4">
           {service && <input type="hidden" name="id" value={service.id} />}
 
           <div className="space-y-2">
-            <Label htmlFor="name">Nome</Label>
+            <Label htmlFor="name">{t('nameLabel')}</Label>
             <Input id="name" name="name" required defaultValue={service?.name} />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Descrição (opcional)</Label>
+            <Label htmlFor="description">{t('descriptionLabel')}</Label>
             <Textarea
               id="description"
               name="description"
@@ -71,7 +73,7 @@ export function ServiceFormDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label htmlFor="priceReais">Preço (R$)</Label>
+              <Label htmlFor="priceReais">{t('priceLabel')}</Label>
               <Input
                 id="priceReais"
                 name="priceReais"
@@ -83,7 +85,7 @@ export function ServiceFormDialog({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="durationMinutes">Duração (min)</Label>
+              <Label htmlFor="durationMinutes">{t('durationLabel')}</Label>
               <Input
                 id="durationMinutes"
                 name="durationMinutes"
@@ -99,7 +101,7 @@ export function ServiceFormDialog({
           <DialogFooter className="gap-2">
             <button ref={closeRef} type="button" hidden />
             <Button type="submit" disabled={pending}>
-              {pending ? 'Salvando...' : 'Salvar'}
+              {pending ? t('saving') : t('save')}
             </Button>
           </DialogFooter>
         </form>

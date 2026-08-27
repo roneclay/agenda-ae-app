@@ -1,12 +1,14 @@
+import { getTranslations } from 'next-intl/server'
 import { cn } from '@/lib/utils'
 
-const STEPS = [
-  { n: 1, label: 'Dados básicos' },
-  { n: 2, label: 'Primeiro serviço' },
-  { n: 3, label: 'Horários' },
-]
+export async function Stepper({ current }: { current: 1 | 2 | 3 }) {
+  const t = await getTranslations('onboarding.stepper')
+  const STEPS = [
+    { n: 1 as const, label: t('basics') },
+    { n: 2 as const, label: t('firstService') },
+    { n: 3 as const, label: t('hours') },
+  ]
 
-export function Stepper({ current }: { current: 1 | 2 | 3 }) {
   return (
     <ol className="flex items-center justify-between gap-2 text-xs">
       {STEPS.map((s, i) => {

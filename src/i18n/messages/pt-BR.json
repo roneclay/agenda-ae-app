@@ -70,9 +70,193 @@
   },
   "onboarding": {
     "slugTaken": "Este link já está em uso. Escolha outro.",
-    "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda."
+    "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda.",
+    "heading": "Vamos configurar sua agenda",
+    "subtitle": "Três passos rápidos. Seu link público só fica ativo no final.",
+    "stepper": {
+      "basics": "Dados básicos",
+      "firstService": "Primeiro serviço",
+      "hours": "Horários"
+    },
+    "basics": {
+      "nicheOptions": {
+        "beauty": "Beleza (nail, lash, cabelo, barba)",
+        "legal": "Advocacia",
+        "petcare": "Pet (banho, tosa, veterinário)",
+        "fitness": "Fitness (personal trainer)"
+      },
+      "nameLabel": "Nome de exibição",
+      "linkLabel": "Seu link público",
+      "linkPlaceholder": "seu-nome",
+      "nicheLabel": "Nicho",
+      "whatsappLabel": "WhatsApp",
+      "whatsappHelp": "É por aqui que você recebe nossos avisos e mantém contato com seus clientes.",
+      "saving": "Salvando...",
+      "continue": "Continuar",
+      "checking": "Verificando…",
+      "linkTooShort": "Link muito curto (mín. 3 caracteres)",
+      "linkAvailable": "✓ /agendar/{slug} está disponível",
+      "linkTaken": "✗ /agendar/{slug} já está em uso"
+    },
+    "service": {
+      "fillAllFields": "Preencha todos os campos antes de continuar.",
+      "intro": "Cadastre seus serviços. Você pode adicionar ou editar mais depois em <b>Serviços</b>.",
+      "serviceNumber": "Serviço {number}",
+      "nameLabel": "Nome do serviço",
+      "namePlaceholder": "Ex: Unhas em gel",
+      "priceLabel": "Preço (R$)",
+      "durationLabel": "Duração (min)",
+      "addService": "Adicionar serviço",
+      "saving": "Salvando...",
+      "continue": "Continuar"
+    },
+    "hours": {
+      "intro": "Defina seu padrão semanal. Isso se repete toda semana — depois você pode ajustar dias específicos pelo dashboard.",
+      "activating": "Ativando agenda...",
+      "finish": "Concluir e ativar minha agenda"
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "agenda": "Agenda",
+      "horarios": "Horários",
+      "servicos": "Serviços",
+      "clientes": "Clientes",
+      "financeiro": "Financeiro",
+      "configuracoes": "Configurações"
+    },
+    "appointmentStatus": {
+      "scheduled": "Agendado",
+      "confirmed": "Confirmado",
+      "cancelled": "Cancelado",
+      "completed": "Concluído",
+      "no_show": "Não compareceu"
+    },
+    "home": {
+      "title": "Sua agenda hoje",
+      "publicLink": "Ver link público",
+      "emptyState": "Nenhum {appointmentNoun} agendado para hoje. Compartilhe seu link público para receber agendamentos:",
+      "customerFallback": "Cliente"
+    },
+    "cancelAppointment": {
+      "confirm": "Cancelar este agendamento?",
+      "error": "Erro ao cancelar",
+      "success": "Cancelado",
+      "button": "Cancelar"
+    },
+    "whatsappBanner": {
+      "title": "Sua integração WhatsApp não está configurada",
+      "description": "Sem ela, seus clientes não recebem confirmações nem lembretes automáticos.",
+      "button": "Configurar agora"
+    },
+    "horarios": {
+      "weeklySaved": "Padrão semanal salvo",
+      "title": "Horários",
+      "subtitle": "Padrão semanal recorrente + ajustes pontuais nos próximos 7 dias.",
+      "weeklyCardTitle": "Padrão semanal",
+      "weeklyCardDescription": "Esses horários se repetem toda semana, indefinidamente.",
+      "saving": "Salvando...",
+      "saveWeekly": "Salvar padrão",
+      "next7Title": "Próximos 7 dias",
+      "next7Description": "Sobrescreva dias específicos sem mexer no padrão.",
+      "todayBadge": "hoje",
+      "overrideBadge": "ajustado",
+      "closed": "Fechado",
+      "dayUpdated": "Dia atualizado",
+      "sheetTitle": "{day} — {date}",
+      "sheetDescription": "Ajuste apenas este dia. Não mexe no padrão semanal.",
+      "openThisDay": "Aberto neste dia",
+      "closedThisDay": "Fechado neste dia",
+      "addWindow": "+ Adicionar janela",
+      "saveOverride": "Salvar ajuste",
+      "overrideRemoved": "Ajuste removido — voltou ao padrão",
+      "resetToDefault": "Voltar ao padrão",
+      "startTimeLabel": "Início",
+      "endTimeLabel": "Fim",
+      "removeWindow": "Remover janela",
+      "until": "até"
+    },
+    "servicos": {
+      "title": "Serviços",
+      "subtitle": "Gerencie seu catálogo, preços e durações.",
+      "newService": "Novo serviço",
+      "emptyState": "Nenhum serviço cadastrado ainda. Clique em \"Novo serviço\" para começar.",
+      "inactive": "inativo",
+      "edit": "Editar",
+      "updated": "Serviço atualizado",
+      "created": "Serviço criado",
+      "editTitle": "Editar serviço",
+      "newTitle": "Novo serviço",
+      "nameLabel": "Nome",
+      "descriptionLabel": "Descrição (opcional)",
+      "priceLabel": "Preço (R$)",
+      "durationLabel": "Duração (min)",
+      "saving": "Salvando...",
+      "save": "Salvar",
+      "deactivated": "Desativado",
+      "activated": "Ativado",
+      "deactivate": "Desativar",
+      "activate": "Ativar",
+      "deleteConfirm": "Excluir este serviço?",
+      "deleted": "Excluído",
+      "delete": "Excluir"
+    },
+    "clientes": {
+      "title": "Clientes",
+      "subtitle": "Histórico e contatos.",
+      "emptyState": "Nenhum cliente cadastrado ainda.",
+      "noName": "Sem nome"
+    },
+    "configuracoes": {
+      "title": "Configurações",
+      "subtitle": "Perfil, horários de atendimento e link público.",
+      "publicLinkTitle": "Seu link público",
+      "profileUpdated": "Perfil atualizado",
+      "acceptingTitle": "Aceitando agendamentos",
+      "acceptingDescription": "Quando desativado, seu link público mostra \"ainda configurando\".",
+      "toggled": "Atualizado",
+      "pause": "Pausar agenda",
+      "resume": "Reabrir agenda",
+      "profileTitle": "Perfil",
+      "nameLabel": "Nome de exibição",
+      "bioLabel": "Bio",
+      "whatsappLabel": "WhatsApp",
+      "addressLabel": "Endereço",
+      "saving": "Salvando...",
+      "save": "Salvar alterações"
+    },
+    "whatsappSimulator": {
+      "title": "Simulador WhatsApp",
+      "description": "Teste localmente o bot de IA que atende seus clientes. Em modo MOCK, respostas são geradas por regras locais.",
+      "cardTitle": "Conversa simulada",
+      "customerLabel": "Cliente WhatsApp",
+      "nameLabel": "Nome (1ª vez)",
+      "helpText": "Mande uma mensagem como se fosse o cliente: \"quero agendar unhas amanhã às 10h\".",
+      "emptyMessage": "(sem texto)",
+      "toolCalls": "Tool calls ({count})",
+      "inputPlaceholder": "Digite uma mensagem...",
+      "sending": "...",
+      "send": "Enviar",
+      "sendError": "Erro ao enviar"
+    }
   },
   "financeiro": {
+    "subscriptionStatus": {
+      "trial": "Em teste",
+      "active": "Ativo",
+      "cancelled": "Cancelado",
+      "past_due": "Pagamento atrasado"
+    },
+    "planFree": "GRÁTIS",
+    "title": "Financeiro",
+    "subtitle": "Assinatura e plano.",
+    "trialExpiredBanner": "Seu período de trial encerrou. Assine o plano Pro para continuar usando o Agendadinho.",
+    "paymentConfirmedBanner": "Pagamento confirmado! Seu plano Pro está ativo.",
+    "currentPlan": "Plano atual",
+    "statusLabel": "Status:",
+    "trialEndsAt": "Seu trial termina em {date}.",
+    "proDescription": "Plano Pro: agendamentos ilimitados e lembretes automáticos.",
+    "accessUntil": "Acesso garantido até {date}.",
     "cardButton": "Assinar com cartão — {price}/mês",
     "redirecting": "Redirecionando...",
     "pixButton": "Pagar com Pix — {price}/mês",
@@ -89,6 +273,182 @@
     "cancelConfirm": "Cancelar assinatura?",
     "cancelButton": "Cancelar assinatura",
     "cancelSuccess": "Assinatura cancelada"
+  },
+  "meta": {
+    "title": "{brandName} — Agenda online para quem vive de atendimento",
+    "description": "{brandName} organiza sua agenda, confirma presença e envia lembrete automático. Link público de agendamento, sem complicação."
+  },
+  "marketing": {
+    "nav": {
+      "howItWorks": "Como funciona",
+      "benefits": "Benefícios",
+      "pricing": "Preços",
+      "faq": "Perguntas",
+      "goToDashboard": "Ir para o painel",
+      "login": "Entrar",
+      "createAccount": "Criar conta"
+    },
+    "footer": {
+      "tagline": "A agenda que trabalha enquanto você atende. Feito no Brasil pra quem vive de atendimento.",
+      "productHeading": "Produto",
+      "accountHeading": "Conta",
+      "copyright": "© {year} {brandName} — feito no Brasil 🇧🇷"
+    },
+    "heroVideo": {
+      "unmute": "Ativar som do vídeo",
+      "mute": "Desativar som do vídeo"
+    },
+    "home": {
+      "badgeNew": "Novo",
+      "badgeTagline": "14 dias grátis, sem cartão",
+      "hero": {
+        "headline": "Chega de perder {appointmentNoun} por <highlight>{customerNoun} que sumiu</highlight>.",
+        "description": "Agenda com buraco, mensagem pra lá e pra cá pra combinar horário, {customerNoun} que confirma e não aparece — e você vira recepcionista, atendente e {professionalNoun} ao mesmo tempo. O {brandName} <b>organiza os horários, confirma presença e manda lembrete automático</b>, tudo sozinho.",
+        "ctaPrimary": "Criar conta grátis",
+        "ctaSecondary": "Ver demonstração →",
+        "trust1": "Sem cartão",
+        "trust2": "Sem complicação",
+        "trust3": "Em poucos minutos"
+      },
+      "schedulePreview": {
+        "eyebrow": "Link de agendamento",
+        "heading": "O link público que <highlight>trabalha enquanto você atende.</highlight>",
+        "description": "Compartilhe onde {customerNoun} já te encontra — Instagram, WhatsApp ou site. Abre, escolhe e pronto.",
+        "serviceDuration": "{appointmentNoun} · 60min",
+        "duration": "⏱ 60 minutos",
+        "autoConfirm": "✓ Confirmação automática",
+        "reminder": "🔔 Lembrete 24h, 6h e 2h antes",
+        "availableTimes": "Horários disponíveis"
+      },
+      "pain": {
+        "eyebrow": "A rotina invisível",
+        "heading": "Você não abriu o seu negócio pra <highlight>passar a noite combinando horário por mensagem.</highlight>",
+        "description": "Mas é o que rola. Entre confirmar horário, mandar lembrete, remarcar quem cancelou em cima da hora e cobrar quem sumiu sem avisar — você vira a própria recepção. Todo santo dia.",
+        "items": {
+          "item1": "Você separou o horário, esperou — e {customerNoun} simplesmente não apareceu.",
+          "item2": "Você foi dormir com mensagens sem responder, exausto depois de um dia inteiro de atendimento.",
+          "item3": "Você esqueceu de confirmar um horário — e {customerNoun} achou que tinha sido cancelado.",
+          "item4": "Você já calculou quanto dinheiro foi embora em faltas num mês só. E preferiu parar de calcular.",
+          "item5": "Você passa mais tempo com o celular na mão do que fazendo o que sabe fazer de melhor.",
+          "item6": "Você quer crescer e cobrar mais — mas isso pediria mais tempo. E tempo é o que não sobra."
+        },
+        "conclusion": "Se você se reconheceu em pelo menos uma dessas situações, o problema não é a sua agenda. <b>É o sistema. E sistema tem solução.</b>"
+      },
+      "howItWorks": {
+        "eyebrow": "Como funciona",
+        "heading": "O {brandName} resolve <highlight>o que a troca de mensagem não dá conta.</highlight>",
+        "description": "Em vez de combinar dia e horário no chat, {customerNoun} <b>acessa seu link e agenda sozinho</b>. Você ganha de volta o tempo que ia embora respondendo mensagem.",
+        "steps": {
+          "step1": {
+            "title": "{customerNoun} agenda sozinho",
+            "body": "Pelo seu link — escolhe {appointmentNoun}, dia e horário em poucos toques. Sem app, sem cadastro."
+          },
+          "step2": {
+            "title": "Confirmação automática",
+            "body": "{customerNoun} recebe a confirmação na hora, e o horário já entra na sua agenda — sem você precisar responder nada."
+          },
+          "step3": {
+            "title": "Você começa o dia confirmado",
+            "body": "Lembrete automático 24h, 6h e 2h antes. Quem precisa remarcar, remarca sozinho — sem te acordar de noite."
+          }
+        }
+      },
+      "benefits": {
+        "eyebrow": "Benefícios",
+        "heading": "O que <highlight>de verdade</highlight> no seu dia.",
+        "description": "Não é \"mais um sistema pra aprender\". <b>É o fim da rotina de ficar trocando mensagem pra combinar horário</b> que ninguém avisou que vinha junto quando você começou a atender por conta própria.",
+        "items": {
+          "item1": {
+            "title": "Para de ser recepcionista de si mesmo",
+            "body": "{customerNoun} agenda, remarca e confirma direto pelo seu link. Você nem precisa responder mensagem pra combinar horário."
+          },
+          "item2": {
+            "title": "Chega de {customerNoun} sumido",
+            "body": "Lembrete automático pede confirmação 6h antes. Se {customerNoun} não confirmar, o horário libera sozinho — sem você ficando esperando quem não vai vir."
+          },
+          "item3": {
+            "title": "Comece o dia organizado",
+            "body": "Você abre o painel e a agenda já está confirmada — sem ter mandado uma mensagem sequer."
+          },
+          "item4": {
+            "title": "Agenda sempre visível",
+            "body": "Você e {customerNoun} sabem exatamente quais horários estão livres, sem precisar perguntar."
+          },
+          "item5": {
+            "title": "Tempo de volta no seu dia",
+            "body": "Sem ficar respondendo \"que horário você tem?\" pela décima vez. Esse tempo volta pra você."
+          },
+          "item6": {
+            "title": "Cresça sem se sobrecarregar",
+            "body": "Aceite mais horários, atenda melhor, aumente o faturamento — sem aumentar o caos."
+          }
+        }
+      },
+      "pricing": {
+        "eyebrow": "Oferta",
+        "heading": "Um plano. <highlight>Tudo incluso.</highlight>",
+        "description": "Sem taxa de adesão, sem letra miúda. Teste grátis por 14 dias, sem cartão.",
+        "planName": "Plano Profissional",
+        "perMonth": "/ mês",
+        "features": {
+          "f1": "Agendamentos ilimitados",
+          "f2": "Lembretes automáticos 24h, 6h e 2h antes, com confirmação de presença",
+          "f3": "Liberação automática do horário se o cliente não confirmar",
+          "f4": "Controle de horários, bloqueios e exceções por data",
+          "f5": "Link público de agendamento personalizado",
+          "f6": "Painel completo: horários, serviços e histórico de clientes",
+          "f7": "Pix ou cartão na hora de assinar"
+        },
+        "cta": "Começar grátis por 14 dias",
+        "disclaimer": "Sem cartão. Cancele quando quiser."
+      },
+      "faq": {
+        "eyebrow": "Perguntas",
+        "heading": "O que <highlight>quase todo mundo pergunta.</highlight>",
+        "items": {
+          "q1": {
+            "question": "Preciso instalar algum aplicativo?",
+            "answer": "Não. Você acessa o painel do {brandName} pelo navegador, no celular ou computador. Seu {customerNoun} agenda pelo link, <b>sem baixar nada</b>."
+          },
+          "q2": {
+            "question": "Como funciona o lembrete automático?",
+            "answer": "Assim que {customerNoun} agenda, o sistema já programa os lembretes de 24h, 6h e 2h antes — {customerNoun} não precisa fazer nada manualmente. No lembrete de 6h, pedimos a confirmação de presença por um link. <b>Se {customerNoun} não confirmar até 2h antes, o horário libera automaticamente</b> pra você oferecer pra outra pessoa."
+          },
+          "q3": {
+            "question": "Como funciona o teste grátis?",
+            "answer": "<b>14 dias completos</b> com todos os recursos, sem pedir cartão de crédito no cadastro."
+          },
+          "q4": {
+            "question": "Posso pagar com Pix ou cartão?",
+            "answer": "Sim, aceitamos os dois na hora de assinar o plano."
+          },
+          "q5": {
+            "question": "Serve pra quem está começando agora?",
+            "answer": "Sim. O <b>cadastro inicial leva poucos minutos</b>: dados básicos, um serviço e seus horários — e seu link já fica ativo."
+          }
+        }
+      },
+      "cta": {
+        "eyebrow": "Última coisa",
+        "heading": "Você já passou tempo demais fazendo o trabalho que o sistema deveria fazer.",
+        "description": "Outros {professionalNoun}s já estão com a agenda confirmada automaticamente. A diferença não é sorte — é sistema.",
+        "button": "Criar minha conta grátis →",
+        "disclaimer": "Começa grátis · sem cartão · sem complicação"
+      }
+    }
+  },
+  "schedule": {
+    "closed": "— Fechado",
+    "addWindow": "+ Janela",
+    "until": "até",
+    "startTimeLabel": "Início",
+    "endTimeLabel": "Fim",
+    "removeWindow": "Remover janela",
+    "noWindowsError": "Adicione pelo menos uma janela em algum dia."
+  },
+  "agendarPage": {
+    "notReadyMessage": "Esse{article} {professionalNoun} ainda está configurando a agenda. Volta em breve! 🧡",
+    "noServicesMessage": "Este profissional ainda não cadastrou serviços disponíveis."
   },
   "booking": {
     "steps": {
@@ -158,6 +518,75 @@
       "greeting": "Oi, {professionalName}!",
       "body": "<b>{customerName}</b> não confirmou presença no horário das <b>{scheduledAt}</b>, então cancelamos automaticamente e liberamos a vaga.",
       "note": "Você já pode oferecer esse horário para outra pessoa."
+    },
+    "verificarEmail": {
+      "subject": "Confirme seu email — Agendadinho",
+      "heading": "Confirme seu email",
+      "intro": "Oi, {name}! Para finalizar seu cadastro no Agendadinho, confirme seu email clicando no botão abaixo.",
+      "button": "Confirmar email →",
+      "footer": "Se você não criou essa conta, pode ignorar este email."
+    },
+    "resetarSenha": {
+      "subject": "Redefinir sua senha — Agendadinho",
+      "heading": "Redefinir sua senha",
+      "intro": "Oi, {name}! Recebemos um pedido para redefinir sua senha. Clique no botão abaixo para criar uma nova.",
+      "button": "Redefinir senha →",
+      "footer": "Este link expira em 1 hora. Se você não pediu isso, ignore o email."
+    },
+    "boasVindas": {
+      "subject": "Bem-vindo(a) ao Agendadinho, {name}!",
+      "heading": "Bem-vindo(a) ao Agendadinho! 🎉",
+      "intro": "Oi, {name}! Sua conta foi criada com sucesso. Agora é só configurar seus serviços e horários para começar a receber agendamentos.",
+      "button": "Configurar minha agenda →",
+      "footer": "Você tem 14 dias de trial gratuito no plano Pro. Aproveite!"
+    },
+    "trialExpirando": {
+      "subject": "Faltam {daysLeft} {daysLeft, plural, one {dia} other {dias}} do seu trial — Agendadinho",
+      "heading": "Seu trial acaba em {daysLeft} {daysLeft, plural, one {dia} other {dias}}",
+      "intro": "Oi, {name}! Você está no plano Pro grátis há quase 14 dias. Para não perder seu link público e os agendamentos automáticos, ative sua assinatura agora.",
+      "button": "Ativar plano Pro →",
+      "footer": "Apenas {priceLabel}/mês via Pix ou cartão. Cancele quando quiser."
+    },
+    "trialExpirado": {
+      "subject": "Seu trial acabou — não perca seu link 😢",
+      "heading": "Seu trial acabou 😢",
+      "intro": "Oi, {name}! Seu período de trial chegou ao fim. Seu link público foi pausado, mas tudo o que você configurou continua salvo.",
+      "button": "Ativar plano Pro agora →",
+      "footer": "Reativando, seu link volta no ar em segundos."
+    },
+    "assinaturaAtiva": {
+      "subject": "Assinatura Pro ativada! 🎉 — Agendadinho",
+      "heading": "Plano Pro ativado! 🎉",
+      "intro": "Tudo certo, {name}! Sua assinatura Pro está ativa e seu link público voltou no ar.",
+      "button": "Ir para o painel →"
+    },
+    "pagamentoConfirmado": {
+      "subject": "Pagamento confirmado — {month}",
+      "heading": "Pagamento confirmado ✅",
+      "intro": "Oi, {name}! Recebemos seu pagamento de <b>{amount}</b> referente a <b>{month}</b>.",
+      "body": "Sua assinatura segue ativa. Sem boleto, sem fatura, sem dor de cabeça.",
+      "footer": "Obrigado por confiar no Agendadinho!"
+    },
+    "pagamentoFalhou": {
+      "subject": "Não conseguimos cobrar sua assinatura ⚠️",
+      "heading": "Não conseguimos cobrar ⚠️",
+      "intro": "Oi, {name}. A cobrança automática da sua assinatura falhou. Vamos tentar de novo nas próximas horas.",
+      "body": "Se preferir, você pode pagar manualmente agora pelo painel.",
+      "button": "Pagar agora →"
+    },
+    "cancelamento": {
+      "subject": "Assinatura cancelada — Agendadinho",
+      "heading": "Assinatura cancelada",
+      "intro": "Oi, {name}. Seu cancelamento foi registrado. Você ainda tem acesso completo até <b>{endsAt}</b>.",
+      "body": "Se mudar de ideia, é só reativar pelo painel — seus dados ficam guardados.",
+      "footer": "Sentiremos sua falta. Volte sempre 🧡"
+    },
+    "novoAgendamentoProfissional": {
+      "subject": "Novo agendamento — {customerName}",
+      "heading": "Novo agendamento 📅",
+      "greeting": "Oi, {professionalName}!",
+      "body": "<b>{customerName}</b> agendou <b>{service}</b> para <b>{scheduledAt}</b>.",
+      "footer": "Veja todos os detalhes no painel."
     }
   }
 }

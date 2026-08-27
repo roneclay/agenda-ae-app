@@ -1,5 +1,6 @@
 import { and, eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
 import { db, service } from '@/lib/db'
 import { BasicsStep } from './step-basics'
@@ -10,6 +11,7 @@ import { Stepper } from './stepper'
 export default async function OnboardingPage() {
   const session = await requireSession()
   const pro = await getCurrentProfessional()
+  const t = await getTranslations('onboarding')
 
   if (pro?.onboardingCompleted) redirect('/dashboard')
 
@@ -26,10 +28,8 @@ export default async function OnboardingPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-12">
       <div className="mb-8 space-y-2 text-center">
-        <h1 className="text-3xl font-semibold tracking-tight">Vamos configurar sua agenda</h1>
-        <p className="text-muted-foreground">
-          Três passos rápidos. Seu link público só fica ativo no final.
-        </p>
+        <h1 className="text-3xl font-semibold tracking-tight">{t('heading')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
       </div>
       <Stepper current={step} />
       <div className="mt-6">

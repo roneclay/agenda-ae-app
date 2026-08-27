@@ -1,9 +1,11 @@
 'use client'
 
 import { Volume2, VolumeX } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
 
 export function HeroVideo() {
+  const t = useTranslations('marketing.heroVideo')
   const videoRef = useRef<HTMLVideoElement>(null)
   const [muted, setMuted] = useState(true)
 
@@ -31,7 +33,7 @@ export function HeroVideo() {
       <button
         type="button"
         onClick={toggleSound}
-        aria-label={muted ? 'Ativar som do vídeo' : 'Desativar som do vídeo'}
+        aria-label={muted ? t('unmute') : t('mute')}
         className="absolute right-3 bottom-3 flex size-9 items-center justify-center rounded-full bg-black/55 text-white backdrop-blur transition hover:bg-black/75"
       >
         {muted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}

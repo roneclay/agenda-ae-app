@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useActionState, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
@@ -15,13 +16,6 @@ import {
 import { cn } from '@/lib/utils'
 import { type OnboardingState, saveBasics } from './actions'
 
-const NICHE_OPTIONS = [
-  { value: 'beauty', label: 'Beleza (nail, lash, cabelo, barba)' },
-  { value: 'legal', label: 'Advocacia' },
-  { value: 'petcare', label: 'Pet (banho, tosa, veterinário)' },
-  { value: 'fitness', label: 'Fitness (personal trainer)' },
-] as const
-
 const slugify = (input: string) =>
   input
     .toLowerCase()
@@ -34,6 +28,14 @@ const slugify = (input: string) =>
 type SlugStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid'
 
 export function BasicsStep({ defaultName }: { defaultName: string }) {
+  const t = useTranslations('onboarding.basics')
+  const NICHE_OPTIONS = [
+    { value: 'beauty', label: t('nicheOptions.beauty') },
+    { value: 'legal', label: t('nicheOptions.legal') },
+    { value: 'petcare', label: t('nicheOptions.petcare') },
+    { value: 'fitness', label: t('nicheOptions.fitness') },
+  ] as const
+
   const [state, action, pending] = useActionState<OnboardingState, FormData>(saveBasics, {})
   const [slug, setSlug] = useState('')
   const [status, setStatus] = useState<SlugStatus>('idle')
@@ -50,7 +52,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
     }
     setStatus('checking')
     const ctrl = new AbortController()
-    const t = setTimeout(async () => {
+    const timer = setTimeout(async () => {
       try {
         const res = await fetch(`/api/slug-check?slug=${encodeURIComponent(normalized)}`, {
           signal: ctrl.signal,
@@ -63,7 +65,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
     }, 350)
     return () => {
       ctrl.abort()
-      clearTimeout(t)
+      clearTimeout(timer)
     }
   }, [slug])
 
@@ -75,7 +77,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
       <form action={action}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Nome de exibição</Label>
+            <Label htmlFor="name">{t('nameLabel')}</Label>
             <Input id="name" name="name" required defaultValue={defaultName} />
             {state.fieldErrors?.name && (
               <p className="text-sm text-destructive">{state.fieldErrors.name}</p>
@@ -83,14 +85,14 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="slug">Seu link público</Label>
+            <Label htmlFor="slug">{t('linkLabel')}</Label>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">/agendar/</span>
               <Input
                 id="slug"
                 name="slug"
                 required
-                placeholder="seu-nome"
+                placeholder={t('linkPlaceholder')}
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
               />
@@ -102,7 +104,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="niche">Nicho</Label>
+            <Label htmlFor="niche">{t('nicheLabel')}</Label>
             <Select name="niche" defaultValue="beauty">
               <SelectTrigger id="niche">
                 <SelectValue />
@@ -118,11 +120,9 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">WhatsApp</Label>
+            <Label htmlFor="phone">{t('whatsappLabel')}</Label>
             <Input id="phone" name="phone" required placeholder="+5548999999999" inputMode="tel" />
-            <p className="text-xs text-muted-foreground">
-              É por aqui que você recebe nossos avisos e mantém contato com seus clientes.
-            </p>
+            <p className="text-xs text-muted-foreground">{t('whatsappHelp')}</p>
             {state.fieldErrors?.phone && (
               <p className="text-sm text-destructive">{state.fieldErrors.phone}</p>
             )}
@@ -132,7 +132,7 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
         </CardContent>
         <CardFooter>
           <Button type="submit" className="w-full" disabled={pending || blocked}>
-            {pending ? 'Salvando...' : 'Continuar'}
+            {pending ? t('saving') : t('continue')}
           </Button>
         </CardFooter>
       </form>
@@ -141,13 +141,14 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
 }
 
 function SlugFeedback({ status, normalized }: { status: SlugStatus; normalized: string }) {
+  const t = useTranslations('onboarding.basics')
   if (status === 'idle') return null
   const map: Record<SlugStatus, { text: string; tone: 'muted' | 'ok' | 'error' }> = {
     idle: { text: '', tone: 'muted' },
-    checking: { text: 'Verificando…', tone: 'muted' },
-    invalid: { text: 'Link muito curto (mín. 3 caracteres)', tone: 'error' },
-    available: { text: `✓ /agendar/${normalized} está disponível`, tone: 'ok' },
-    taken: { text: `✗ /agendar/${normalized} já está em uso`, tone: 'error' },
+    checking: { text: t('checking'), tone: 'muted' },
+    invalid: { text: t('linkTooShort'), tone: 'error' },
+    available: { text: t('linkAvailable', { slug: normalized }), tone: 'ok' },
+    taken: { text: t('linkTaken', { slug: normalized }), tone: 'error' },
   }
   const { text, tone } = map[status]
   return (

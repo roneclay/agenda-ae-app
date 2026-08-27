@@ -1,6 +1,7 @@
 'use client'
 
 import { Plus, Trash2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
@@ -13,6 +14,7 @@ type ServiceRow = { id: number; name: string; priceReais: string; durationMinute
 const newRow = (id: number): ServiceRow => ({ id, name: '', priceReais: '', durationMinutes: '60' })
 
 export function ServiceStep() {
+  const t = useTranslations('onboarding.service')
   const [rows, setRows] = useState<ServiceRow[]>([newRow(1)])
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
@@ -36,7 +38,7 @@ export function ServiceStep() {
 
     const valid = rows.every((r) => r.name.trim() && r.priceReais && r.durationMinutes)
     if (!valid) {
-      setError('Preencha todos os campos antes de continuar.')
+      setError(t('fillAllFields'))
       return
     }
 
@@ -58,15 +60,18 @@ export function ServiceStep() {
       <form onSubmit={onSubmit}>
         <CardContent className="space-y-4 pt-6">
           <p className="text-sm text-muted-foreground">
-            Cadastre seus serviços. Você pode adicionar ou editar mais depois em{' '}
-            <span className="font-medium text-foreground">Serviços</span>.
+            {t.rich('intro', {
+              b: (chunks) => <span className="font-medium text-foreground">{chunks}</span>,
+            })}
           </p>
 
           <div className="space-y-3">
             {rows.map((row, i) => (
               <div key={row.id} className="rounded-lg border p-3 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-muted-foreground">Serviço {i + 1}</span>
+                  <span className="text-xs font-medium text-muted-foreground">
+                    {t('serviceNumber', { number: i + 1 })}
+                  </span>
                   {rows.length > 1 && (
                     <button
                       type="button"
@@ -78,17 +83,17 @@ export function ServiceStep() {
                   )}
                 </div>
                 <div className="space-y-2">
-                  <Label>Nome do serviço</Label>
+                  <Label>{t('nameLabel')}</Label>
                   <Input
                     required
-                    placeholder="Ex: Unhas em gel"
+                    placeholder={t('namePlaceholder')}
                     value={row.name}
                     onChange={(e) => update(row.id, 'name', e.target.value)}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label>Preço (R$)</Label>
+                    <Label>{t('priceLabel')}</Label>
                     <Input
                       required
                       placeholder="80,00"
@@ -98,7 +103,7 @@ export function ServiceStep() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Duração (min)</Label>
+                    <Label>{t('durationLabel')}</Label>
                     <Input
                       required
                       type="number"
@@ -119,14 +124,14 @@ export function ServiceStep() {
             className="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed py-2 text-sm text-muted-foreground hover:border-primary hover:text-primary transition-colors"
           >
             <Plus className="h-4 w-4" />
-            Adicionar serviço
+            {t('addService')}
           </button>
 
           {error && <p className="text-sm text-destructive">{error}</p>}
         </CardContent>
         <CardFooter>
           <Button type="submit" className="w-full" disabled={pending}>
-            {pending ? 'Salvando...' : 'Continuar'}
+            {pending ? t('saving') : t('continue')}
           </Button>
         </CardFooter>
       </form>

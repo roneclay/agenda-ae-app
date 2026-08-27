@@ -1,11 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
 export function CancelAppointmentButton({ id }: { id: string }) {
+  const t = useTranslations('dashboard.cancelAppointment')
   const router = useRouter()
   const [pending, start] = useTransition()
   return (
@@ -14,19 +16,19 @@ export function CancelAppointmentButton({ id }: { id: string }) {
       size="sm"
       disabled={pending}
       onClick={() => {
-        if (!confirm('Cancelar este agendamento?')) return
+        if (!confirm(t('confirm'))) return
         start(async () => {
           const res = await fetch(`/api/appointments/${id}`, { method: 'DELETE' })
           if (!res.ok) {
-            toast.error('Erro ao cancelar')
+            toast.error(t('error'))
             return
           }
-          toast.success('Cancelado')
+          toast.success(t('success'))
           router.refresh()
         })
       }}
     >
-      Cancelar
+      {t('button')}
     </Button>
   )
 }

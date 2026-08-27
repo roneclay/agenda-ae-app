@@ -2,21 +2,23 @@ import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { getTranslations } from 'next-intl/server'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
-
-const NAV = [
-  { href: '/dashboard', label: 'Agenda' },
-  { href: '/dashboard/horarios', label: 'Horários' },
-  { href: '/dashboard/servicos', label: 'Serviços' },
-  { href: '/dashboard/clientes', label: 'Clientes' },
-  { href: '/dashboard/financeiro', label: 'Financeiro' },
-  { href: '/dashboard/configuracoes', label: 'Configurações' },
-]
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await requireSession()
   const pro = await getCurrentProfessional()
+  const t = await getTranslations('dashboard.nav')
+
+  const NAV = [
+    { href: '/dashboard', label: t('agenda') },
+    { href: '/dashboard/horarios', label: t('horarios') },
+    { href: '/dashboard/servicos', label: t('servicos') },
+    { href: '/dashboard/clientes', label: t('clientes') },
+    { href: '/dashboard/financeiro', label: t('financeiro') },
+    { href: '/dashboard/configuracoes', label: t('configuracoes') },
+  ]
 
   if (!pro?.onboardingCompleted) redirect('/onboarding')
 

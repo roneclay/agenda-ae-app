@@ -1,23 +1,20 @@
 import { Button, Heading, Text } from '@react-email/components'
+import { getEmailTranslator } from '../get-translator'
 import { EmailLayout, styles } from './_layout'
 
 export function TrialExpiradoTemplate({ name }: { name: string }) {
+  const t = getEmailTranslator('emails.trialExpirado')
   return (
     <EmailLayout>
-      <Heading style={styles.heading}>Seu trial acabou 😢</Heading>
-      <Text style={styles.text}>
-        Oi, {name}! Seu período de trial chegou ao fim. Seu link público foi pausado, mas tudo o que
-        você configurou continua salvo.
-      </Text>
+      <Heading style={styles.heading}>{t('heading')}</Heading>
+      <Text style={styles.text}>{t('intro', { name })}</Text>
       <Button
         href={`${process.env.NEXT_PUBLIC_APP_URL}/dashboard/financeiro`}
         style={styles.button}
       >
-        Ativar plano Pro agora →
+        {t('button')}
       </Button>
-      <Text style={{ ...styles.small, marginTop: 24 }}>
-        Reativando, seu link volta no ar em segundos.
-      </Text>
+      <Text style={{ ...styles.small, marginTop: 24 }}>{t('footer')}</Text>
     </EmailLayout>
   )
 }
