@@ -72,6 +72,22 @@
     "slugTaken": "Este link já está em uso. Escolha outro.",
     "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda."
   },
+  "financeiro": {
+    "cardButton": "Assinar com cartão — {price}/mês",
+    "redirecting": "Redirecionando...",
+    "pixButton": "Pagar com Pix — {price}/mês",
+    "generatingPix": "Gerando Pix...",
+    "pixTitle": "Escaneie o QR code ou copie o código Pix",
+    "pixCopyButton": "Copiar código Pix",
+    "pixCopied": "Código copiado!",
+    "pixCheckButton": "Já paguei, verificar",
+    "pixChecking": "Verificando...",
+    "pixNotPaidYet": "Pagamento ainda não identificado. Aguarde alguns instantes e tente de novo.",
+    "pixPaid": "Pagamento confirmado! Seu plano Pro está ativo.",
+    "cancelConfirm": "Cancelar assinatura?",
+    "cancelButton": "Cancelar assinatura",
+    "cancelSuccess": "Assinatura cancelada"
+  },
   "booking": {
     "steps": {
       "services": "Serviços",

@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm'
 import { type NextRequest, NextResponse } from 'next/server'
 import { db, professional, user } from '@/lib/db'
 import { sendPagamentoFalhou } from '@/lib/email/send'
-import { getSubscription } from '@/lib/mercadopago'
+import { getPayment, getSubscription } from '@/lib/mercadopago'
 import { activatePro } from '@/lib/subscription'
 
 function verifySignature(req: NextRequest, dataId: string): boolean {
@@ -20,13 +20,6 @@ function verifySignature(req: NextRequest, dataId: string): boolean {
   const expected = createHmac('sha256', secret).update(manifest).digest('hex')
 
   return expected === v1
-}
-
-async function getPayment(paymentId: string) {
-  const res = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-    headers: { Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` },
-  })
-  return res.json()
 }
 
 async function getAuthorizedPayment(authorizedPaymentId: string) {
@@ -74,6 +67,18 @@ export async function POST(req: NextRequest) {
 
   if (!verifySignature(req, dataId)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  if (type === 'payment') {
+    const payment = await getPayment(dataId)
+    if (payment.status === 'approved' && payment.external_reference) {
+      await activatePro(payment.external_reference)
+      await db
+        .update(professional)
+        .set({ pixChargeId: null })
+        .where(eq(professional.id, payment.external_reference))
+    }
+    return NextResponse.json({ ok: true })
   }
 
   if (type === 'subscription_preapproval') {

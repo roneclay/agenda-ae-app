@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
 import { PRO_PRICE_CENTS } from '@/lib/config/niches'
-import { ActivateProButton, CancelSubButton } from './buttons'
+import { ActivateProButton, CancelSubButton, PixCheckoutButton } from './buttons'
 
 function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -60,7 +60,10 @@ export default async function FinanceiroPage({
           {!isActive ? (
             <div className="space-y-2">
               <p>Plano Pro: agendamentos ilimitados e lembretes automáticos.</p>
-              <ActivateProButton priceLabel={priceLabel} />
+              <div className="flex flex-col gap-2">
+                <ActivateProButton priceLabel={priceLabel} />
+                <PixCheckoutButton priceLabel={priceLabel} />
+              </div>
             </div>
           ) : (
             <div className="space-y-2">
