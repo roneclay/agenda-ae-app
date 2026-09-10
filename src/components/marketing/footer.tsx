@@ -31,6 +31,11 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link href="/ajuda" className="hover:text-foreground">
+                  {t('footer.helpCenter')}
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

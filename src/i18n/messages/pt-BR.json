@@ -291,7 +291,7 @@
             },
             "q3": {
               "question": "O cliente pode remarcar ou cancelar sozinho, sem me avisar?",
-              "answer": "Sim, pelo link que ele recebeu por e-mail (e WhatsApp, quando configurado). Isso tira de você o trabalho de ficar remarcando na mão."
+              "answer": "Sim, pelo link que ele recebeu por e-mail. Isso tira de você o trabalho de ficar remarcando na mão."
             }
           }
         },
@@ -349,15 +349,6 @@
               "answer": "Seu cadastro, serviços, horários configurados e lista de clientes nunca são apagados, não importa quanto tempo passe. Só o histórico de agendamentos antigos é apagado, e isso só depois de 3 meses sem pagamento — você recebe um aviso por e-mail 7 dias antes disso acontecer, com tempo de sobra pra reativar e não perder nada."
             }
           }
-        },
-        "whatsapp": {
-          "title": "WhatsApp",
-          "items": {
-            "q1": {
-              "question": "Os lembretes e confirmações chegam pro cliente pelo WhatsApp?",
-              "answer": "O sistema tenta mandar por WhatsApp e por e-mail ao mesmo tempo. Se a conexão de WhatsApp da sua conta ainda não estiver configurada, o cliente recebe só por e-mail — o agendamento continua funcionando normalmente do mesmo jeito."
-            }
-          }
         }
       }
     }
@@ -413,6 +404,7 @@
     "footer": {
       "tagline": "A agenda que trabalha enquanto você atende. Feito no Brasil pra quem vive de atendimento.",
       "productHeading": "Produto",
+      "helpCenter": "Central de Ajuda",
       "accountHeading": "Conta",
       "copyright": "© {year} {brandName} — feito no Brasil 🇧🇷"
     },
