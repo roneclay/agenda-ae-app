@@ -423,6 +423,17 @@
         "trust2": "Sem complicação",
         "trust3": "Em poucos minutos"
       },
+      "trustStrip": {
+        "heading": "Feito pra quem vive de atendimento",
+        "professions": {
+          "p1": "Manicures",
+          "p2": "Lash designers",
+          "p3": "Cabeleireiras",
+          "p4": "Esteticistas",
+          "p5": "Sobrancelhas",
+          "p6": "Maquiadoras"
+        }
+      },
       "schedulePreview": {
         "eyebrow": "Link de agendamento",
         "heading": "O link público que <highlight>trabalha enquanto você atende.</highlight>",

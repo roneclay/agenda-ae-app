@@ -1,7 +1,41 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { NicheConfig } from '@/lib/config/niches'
 import { HeroVideo } from './hero-video'
+
+const TRUST_STRIP_PROFESSIONS = [
+  {
+    key: 'p1',
+    image:
+      'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+  {
+    key: 'p2',
+    image:
+      'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+  {
+    key: 'p3',
+    image:
+      'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+  {
+    key: 'p4',
+    image:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+  {
+    key: 'p5',
+    image:
+      'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+  {
+    key: 'p6',
+    image:
+      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=300&h=300&fit=crop&crop=faces&auto=format',
+  },
+] as const
 
 function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', {
@@ -161,6 +195,28 @@ export async function BeautyHome({
           {/* Vídeo de campanha real (gravado pelo Roni) — substitui o mockup */}
           <div className="relative mx-auto w-full max-w-[300px]">
             <HeroVideo />
+          </div>
+        </div>
+      </section>
+
+      {/* TRUST STRIP */}
+      <section className="pt-9 pb-20 text-center">
+        <div className="mx-auto max-w-6xl px-6">
+          <h6 className="mb-6 font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
+            {t('trustStrip.heading')}
+          </h6>
+          <div className="flex items-center gap-7 overflow-x-auto pb-2 [scrollbar-width:none] sm:flex-wrap sm:justify-center sm:gap-12 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
+            {TRUST_STRIP_PROFESSIONS.map(({ key, image }) => (
+              <span
+                key={key}
+                className="inline-flex shrink-0 flex-col items-center gap-2.5 text-[13px] font-semibold text-foreground"
+              >
+                <span className="relative block h-[60px] w-[60px] overflow-hidden rounded-full border-[3px] border-white shadow-[0_4px_14px_rgba(0,40,120,0.10)] outline outline-1 outline-border sm:h-[72px] sm:w-[72px]">
+                  <Image src={image} alt="" fill sizes="72px" className="object-cover" />
+                </span>
+                {t(`trustStrip.professions.${key}`)}
+              </span>
+            ))}
           </div>
         </div>
       </section>
