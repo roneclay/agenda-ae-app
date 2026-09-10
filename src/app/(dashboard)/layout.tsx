@@ -19,12 +19,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
     { href: '/dashboard/clientes', label: t('clientes') },
     { href: '/dashboard/financeiro', label: t('financeiro') },
     { href: '/dashboard/configuracoes', label: t('configuracoes') },
+    { href: '/dashboard/ajuda', label: t('ajuda') },
   ]
 
   if (!pro?.onboardingCompleted) redirect('/onboarding')
 
   const pathname = (await headers()).get('x-pathname') ?? ''
-  if (isBillingBlocked(pro) && !pathname.startsWith('/dashboard/financeiro')) {
+  const allowedWhenBlocked =
+    pathname.startsWith('/dashboard/financeiro') || pathname.startsWith('/dashboard/ajuda')
+  if (isBillingBlocked(pro) && !allowedWhenBlocked) {
     redirect('/dashboard/financeiro?trial=expirado')
   }
 

@@ -123,7 +123,8 @@
       "servicos": "Serviços",
       "clientes": "Clientes",
       "financeiro": "Financeiro",
-      "configuracoes": "Configurações"
+      "configuracoes": "Configurações",
+      "ajuda": "Ajuda"
     },
     "appointmentStatus": {
       "scheduled": "Agendado",
@@ -238,6 +239,127 @@
       "sending": "...",
       "send": "Enviar",
       "sendError": "Erro ao enviar"
+    },
+    "ajuda": {
+      "title": "Central de Ajuda",
+      "subtitle": "Tudo que você precisa saber pra usar sua agenda e tirar dúvida dos seus clientes.",
+      "sections": {
+        "primeirosPassos": {
+          "title": "Primeiros passos",
+          "items": {
+            "q1": {
+              "question": "Como meu link de agendamento fica pronto pra usar?",
+              "answer": "Você preenche 3 passos rápidos quando cria sua conta: seus dados e nicho, pelo menos 1 serviço, e seus horários de atendimento. Assim que termina o passo 3, seu link fica ativo na hora — sem precisar esperar aprovação de ninguém."
+            },
+            "q2": {
+              "question": "Onde eu encontro o link pra mandar pros meus clientes?",
+              "answer": "Na aba Configurações, logo no topo. Tem um botão pra copiar o link — é só colar no WhatsApp, Instagram, onde você quiser."
+            },
+            "q3": {
+              "question": "Posso parar de receber agendamentos temporariamente, tipo em uma viagem?",
+              "answer": "Sim. Em Configurações tem um botão \"Pausar agendamentos\". Enquanto pausado, ninguém consegue marcar horário novo com você, mas os agendamentos que já estavam marcados continuam normalmente. É só clicar em \"Retomar\" quando voltar."
+            }
+          }
+        },
+        "comoClienteAgenda": {
+          "title": "Como o cliente agenda",
+          "items": {
+            "q1": {
+              "question": "O cliente precisa criar conta ou baixar algum aplicativo?",
+              "answer": "Não. Ele só abre o link que você compartilhou, escolhe o serviço, o horário, preenche nome, WhatsApp e e-mail, e pronto — sem senha, sem cadastro."
+            },
+            "q2": {
+              "question": "Até quantos dias de antecedência dá pra marcar?",
+              "answer": "O cliente só vê horários dos próximos 7 dias (hoje + 6 dias à frente). Isso evita agenda lotada de compromissos muito distantes que podem mudar."
+            },
+            "q3": {
+              "question": "O que acontece assim que o cliente termina de agendar?",
+              "answer": "Ele recebe na hora um e-mail de confirmação, com um link só dele pra gerenciar aquele agendamento — confirmar presença, remarcar ou cancelar, sem precisar falar com você."
+            }
+          }
+        },
+        "lembretes": {
+          "title": "Lembretes automáticos",
+          "items": {
+            "q1": {
+              "question": "Eu preciso lembrar o cliente manualmente?",
+              "answer": "Não, o sistema manda sozinho: um lembrete 24h antes, outro 6h antes (esse já pede pro cliente confirmar presença) e outro 2h antes."
+            },
+            "q2": {
+              "question": "E se o cliente não confirmar presença?",
+              "answer": "Se ele não confirmar até 2h antes do horário, o sistema cancela automaticamente aquele agendamento e libera a vaga pra outra pessoa marcar. Você recebe um e-mail avisando que o horário abriu de novo."
+            },
+            "q3": {
+              "question": "O cliente pode remarcar ou cancelar sozinho, sem me avisar?",
+              "answer": "Sim, pelo link que ele recebeu por e-mail (e WhatsApp, quando configurado). Isso tira de você o trabalho de ficar remarcando na mão."
+            }
+          }
+        },
+        "gerenciarAgenda": {
+          "title": "Gerenciando sua agenda",
+          "items": {
+            "q1": {
+              "question": "Como mudo meus horários de atendimento?",
+              "answer": "Na aba Horários. Dá pra configurar um padrão que se repete toda semana, e também ajustar um dia específico (tipo, fechar numa sexta de feriado) sem mexer no padrão geral."
+            },
+            "q2": {
+              "question": "Como adiciono, edito ou removo um serviço?",
+              "answer": "Na aba Serviços. Dá pra criar quantos serviços quiser, com nome, preço e duração, e editar ou desativar quando precisar."
+            },
+            "q3": {
+              "question": "Onde vejo os clientes que já agendaram comigo?",
+              "answer": "Na aba Clientes — mostra nome e WhatsApp de quem já marcou horário com você pelo menos uma vez."
+            },
+            "q4": {
+              "question": "Como cancelo um agendamento pelo meu lado (não pelo cliente)?",
+              "answer": "Na tela principal (Agenda), cada agendamento do dia tem um botão de cancelar."
+            }
+          }
+        },
+        "pagamento": {
+          "title": "Pagamento e assinatura",
+          "items": {
+            "q1": {
+              "question": "Quanto custa usar o sistema?",
+              "answer": "R$ 29,90 por mês, com 14 dias grátis pra testar tudo antes de pagar qualquer coisa."
+            },
+            "q2": {
+              "question": "Como eu pago?",
+              "answer": "Cartão de crédito (cobrança automática todo mês, você não precisa lembrar) ou Pix (você paga manualmente todo mês, e a confirmação é automática assim que cai)."
+            },
+            "q3": {
+              "question": "Se eu cancelar, perco o acesso na mesma hora?",
+              "answer": "Não. Se você já pagou o mês, seu acesso continua funcionando normalmente até completar esse mês — só não renova no mês seguinte."
+            }
+          }
+        },
+        "semPagar": {
+          "title": "Se eu esquecer de pagar",
+          "items": {
+            "q1": {
+              "question": "O que acontece quando o teste grátis (ou minha assinatura) vence?",
+              "answer": "Duas coisas: seu painel fica bloqueado (você só consegue acessar a tela Financeiro, pra reativar), e o link de agendamento pausa — quem tentar marcar horário com você vê uma mensagem avisando que a agenda deu uma pausa, sem conseguir marcar."
+            },
+            "q2": {
+              "question": "E os horários que já estavam marcados antes de vencer?",
+              "answer": "Continuam normalmente. Os clientes que já tinham agendado continuam recebendo lembrete, e ainda conseguem confirmar presença, remarcar ou cancelar pelo link deles — isso não trava."
+            },
+            "q3": {
+              "question": "Eu perco meus dados se demorar pra reativar?",
+              "answer": "Seu cadastro, serviços, horários configurados e lista de clientes nunca são apagados, não importa quanto tempo passe. Só o histórico de agendamentos antigos é apagado, e isso só depois de 3 meses sem pagamento — você recebe um aviso por e-mail 7 dias antes disso acontecer, com tempo de sobra pra reativar e não perder nada."
+            }
+          }
+        },
+        "whatsapp": {
+          "title": "WhatsApp",
+          "items": {
+            "q1": {
+              "question": "Os lembretes e confirmações chegam pro cliente pelo WhatsApp?",
+              "answer": "O sistema tenta mandar por WhatsApp e por e-mail ao mesmo tempo. Se a conexão de WhatsApp da sua conta ainda não estiver configurada, o cliente recebe só por e-mail — o agendamento continua funcionando normalmente do mesmo jeito."
+            }
+          }
+        }
+      }
     }
   },
   "financeiro": {
