@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
+import { SupportFooter } from '@/components/support-footer'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
 import { isBillingBlocked } from '@/lib/subscription'
 
@@ -68,6 +69,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         </div>
       </header>
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">{children}</main>
+      <SupportFooter />
     </div>
   )
 }

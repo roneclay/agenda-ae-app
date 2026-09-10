@@ -60,17 +60,6 @@ export async function BeautyHome({
   const { appointmentNoun, customerNoun, professionalNoun, brandName } = niche
   const mockDomain = `${brandName.toLowerCase()}.com.br`
   const t = await getTranslations('marketing.home')
-  const vars = { appointmentNoun, customerNoun, professionalNoun, brandName }
-
-  const stripTags = (raw: string) => raw.replace(/<\/?[a-z]+>/g, '')
-  const interpolate = (raw: string) =>
-    raw.replace(/\{(\w+)\}/g, (_, key: string) => (vars as Record<string, string>)[key] ?? '')
-
-  const faqKeys = ['q1', 'q2', 'q3', 'q4', 'q5'] as const
-  const faqJsonLd = faqKeys.map((key) => ({
-    q: t(`faq.items.${key}.question`),
-    a: interpolate(stripTags(t.raw(`faq.items.${key}.answer`))),
-  }))
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -107,14 +96,6 @@ export async function BeautyHome({
             unitCode: 'MON',
           },
         },
-      },
-      {
-        '@type': 'FAQPage',
-        mainEntity: faqJsonLd.map(({ q, a }) => ({
-          '@type': 'Question',
-          name: q,
-          acceptedAnswer: { '@type': 'Answer', text: a },
-        })),
       },
     ],
   }
@@ -451,42 +432,6 @@ export async function BeautyHome({
           <p className="mt-3 text-center text-xs text-muted-foreground">
             {t('pricing.disclaimer')}
           </p>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="border-b border-border/60 py-20">
-        <div className="mx-auto max-w-3xl px-6">
-          <div className="text-center">
-            <p className="text-xs font-semibold tracking-wide text-primary uppercase">
-              {t('faq.eyebrow')}
-            </p>
-            <h2 className="mt-4 text-4xl font-extrabold text-foreground">
-              {t.rich('faq.heading', { highlight })}
-            </h2>
-          </div>
-
-          <div className="mt-10 flex flex-col gap-3">
-            {faqKeys.map((key) => (
-              <details
-                key={key}
-                className="group rounded-xl border border-border bg-card px-5 py-4 open:border-primary/40"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground">
-                  {t(`faq.items.${key}.question`)}
-                  <span
-                    className="flex size-6 shrink-0 items-center justify-center rounded-full text-sm text-primary transition group-open:rotate-45"
-                    style={{ backgroundColor: niche.palette.tint100 }}
-                  >
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {t.rich(`faq.items.${key}.answer`, { customerNoun, brandName, b: bold })}
-                </p>
-              </details>
-            ))}
-          </div>
         </div>
       </section>
 

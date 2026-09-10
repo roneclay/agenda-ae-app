@@ -26,7 +26,7 @@ export default async function OnboardingPage() {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-12">
+    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-6 py-12">
       <div className="mb-8 space-y-2 text-center">
         <h1 className="text-3xl font-semibold tracking-tight">{t('heading')}</h1>
         <p className="text-muted-foreground">{t('subtitle')}</p>

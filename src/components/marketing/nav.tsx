@@ -11,7 +11,7 @@ export async function getNavLinks() {
     { href: '#como', label: t('howItWorks') },
     { href: '#beneficios', label: t('benefits') },
     { href: '#precos', label: t('pricing') },
-    { href: '#faq', label: t('faq') },
+    { href: '/ajuda', label: t('faq') },
   ]
 }
 

@@ -2,10 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { NicheConfig } from '@/lib/config/niches'
+import { SUPPORT_EMAIL } from '@/lib/config/niches'
 import { getNavLinks } from './nav'
 
 export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
   const t = await getTranslations('marketing')
+  const tSupport = await getTranslations('supportFooter')
   const navLinks = await getNavLinks()
 
   return (
@@ -31,11 +33,6 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
                   </a>
                 </li>
               ))}
-              <li>
-                <Link href="/ajuda" className="hover:text-foreground">
-                  {t('footer.helpCenter')}
-                </Link>
-              </li>
             </ul>
           </div>
           <div>
@@ -54,8 +51,16 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
             </ul>
           </div>
         </div>
-        <div className="mt-10 border-t border-border/60 pt-6 text-sm text-muted-foreground">
-          {t('footer.copyright', { year: new Date().getFullYear(), brandName: niche.brandName })}
+        <div className="mt-10 flex flex-col gap-2 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            {t('footer.copyright', { year: new Date().getFullYear(), brandName: niche.brandName })}
+          </p>
+          <p>
+            {tSupport('label')}{' '}
+            <a href={`mailto:${SUPPORT_EMAIL}`} className="underline hover:text-foreground">
+              {SUPPORT_EMAIL}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

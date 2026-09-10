@@ -2,6 +2,7 @@ import { and, eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { BookingWizard } from '@/components/booking/booking-wizard'
+import { SupportFooter } from '@/components/support-footer'
 import { NICHES } from '@/lib/config/niches'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 import { isBillingBlocked } from '@/lib/subscription'
@@ -16,11 +17,14 @@ export default async function AgendarPage({ params }: { params: Promise<{ slug: 
 
   if (isBillingBlocked(pro)) {
     return (
-      <div className="mx-auto flex min-h-screen max-w-xl items-center justify-center px-6 text-center">
-        <div>
-          <h1 className="text-2xl font-semibold">{pro.name}</h1>
-          <p className="mt-3 text-muted-foreground">{t('pausedMessage')}</p>
+      <div className="flex min-h-screen flex-col">
+        <div className="mx-auto flex flex-1 max-w-xl items-center justify-center px-6 text-center">
+          <div>
+            <h1 className="text-2xl font-semibold">{pro.name}</h1>
+            <p className="mt-3 text-muted-foreground">{t('pausedMessage')}</p>
+          </div>
         </div>
+        <SupportFooter />
       </div>
     )
   }
@@ -44,36 +48,42 @@ export default async function AgendarPage({ params }: { params: Promise<{ slug: 
 
   if (!ready) {
     return (
-      <div className="mx-auto flex min-h-screen max-w-xl items-center justify-center px-6 text-center">
-        <div>
-          <h1 className="text-2xl font-semibold">{pro.name}</h1>
-          <p className="mt-3 text-muted-foreground">
-            {t('notReadyMessage', {
-              article: niche.professionalNoun === 'profissional' ? '' : 'a',
-              professionalNoun: niche.professionalNoun,
-            })}
-          </p>
+      <div className="flex min-h-screen flex-col">
+        <div className="mx-auto flex flex-1 max-w-xl items-center justify-center px-6 text-center">
+          <div>
+            <h1 className="text-2xl font-semibold">{pro.name}</h1>
+            <p className="mt-3 text-muted-foreground">
+              {t('notReadyMessage', {
+                article: niche.professionalNoun === 'profissional' ? '' : 'a',
+                professionalNoun: niche.professionalNoun,
+              })}
+            </p>
+          </div>
         </div>
+        <SupportFooter />
       </div>
     )
   }
 
   return (
-    <div className="mx-auto min-h-screen max-w-2xl px-6 py-12">
-      <header className="mb-8">
-        <h1 className="text-3xl font-semibold tracking-tight">{pro.name}</h1>
-        {pro.bio && <p className="mt-2 text-muted-foreground">{pro.bio}</p>}
-      </header>
+    <div className="flex min-h-screen flex-col">
+      <div className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
+        <header className="mb-8">
+          <h1 className="text-3xl font-semibold tracking-tight">{pro.name}</h1>
+          {pro.bio && <p className="mt-2 text-muted-foreground">{pro.bio}</p>}
+        </header>
 
-      {services.length === 0 ? (
-        <p className="text-muted-foreground">{t('noServicesMessage')}</p>
-      ) : (
-        <BookingWizard
-          slug={pro.slug}
-          services={services}
-          appointmentNoun={niche.appointmentNoun}
-        />
-      )}
+        {services.length === 0 ? (
+          <p className="text-muted-foreground">{t('noServicesMessage')}</p>
+        ) : (
+          <BookingWizard
+            slug={pro.slug}
+            services={services}
+            appointmentNoun={niche.appointmentNoun}
+          />
+        )}
+      </div>
+      <SupportFooter />
     </div>
   )
 }

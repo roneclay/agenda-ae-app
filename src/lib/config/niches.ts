@@ -13,6 +13,9 @@ export const PRO_PRICE_CENTS = 2990
  */
 export const PIX_RECEIVER_LEGAL_NAME = 'RONI CLEI JESUS DOS SANTOS'
 
+/** E-mail de contato de suporte, mostrado no rodapé de todas as páginas. */
+export const SUPPORT_EMAIL = 'atendimento@agendadinho.com.br'
+
 export type NichePalette = {
   /** Base brand color (buttons, links, active states) */
   base: string

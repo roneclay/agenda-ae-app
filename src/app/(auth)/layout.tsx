@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { SupportFooter } from '@/components/support-footer'
 import { getSession } from '@/lib/auth/session'
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -26,6 +27,7 @@ export default async function AuthLayout({ children }: { children: React.ReactNo
       <main className="flex flex-1 items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">{children}</div>
       </main>
+      <SupportFooter />
     </div>
   )
 }

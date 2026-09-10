@@ -68,6 +68,9 @@
       "success": "Senha redefinida! Faça login novamente."
     }
   },
+  "supportFooter": {
+    "label": "Precisa de ajuda? Fala com a gente:"
+  },
   "onboarding": {
     "slugTaken": "Este link já está em uso. Escolha outro.",
     "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda.",
@@ -124,7 +127,7 @@
       "clientes": "Clientes",
       "financeiro": "Financeiro",
       "configuracoes": "Configurações",
-      "ajuda": "Ajuda"
+      "ajuda": "Perguntas"
     },
     "appointmentStatus": {
       "scheduled": "Agendado",
@@ -241,7 +244,7 @@
       "sendError": "Erro ao enviar"
     },
     "ajuda": {
-      "title": "Central de Ajuda",
+      "title": "Perguntas e Respostas",
       "subtitle": "Tudo que você precisa saber pra usar sua agenda e tirar dúvida dos seus clientes.",
       "sections": {
         "primeirosPassos": {
@@ -404,7 +407,6 @@
     "footer": {
       "tagline": "A agenda que trabalha enquanto você atende. Feito no Brasil pra quem vive de atendimento.",
       "productHeading": "Produto",
-      "helpCenter": "Central de Ajuda",
       "accountHeading": "Conta",
       "copyright": "© {year} {brandName} — feito no Brasil 🇧🇷"
     },
@@ -525,32 +527,6 @@
         },
         "cta": "Começar grátis por 14 dias",
         "disclaimer": "Sem cartão. Cancele quando quiser."
-      },
-      "faq": {
-        "eyebrow": "Perguntas",
-        "heading": "O que <highlight>quase todo mundo pergunta.</highlight>",
-        "items": {
-          "q1": {
-            "question": "Preciso instalar algum aplicativo?",
-            "answer": "Não. Você acessa o painel do {brandName} pelo navegador, no celular ou computador. Seu {customerNoun} agenda pelo link, <b>sem baixar nada</b>."
-          },
-          "q2": {
-            "question": "Como funciona o lembrete automático?",
-            "answer": "Assim que {customerNoun} agenda, o sistema já programa os lembretes de 24h, 6h e 2h antes — {customerNoun} não precisa fazer nada manualmente. No lembrete de 6h, pedimos a confirmação de presença por um link. <b>Se {customerNoun} não confirmar até 2h antes, o horário libera automaticamente</b> pra você oferecer pra outra pessoa."
-          },
-          "q3": {
-            "question": "Como funciona o teste grátis?",
-            "answer": "<b>14 dias completos</b> com todos os recursos, sem pedir cartão de crédito no cadastro."
-          },
-          "q4": {
-            "question": "Posso pagar com Pix ou cartão?",
-            "answer": "Sim, aceitamos os dois na hora de assinar o plano."
-          },
-          "q5": {
-            "question": "Serve pra quem está começando agora?",
-            "answer": "Sim. O <b>cadastro inicial leva poucos minutos</b>: dados básicos, um serviço e seus horários — e seu link já fica ativo."
-          }
-        }
       },
       "cta": {
         "eyebrow": "Última coisa",
