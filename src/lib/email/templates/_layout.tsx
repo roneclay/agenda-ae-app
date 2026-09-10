@@ -18,7 +18,7 @@ export function EmailLayout({ children }: { children: ReactNode }) {
         <Container
           style={{
             background: '#fff',
-            borderRadius: 12,
+            borderRadius: 10,
             padding: '40px',
             maxWidth: 520,
           }}

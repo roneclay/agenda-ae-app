@@ -17,7 +17,7 @@ export function HeroVideo() {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[2rem] shadow-2xl">
+    <div className="relative overflow-hidden rounded-[10px] shadow-2xl">
       <video
         ref={videoRef}
         className="aspect-[9/16] w-full object-cover"
