@@ -83,7 +83,7 @@ Verificar cada flag antes de chamar a integração correspondente.
 ✅ Toda query filtra por professionalId — sem exceção
 ✅ Validar payloads de API com Zod
 ✅ Snapshot de preço e duração em appointment_service no momento do booking
-✅ Checkout sempre com PIX (AbacatePay) E Cartão (Stripe) — nunca forçar só PIX
+✅ Checkout sempre com PIX E Cartão (Mercado Pago) — nunca forçar só PIX
 ✅ CI passa antes de qualquer merge em staging ou main
 ✅ Mobile-first: toda UI nova funciona bem em celular (profissionais e clientes usam no mobile)
 ```
