@@ -30,7 +30,10 @@ export const auth = betterAuth({
       await sendVerificationEmail({ to: user.email, name: user.name, url })
     },
   },
-  trustedOrigins: [process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'],
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+    'https://*.vercel.app',
+  ],
 })
 
 export type Session = typeof auth.$Infer.Session

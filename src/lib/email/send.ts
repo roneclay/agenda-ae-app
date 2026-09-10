@@ -2,6 +2,7 @@ import type { ReactElement } from 'react'
 import { getEmailTranslator } from './get-translator'
 import { FROM, getResend } from './index'
 import { AssinaturaAtivaTemplate } from './templates/assinatura-ativa'
+import { AvisoExclusaoDadosTemplate } from './templates/aviso-exclusao-dados'
 import { BoasVindasEmail } from './templates/boas-vindas'
 import { CancelamentoTemplate } from './templates/cancelamento'
 import { ConfirmacaoClienteTemplate } from './templates/confirmacao-cliente'
@@ -111,6 +112,23 @@ export async function sendTrialExpirado({ to, name }: { to: string; name: string
     to,
     subject: t('subject'),
     react: () => TrialExpiradoTemplate({ name }),
+  })
+}
+
+export async function sendAvisoExclusaoDados({
+  to,
+  name,
+  daysLeft,
+}: {
+  to: string
+  name: string
+  daysLeft: number
+}) {
+  const t = getEmailTranslator('emails.avisoExclusaoDados')
+  return send({
+    to,
+    subject: t('subject', { daysLeft }),
+    react: () => AvisoExclusaoDadosTemplate({ name, daysLeft }),
   })
 }
 

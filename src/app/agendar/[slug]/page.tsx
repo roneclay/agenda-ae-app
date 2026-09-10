@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { BookingWizard } from '@/components/booking/booking-wizard'
 import { NICHES } from '@/lib/config/niches'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
+import { isBillingBlocked } from '@/lib/subscription'
 
 export default async function AgendarPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -12,6 +13,17 @@ export default async function AgendarPage({ params }: { params: Promise<{ slug: 
   const [pro] = await db.select().from(professional).where(eq(professional.slug, slug)).limit(1)
 
   if (!pro) notFound()
+
+  if (isBillingBlocked(pro)) {
+    return (
+      <div className="mx-auto flex min-h-screen max-w-xl items-center justify-center px-6 text-center">
+        <div>
+          <h1 className="text-2xl font-semibold">{pro.name}</h1>
+          <p className="mt-3 text-muted-foreground">{t('pausedMessage')}</p>
+        </div>
+      </div>
+    )
+  }
 
   const services = await db
     .select()

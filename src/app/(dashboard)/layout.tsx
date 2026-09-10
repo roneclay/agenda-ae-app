@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
+import { isBillingBlocked } from '@/lib/subscription'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await requireSession()
@@ -23,10 +24,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!pro?.onboardingCompleted) redirect('/onboarding')
 
   const pathname = (await headers()).get('x-pathname') ?? ''
-  const isActive = pro.subscriptionStatus === 'active'
-  const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true
-  const isBlocked = !isActive && trialExpired
-  if (isBlocked && !pathname.startsWith('/dashboard/financeiro')) {
+  if (isBillingBlocked(pro) && !pathname.startsWith('/dashboard/financeiro')) {
     redirect('/dashboard/financeiro?trial=expirado')
   }
 

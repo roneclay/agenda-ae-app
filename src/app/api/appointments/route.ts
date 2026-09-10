@@ -14,6 +14,7 @@ import {
   user,
 } from '@/lib/db'
 import { sendConfirmacaoCliente, sendNovoAgendamentoProfissional } from '@/lib/email/send'
+import { isBillingBlocked } from '@/lib/subscription'
 
 const BodySchema = z.object({
   slug: z.string().min(1),
@@ -47,6 +48,8 @@ export async function POST(req: NextRequest) {
   if (!pro) return NextResponse.json({ error: 'Profissional não encontrado' }, { status: 404 })
   if (!pro.isAcceptingBookings)
     return NextResponse.json({ error: 'Não está aceitando agendamentos' }, { status: 403 })
+  if (isBillingBlocked(pro))
+    return NextResponse.json({ error: 'Agenda temporariamente em pausa' }, { status: 403 })
 
   const today = todayInBRT()
   const horizon = addDays(today, 6)

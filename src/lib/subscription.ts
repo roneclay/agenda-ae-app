@@ -7,6 +7,12 @@ function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
+export function isBillingBlocked(pro: { subscriptionStatus: string; trialEndsAt: Date | null }) {
+  const isActive = pro.subscriptionStatus === 'active'
+  const trialExpired = pro.trialEndsAt ? new Date() > pro.trialEndsAt : true
+  return !isActive && trialExpired
+}
+
 export async function activatePro(professionalId: string) {
   const trialEndsAt = new Date()
   trialEndsAt.setDate(trialEndsAt.getDate() + 30)

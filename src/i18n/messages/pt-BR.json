@@ -448,6 +448,7 @@
   },
   "agendarPage": {
     "notReadyMessage": "Esse{article} {professionalNoun} ainda está configurando a agenda. Volta em breve! 🧡",
+    "pausedMessage": "Essa agenda deu uma pausa e não está recebendo novos agendamentos no momento. Volta em breve! 🧡",
     "noServicesMessage": "Este profissional ainda não cadastrou serviços disponíveis."
   },
   "booking": {
@@ -553,6 +554,13 @@
       "intro": "Oi, {name}! Seu período de trial chegou ao fim. Seu link público foi pausado, mas tudo o que você configurou continua salvo.",
       "button": "Ativar plano Pro agora →",
       "footer": "Reativando, seu link volta no ar em segundos."
+    },
+    "avisoExclusaoDados": {
+      "subject": "Em {daysLeft} {daysLeft, plural, one {dia} other {dias}} vamos apagar seu histórico de agendamentos",
+      "heading": "Seu histórico será apagado em {daysLeft} {daysLeft, plural, one {dia} other {dias}}",
+      "intro": "Oi, {name}! Faz quase 3 meses que sua assinatura está pausada. Depois desse prazo, vamos apagar o histórico de agendamentos da sua agenda para liberar espaço. Seu cadastro, serviços e horários continuam salvos — só o histórico de atendimentos será perdido, e isso não tem como desfazer.",
+      "button": "Ativar plano Pro e manter tudo →",
+      "footer": "Reative quando quiser, mas depois do prazo o histórico não pode ser recuperado."
     },
     "assinaturaAtiva": {
       "subject": "Assinatura Pro ativada! 🎉 — Agendadinho",
