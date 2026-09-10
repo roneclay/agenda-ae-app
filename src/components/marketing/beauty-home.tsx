@@ -143,12 +143,6 @@ export async function BeautyHome({
               >
                 {t('hero.ctaPrimary')}
               </Link>
-              <Link
-                href="/agendar/demo"
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-border bg-background px-6 text-base font-semibold text-foreground transition hover:bg-muted"
-              >
-                {t('hero.ctaSecondary')}
-              </Link>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">

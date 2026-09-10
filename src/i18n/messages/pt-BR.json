@@ -305,7 +305,6 @@
         "headline": "Chega de perder {appointmentNoun} por <highlight>{customerNoun} que sumiu</highlight>.",
         "description": "Agenda com buraco, mensagem pra lá e pra cá pra combinar horário, {customerNoun} que confirma e não aparece — e você vira recepcionista, atendente e {professionalNoun} ao mesmo tempo. O {brandName} <b>organiza os horários, confirma presença e manda lembrete automático</b>, tudo sozinho.",
         "ctaPrimary": "Criar conta grátis",
-        "ctaSecondary": "Ver demonstração →",
         "trust1": "Sem cartão",
         "trust2": "Sem complicação",
         "trust3": "Em poucos minutos"
