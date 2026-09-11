@@ -1,6 +1,7 @@
 'use server'
 
 import { and, eq } from 'drizzle-orm'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
@@ -8,7 +9,6 @@ import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
 import { dayLabel } from '@/lib/dates'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 import { sendBoasVindas } from '@/lib/email/send'
-import { normalizePhone } from '@/lib/phone'
 
 const slugify = (input: string) =>
   input
@@ -27,11 +27,6 @@ const Step1Schema = z.object({
     .min(3, 'Link muito curto')
     .regex(/^[a-z0-9-]+$/, 'Use apenas letras, números e hífens'),
   niche: z.enum(['beauty', 'legal', 'petcare', 'fitness']),
-  phone: z
-    .string()
-    .trim()
-    .min(10, 'WhatsApp obrigatório')
-    .regex(/^\+?\d[\d\s-]{8,}$/, 'WhatsApp inválido'),
 })
 
 export type OnboardingState = {
@@ -49,7 +44,6 @@ export async function saveBasics(
     name: formData.get('name'),
     slug: slugify(String(formData.get('slug') ?? '')),
     niche: formData.get('niche'),
-    phone: formData.get('phone'),
   })
 
   if (!parsed.success) {
@@ -61,7 +55,7 @@ export async function saveBasics(
     return { fieldErrors }
   }
 
-  const { name, slug, niche, phone } = parsed.data
+  const { name, slug, niche } = parsed.data
   const t = await getTranslations('onboarding')
 
   const [conflict] = await db
@@ -72,18 +66,6 @@ export async function saveBasics(
 
   if (conflict && conflict.userId !== session.user.id) {
     return { fieldErrors: { slug: t('slugTaken') } }
-  }
-
-  const normalizedPhone = normalizePhone(phone)
-  const others = await db
-    .select({ id: professional.id, userId: professional.userId, phone: professional.phone })
-    .from(professional)
-
-  const phoneConflict = others.some(
-    (o) => o.userId !== session.user.id && o.phone && normalizePhone(o.phone) === normalizedPhone,
-  )
-  if (phoneConflict) {
-    return { fieldErrors: { phone: t('phoneTaken') } }
   }
 
   const trialEndsAt = new Date()
@@ -98,9 +80,24 @@ export async function saveBasics(
   if (existing) {
     await db
       .update(professional)
-      .set({ name, slug, niche, phone, updatedAt: new Date() })
+      .set({ name, slug, niche, updatedAt: new Date() })
       .where(eq(professional.id, existing.id))
   } else {
+    const pendingPhoneCookie = (await cookies()).get('pending_phone')?.value
+    if (!pendingPhoneCookie) {
+      return { fieldErrors: { phone: t('phoneMissing') } }
+    }
+    const phone = decodeURIComponent(pendingPhoneCookie)
+
+    const [phoneTaken] = await db
+      .select({ id: professional.id })
+      .from(professional)
+      .where(eq(professional.phone, phone))
+      .limit(1)
+    if (phoneTaken) {
+      return { fieldErrors: { phone: t('phoneTaken') } }
+    }
+
     await db.insert(professional).values({
       userId: session.user.id,
       name,

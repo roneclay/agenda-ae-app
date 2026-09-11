@@ -38,6 +38,12 @@
       "alreadyHaveAccount": "Já tem conta?",
       "login": "Entrar",
       "emailAlreadyRegistered": "Este email já está cadastrado. Tente fazer login.",
+      "whatsappLabel": "WhatsApp",
+      "whatsappHelp": "Usamos esse número pra identificar sua agenda. Seus dados ficam protegidos — não compartilhamos com ninguém.",
+      "termsLabel": "Li e aceito os <link>Termos de Uso e Política de Privacidade</link>",
+      "termsRequired": "Você precisa aceitar os termos pra continuar",
+      "phoneTaken": "Esse WhatsApp já tem uma conta cadastrada. Faça login.",
+      "genericError": "Não conseguimos concluir o cadastro agora. Tente de novo em instantes.",
       "accountCreated": "Conta criada! Verifique seu email para confirmar."
     },
     "verifyEmail": {
@@ -92,8 +98,6 @@
       "linkLabel": "Seu link público",
       "linkPlaceholder": "seu-nome",
       "nicheLabel": "Nicho",
-      "whatsappLabel": "WhatsApp",
-      "whatsappHelp": "É por aqui que você recebe nossos avisos e mantém contato com seus clientes.",
       "saving": "Salvando...",
       "continue": "Continuar",
       "checking": "Verificando…",
@@ -117,7 +121,8 @@
       "intro": "Defina seu padrão semanal. Isso se repete toda semana — depois você pode ajustar dias específicos pelo dashboard.",
       "activating": "Ativando agenda...",
       "finish": "Concluir e ativar minha agenda"
-    }
+    },
+    "phoneMissing": "Não encontramos seu WhatsApp. Volte pro cadastro e preencha de novo."
   },
   "dashboard": {
     "nav": {
@@ -408,6 +413,7 @@
       "tagline": "A agenda que trabalha enquanto você atende. Feito no Brasil pra quem vive de atendimento.",
       "productHeading": "Produto",
       "accountHeading": "Conta",
+      "terms": "Termos e Privacidade",
       "copyright": "© {year} {brandName} — feito no Brasil 🇧🇷"
     },
     "heroVideo": {
@@ -701,6 +707,76 @@
       "greeting": "Oi, {professionalName}!",
       "body": "<b>{customerName}</b> agendou <b>{service}</b> para <b>{scheduledAt}</b>.",
       "footer": "Veja todos os detalhes no painel."
+    }
+  },
+  "legal": {
+    "title": "Termos de Uso e Política de Privacidade",
+    "disclaimer": "Este é um rascunho pra deixar o cadastro em conformidade desde já — ainda não passou por revisão de um advogado especializado em LGPD. Vamos atualizar esta página assim que a revisão jurídica for concluída.",
+    "updatedAt": "Última atualização: 11 de setembro de 2026",
+    "sections": {
+      "s1": {
+        "title": "1. O que é o Agendadinho",
+        "paragraphs": [
+          "O Agendadinho é um sistema de agendamento online pra profissionais autônomos (beleza, jurídico, pet care, fitness) organizarem sua agenda, receberem agendamentos pelo link público e mandarem lembrete automático pros próprios clientes."
+        ]
+      },
+      "s2": {
+        "title": "2. Cadastro e WhatsApp",
+        "paragraphs": [
+          "Pra criar uma conta, pedimos seu nome, e-mail, senha e um número de WhatsApp — e cada número só pode estar vinculado a uma conta. Isso existe pra garantir que cada profissional tenha só uma conta de verdade, e pra que a gente consiga entrar em contato se precisar.",
+          "Seu número de WhatsApp não é compartilhado com terceiros nem usado pra nada além de identificar sua conta e, quando você conectar sua própria integração de WhatsApp Business, mandar lembrete pros seus clientes."
+        ]
+      },
+      "s3": {
+        "title": "3. O que você (profissional) pode fazer no sistema",
+        "paragraphs": [
+          "Você cadastra seus próprios serviços, horários e clientes, e usa o link público gerado pra receber agendamentos. Os dados que você insere sobre seus clientes (nome, WhatsApp, histórico de atendimento) são de sua responsabilidade — você é quem coleta e usa esses dados diretamente com seus clientes, o Agendadinho só guarda e organiza isso pra você."
+        ]
+      },
+      "s4": {
+        "title": "4. Quais dados coletamos",
+        "paragraphs": [
+          "Sobre você (profissional): nome, e-mail, senha (criptografada), WhatsApp verificado, dados de pagamento processados pelo Mercado Pago (não guardamos número de cartão).",
+          "Sobre seus clientes (inseridos por você): nome, WhatsApp, e-mail, histórico de agendamentos com você."
+        ]
+      },
+      "s5": {
+        "title": "5. Como usamos os dados",
+        "paragraphs": [
+          "Pra organizar sua agenda, enviar lembrete automático (24h, 6h e 2h antes de cada horário) e confirmação de presença pros seus clientes, processar o pagamento da sua assinatura via Mercado Pago, e mandar avisos importantes sobre sua conta por e-mail."
+        ]
+      },
+      "s6": {
+        "title": "6. Por quanto tempo guardamos os dados",
+        "paragraphs": [
+          "Enquanto sua conta estiver ativa (pagando ou em teste grátis), seus dados e o histórico de agendamentos ficam salvos normalmente.",
+          "Se sua assinatura ficar 90 dias sem pagamento, apagamos automaticamente o histórico de agendamentos antigos — mas seu cadastro, serviços, horários configurados e lista de clientes continuam salvos, esperando você reativar. Avisamos por e-mail 7 dias antes disso acontecer."
+        ]
+      },
+      "s7": {
+        "title": "7. Pagamento e cancelamento",
+        "paragraphs": [
+          "O plano Pro custa R$ 29,90/mês, com 14 dias grátis pra testar. Você pode pagar por Pix ou cartão de crédito (via Mercado Pago) e cancelar quando quiser — se já pagou o mês, seu acesso continua até completar esse período."
+        ]
+      },
+      "s8": {
+        "title": "8. Seus direitos sobre os dados (LGPD)",
+        "paragraphs": [
+          "Você pode pedir acesso, correção ou exclusão dos seus dados a qualquer momento, entrando em contato pelo e-mail abaixo. Excluir sua conta remove seus dados de cadastro, exceto o que formos obrigados a manter por lei (ex: registros fiscais de pagamento)."
+        ]
+      },
+      "s9": {
+        "title": "9. Mudanças nestes termos",
+        "paragraphs": [
+          "Podemos atualizar este documento conforme o produto evolui. Mudanças relevantes serão avisadas por e-mail ou dentro do próprio sistema."
+        ]
+      },
+      "s10": {
+        "title": "10. Contato",
+        "paragraphs": [
+          "Dúvidas sobre estes termos ou sobre seus dados? Fala com a gente: {supportEmail}"
+        ]
+      }
     }
   }
 }

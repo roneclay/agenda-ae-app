@@ -91,6 +91,20 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at').defaultNow(),
 })
 
+/**
+ * Registro de que um número de WhatsApp foi verificado por SMS (código gerado
+ * e checado pela Twilio Verify — não guardamos o código aqui) no momento do
+ * cadastro. Criado com userId nulo assim que o código é confirmado; vinculado
+ * ao usuário logo depois que a conta é criada.
+ */
+export const phoneVerification = pgTable('phone_verification', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  phone: text('phone').notNull(),
+  verifiedAt: timestamp('verified_at', { withTimezone: true }).notNull(),
+  userId: text('user_id').references(() => user.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+})
+
 export const professional = pgTable('professional', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: text('user_id')
@@ -99,7 +113,7 @@ export const professional = pgTable('professional', {
   niche: nicheEnum('niche').notNull().default('beauty'),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
-  phone: text('phone'),
+  phone: text('phone').unique(),
   bio: text('bio'),
   photoUrl: text('photo_url'),
   address: text('address'),

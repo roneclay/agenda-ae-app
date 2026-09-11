@@ -48,6 +48,11 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
                   {t('nav.createAccount')}
                 </Link>
               </li>
+              <li>
+                <Link href="/termos" className="hover:text-foreground">
+                  {t('footer.terms')}
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

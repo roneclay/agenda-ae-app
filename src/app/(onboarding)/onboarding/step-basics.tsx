@@ -119,14 +119,9 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="phone">{t('whatsappLabel')}</Label>
-            <Input id="phone" name="phone" required placeholder="+5548999999999" inputMode="tel" />
-            <p className="text-xs text-muted-foreground">{t('whatsappHelp')}</p>
-            {state.fieldErrors?.phone && (
-              <p className="text-sm text-destructive">{state.fieldErrors.phone}</p>
-            )}
-          </div>
+          {state.fieldErrors?.phone && (
+            <p className="text-sm text-destructive">{state.fieldErrors.phone}</p>
+          )}
 
           {state.error && <p className="text-sm text-destructive">{state.error}</p>}
         </CardContent>
