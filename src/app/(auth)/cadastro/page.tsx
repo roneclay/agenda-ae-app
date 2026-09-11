@@ -66,21 +66,22 @@ export default function CadastroPage() {
       return
     }
 
-    // Guarda o telefone pra o onboarding vincular ao profissional — ainda não
-    // existe sessão nesse ponto (falta confirmar e-mail).
-    // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API não tem suporte no Safari
-    document.cookie = `pending_phone=${encodeURIComponent(e164)}; path=/; max-age=1800; samesite=lax`
-
     const { error: signUpError } = await signUp.email({
       name,
       email,
       password,
+      phone: e164,
       callbackURL: '/dashboard',
     })
     setLoading(false)
 
     if (signUpError) {
-      toast.error(t(`errors.${authErrorKey(signUpError.message, 'genericSignup')}`))
+      const key = authErrorKey(signUpError.message, 'genericSignup')
+      if (key === 'genericSignup' && /phone/i.test(signUpError.message ?? '')) {
+        setError(t('signup.phoneTaken'))
+      } else {
+        toast.error(t(`errors.${key}`))
+      }
       return
     }
 

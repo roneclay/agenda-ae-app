@@ -1,7 +1,6 @@
 'use server'
 
 import { and, eq } from 'drizzle-orm'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
@@ -83,19 +82,9 @@ export async function saveBasics(
       .set({ name, slug, niche, updatedAt: new Date() })
       .where(eq(professional.id, existing.id))
   } else {
-    const pendingPhoneCookie = (await cookies()).get('pending_phone')?.value
-    if (!pendingPhoneCookie) {
+    const phone = session.user.phone
+    if (!phone) {
       return { fieldErrors: { phone: t('phoneMissing') } }
-    }
-    const phone = decodeURIComponent(pendingPhoneCookie)
-
-    const [phoneTaken] = await db
-      .select({ id: professional.id })
-      .from(professional)
-      .where(eq(professional.phone, phone))
-      .limit(1)
-    if (phoneTaken) {
-      return { fieldErrors: { phone: t('phoneTaken') } }
     }
 
     await db.insert(professional).values({

@@ -30,6 +30,16 @@ export const auth = betterAuth({
       await sendVerificationEmail({ to: user.email, name: user.name, url })
     },
   },
+  user: {
+    additionalFields: {
+      phone: {
+        type: 'string',
+        required: true,
+        unique: true,
+        input: true,
+      },
+    },
+  },
   trustedOrigins: [
     process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
     'https://agendadinho.com.br',
