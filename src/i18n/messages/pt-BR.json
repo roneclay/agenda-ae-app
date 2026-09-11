@@ -324,7 +324,7 @@
           "items": {
             "q1": {
               "question": "Quanto custa usar o sistema?",
-              "answer": "<b>R$ 29,90 por mês</b>, com <b>14 dias grátis</b> pra testar tudo antes de pagar qualquer coisa."
+              "answer": "<b>14 dias grátis</b> pra testar tudo. Só depois desse período, <b>R$ 29,90 por mês</b>."
             },
             "q2": {
               "question": "Como eu pago?",
@@ -515,6 +515,8 @@
         "heading": "Um plano. <highlight>Tudo incluso.</highlight>",
         "description": "Sem taxa de adesão, sem letra miúda. Teste grátis por 14 dias, sem cartão.",
         "planName": "Plano Profissional",
+        "freeTrialHeadline": "Grátis por 14 dias",
+        "thenPrice": "Depois, {price}",
         "perMonth": "/ mês",
         "features": {
           "f1": "Agendamentos ilimitados",

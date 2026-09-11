@@ -410,12 +410,14 @@ export async function BeautyHome({
           style={{ borderColor: niche.palette.tint100, boxShadow: 'var(--shadow-lg)' }}
         >
           <p className="text-sm font-semibold text-primary">{t('pricing.planName')}</p>
-          <div className="mt-2 flex items-baseline gap-1.5">
-            <span className="text-5xl font-extrabold text-foreground">
-              {formatBRL(proPriceCents)}
-            </span>
-            <span className="text-sm text-muted-foreground">{t('pricing.perMonth')}</span>
-          </div>
+          <p className="mt-2 text-4xl font-extrabold text-foreground sm:text-5xl">
+            {t('pricing.freeTrialHeadline')}
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t('pricing.thenPrice', {
+              price: `${formatBRL(proPriceCents)} ${t('pricing.perMonth')}`,
+            })}
+          </p>
           <ul className="mt-6 flex flex-col gap-3 text-sm text-foreground/90">
             {pricingFeatures.map((key) => (
               <li key={key} className="flex items-start gap-2.5">
