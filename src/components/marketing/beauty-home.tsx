@@ -410,7 +410,7 @@ export async function BeautyHome({
           style={{ borderColor: niche.palette.tint100, boxShadow: 'var(--shadow-lg)' }}
         >
           <p className="text-sm font-semibold text-primary">{t('pricing.planName')}</p>
-          <p className="mt-2 text-4xl font-extrabold text-foreground sm:text-5xl">
+          <p className="mt-2 text-3xl font-extrabold text-nowrap text-foreground sm:text-4xl">
             {t('pricing.freeTrialHeadline')}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
