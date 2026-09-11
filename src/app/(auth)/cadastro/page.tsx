@@ -14,15 +14,27 @@ import { signUp } from '@/lib/auth/client'
 import { authErrorKey } from '@/lib/auth/error-messages'
 import { toE164BR } from '@/lib/phone'
 
+function LoginLink(chunks: React.ReactNode) {
+  return (
+    <Link href="/login" className="underline hover:text-foreground">
+      {chunks}
+    </Link>
+  )
+}
+
 export default function CadastroPage() {
   const t = useTranslations('auth')
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [termsError, setTermsError] = useState('')
+  const [emailError, setEmailError] = useState<React.ReactNode>(null)
+  const [phoneError, setPhoneError] = useState<React.ReactNode>(null)
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setError('')
+    setTermsError('')
+    setEmailError(null)
+    setPhoneError(null)
 
     const form = new FormData(e.currentTarget)
     const name = String(form.get('name') ?? '').trim()
@@ -32,7 +44,7 @@ export default function CadastroPage() {
     const acceptedTerms = form.get('terms') === 'on'
 
     if (!acceptedTerms) {
-      setError(t('signup.termsRequired'))
+      setTermsError(t('signup.termsRequired'))
       return
     }
 
@@ -46,7 +58,7 @@ export default function CadastroPage() {
     })
     if (check.ok && (await check.json()).exists) {
       setLoading(false)
-      toast.error(t('signup.emailAlreadyRegistered'))
+      setEmailError(t.rich('signup.emailAlreadyRegistered', { link: LoginLink }))
       return
     }
 
@@ -59,7 +71,7 @@ export default function CadastroPage() {
       setLoading(false)
       const body = await phoneCheck.json().catch(() => ({}))
       if (body.error === 'phoneTaken') {
-        setError(t('signup.phoneTaken'))
+        setPhoneError(t.rich('signup.phoneTaken', { link: LoginLink }))
       } else {
         toast.error(t('signup.genericError'))
       }
@@ -78,7 +90,7 @@ export default function CadastroPage() {
     if (signUpError) {
       const key = authErrorKey(signUpError.message, 'genericSignup')
       if (key === 'genericSignup' && /phone/i.test(signUpError.message ?? '')) {
-        setError(t('signup.phoneTaken'))
+        setPhoneError(t.rich('signup.phoneTaken', { link: LoginLink }))
       } else {
         toast.error(t(`errors.${key}`))
       }
@@ -103,6 +115,7 @@ export default function CadastroPage() {
           <div className="space-y-2">
             <Label htmlFor="email">{t('signup.emailLabel')}</Label>
             <Input id="email" name="email" type="email" required autoComplete="email" />
+            {emailError && <p className="text-sm text-destructive">{emailError}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">{t('signup.passwordLabel')}</Label>
@@ -119,7 +132,7 @@ export default function CadastroPage() {
             <Label htmlFor="phone">{t('signup.whatsappLabel')}</Label>
             <Input id="phone" name="phone" required placeholder="48999999999" inputMode="tel" />
             <p className="text-xs text-muted-foreground">{t('signup.whatsappHelp')}</p>
-            {error && <p className="text-sm text-destructive">{error}</p>}
+            {phoneError && <p className="text-sm text-destructive">{phoneError}</p>}
           </div>
           <div className="flex items-start gap-2">
             <Checkbox id="terms" name="terms" className="mt-0.5" />
@@ -133,6 +146,7 @@ export default function CadastroPage() {
               })}
             </Label>
           </div>
+          {termsError && <p className="text-sm text-destructive">{termsError}</p>}
         </CardContent>
         <CardFooter className="flex flex-col gap-3">
           <Button type="submit" className="w-full" disabled={loading}>
