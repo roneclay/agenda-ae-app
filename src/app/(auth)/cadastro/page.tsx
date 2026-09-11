@@ -1,5 +1,6 @@
 'use client'
 
+import { CheckIcon, XIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
@@ -13,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { signUp } from '@/lib/auth/client'
 import { authErrorKey } from '@/lib/auth/error-messages'
 import { isValidPhoneBR, maskPhoneBR, toE164BR } from '@/lib/phone'
+import { cn } from '@/lib/utils'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -24,6 +26,36 @@ function LoginLink(chunks: React.ReactNode) {
   )
 }
 
+type PasswordChecks = {
+  length: boolean
+  lower: boolean
+  upper: boolean
+  number: boolean
+}
+
+function checkPassword(password: string): PasswordChecks {
+  return {
+    length: password.length >= 8,
+    lower: /[a-z]/.test(password),
+    upper: /[A-Z]/.test(password),
+    number: /[0-9]/.test(password),
+  }
+}
+
+function PasswordRequirement({ met, label }: { met: boolean; label: string }) {
+  return (
+    <li
+      className={cn(
+        'flex items-center gap-1.5',
+        met ? 'text-emerald-600' : 'text-muted-foreground',
+      )}
+    >
+      {met ? <CheckIcon className="size-3.5" /> : <XIcon className="size-3.5" />}
+      {label}
+    </li>
+  )
+}
+
 export default function CadastroPage() {
   const t = useTranslations('auth')
   const router = useRouter()
@@ -32,22 +64,37 @@ export default function CadastroPage() {
   const [emailError, setEmailError] = useState<React.ReactNode>(null)
   const [phoneError, setPhoneError] = useState<React.ReactNode>(null)
   const [phoneDisplay, setPhoneDisplay] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [confirmPasswordError, setConfirmPasswordError] = useState('')
+
+  const passwordChecks = checkPassword(password)
+  const passwordValid = Object.values(passwordChecks).every(Boolean)
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setTermsError('')
     setEmailError(null)
     setPhoneError(null)
+    setConfirmPasswordError('')
 
     const form = new FormData(e.currentTarget)
     const name = String(form.get('name') ?? '').trim()
     const email = String(form.get('email') ?? '').trim()
-    const password = String(form.get('password') ?? '')
     const phone = String(form.get('phone') ?? '').trim()
     const acceptedTerms = form.get('terms') === 'on'
 
     if (!EMAIL_RE.test(email)) {
       setEmailError(t('signup.emailInvalid'))
+      return
+    }
+
+    if (!passwordValid) {
+      return
+    }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError(t('signup.passwordMismatch'))
       return
     }
 
@@ -139,7 +186,44 @@ export default function CadastroPage() {
               required
               minLength={8}
               autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
+            {password.length > 0 && (
+              <ul className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                <PasswordRequirement
+                  met={passwordChecks.length}
+                  label={t('signup.passwordRuleLength')}
+                />
+                <PasswordRequirement
+                  met={passwordChecks.upper}
+                  label={t('signup.passwordRuleUpper')}
+                />
+                <PasswordRequirement
+                  met={passwordChecks.lower}
+                  label={t('signup.passwordRuleLower')}
+                />
+                <PasswordRequirement
+                  met={passwordChecks.number}
+                  label={t('signup.passwordRuleNumber')}
+                />
+              </ul>
+            )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">{t('signup.confirmPasswordLabel')}</Label>
+            <Input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            {confirmPasswordError && (
+              <p className="text-sm text-destructive">{confirmPasswordError}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">{t('signup.whatsappLabel')}</Label>
