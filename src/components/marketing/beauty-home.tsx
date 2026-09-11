@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { AjudaContent } from '@/components/ajuda-content'
 import type { NicheConfig } from '@/lib/config/niches'
 import { HeroVideo } from './hero-video'
 
@@ -432,6 +433,24 @@ export async function BeautyHome({
           <p className="mt-3 text-center text-xs text-muted-foreground">
             {t('pricing.disclaimer')}
           </p>
+        </div>
+      </section>
+
+      {/* PERGUNTAS E RESPOSTAS */}
+      <section id="faq" className="border-b border-border/60 py-20">
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="text-center">
+            <p className="text-xs font-semibold tracking-wide text-primary uppercase">
+              {t('faq.eyebrow')}
+            </p>
+            <h2 className="mt-4 text-4xl font-extrabold text-foreground">
+              {t.rich('faq.heading', { highlight })}
+            </h2>
+          </div>
+
+          <div className="mt-10">
+            <AjudaContent showHeading={false} />
+          </div>
         </div>
       </section>
 

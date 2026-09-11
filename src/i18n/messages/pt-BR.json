@@ -528,6 +528,10 @@
         "cta": "Começar grátis por 14 dias",
         "disclaimer": "Sem cartão. Cancele quando quiser."
       },
+      "faq": {
+        "eyebrow": "Perguntas",
+        "heading": "Tire suas <highlight>dúvidas</highlight> antes de começar."
+      },
       "cta": {
         "eyebrow": "Última coisa",
         "heading": "Você já passou tempo demais fazendo o trabalho que o sistema deveria fazer.",

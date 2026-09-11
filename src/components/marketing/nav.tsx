@@ -8,10 +8,10 @@ import type { NicheConfig } from '@/lib/config/niches'
 export async function getNavLinks() {
   const t = await getTranslations('marketing.nav')
   return [
-    { href: '#como', label: t('howItWorks') },
-    { href: '#beneficios', label: t('benefits') },
-    { href: '#precos', label: t('pricing') },
-    { href: '/ajuda', label: t('faq') },
+    { href: '/#como', label: t('howItWorks') },
+    { href: '/#beneficios', label: t('benefits') },
+    { href: '/#precos', label: t('pricing') },
+    { href: '/#faq', label: t('faq') },
   ]
 }
 

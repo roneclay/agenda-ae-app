@@ -16,15 +16,17 @@ const SECTIONS = [
   { key: 'semPagar', items: ['q1', 'q2', 'q3'] },
 ] as const
 
-export async function AjudaContent() {
+export async function AjudaContent({ showHeading = true }: { showHeading?: boolean } = {}) {
   const t = await getTranslations('dashboard.ajuda')
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
-        <p className="text-muted-foreground">{t('subtitle')}</p>
-      </div>
+      {showHeading && (
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">{t('title')}</h1>
+          <p className="text-muted-foreground">{t('subtitle')}</p>
+        </div>
+      )}
 
       <div className="space-y-4">
         {SECTIONS.map(({ key: sectionKey, items }) => (
