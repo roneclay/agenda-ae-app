@@ -7,6 +7,8 @@ import {
 } from '@/components/ui/accordion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+const bold = (chunks: React.ReactNode) => <strong className="text-foreground">{chunks}</strong>
+
 const SECTIONS = [
   { key: 'primeirosPassos', items: ['q1', 'q2', 'q3'] },
   { key: 'comoClienteAgenda', items: ['q1', 'q2', 'q3'] },
@@ -32,7 +34,9 @@ export async function AjudaContent({ showHeading = true }: { showHeading?: boole
         {SECTIONS.map(({ key: sectionKey, items }) => (
           <Card key={sectionKey}>
             <CardHeader>
-              <CardTitle>{t(`sections.${sectionKey}.title`)}</CardTitle>
+              <CardTitle className="text-lg font-bold text-primary">
+                {t(`sections.${sectionKey}.title`)}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Accordion>
@@ -43,7 +47,7 @@ export async function AjudaContent({ showHeading = true }: { showHeading?: boole
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-muted-foreground">
-                        {t(`sections.${sectionKey}.items.${itemKey}.answer`)}
+                        {t.rich(`sections.${sectionKey}.items.${itemKey}.answer`, { b: bold })}
                       </p>
                     </AccordionContent>
                   </AccordionItem>
