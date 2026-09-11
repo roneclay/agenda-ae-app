@@ -43,6 +43,8 @@
       "termsLabel": "Li e aceito os <link>Termos de Uso e Política de Privacidade</link>",
       "termsRequired": "Você precisa aceitar os termos pra continuar",
       "phoneTaken": "Esse WhatsApp já tem uma conta cadastrada. <link>Faça login</link>.",
+      "emailInvalid": "Digite um e-mail válido.",
+      "phoneInvalid": "Digite um WhatsApp válido, com DDD (ex: (48) 99999-8888).",
       "genericError": "Não conseguimos concluir o cadastro agora. Tente de novo em instantes.",
       "accountCreated": "Conta criada! Verifique seu email para confirmar."
     },

@@ -12,7 +12,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { signUp } from '@/lib/auth/client'
 import { authErrorKey } from '@/lib/auth/error-messages'
-import { toE164BR } from '@/lib/phone'
+import { isValidPhoneBR, maskPhoneBR, toE164BR } from '@/lib/phone'
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function LoginLink(chunks: React.ReactNode) {
   return (
@@ -29,6 +31,7 @@ export default function CadastroPage() {
   const [termsError, setTermsError] = useState('')
   const [emailError, setEmailError] = useState<React.ReactNode>(null)
   const [phoneError, setPhoneError] = useState<React.ReactNode>(null)
+  const [phoneDisplay, setPhoneDisplay] = useState('')
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -42,6 +45,16 @@ export default function CadastroPage() {
     const password = String(form.get('password') ?? '')
     const phone = String(form.get('phone') ?? '').trim()
     const acceptedTerms = form.get('terms') === 'on'
+
+    if (!EMAIL_RE.test(email)) {
+      setEmailError(t('signup.emailInvalid'))
+      return
+    }
+
+    if (!isValidPhoneBR(phone)) {
+      setPhoneError(t('signup.phoneInvalid'))
+      return
+    }
 
     if (!acceptedTerms) {
       setTermsError(t('signup.termsRequired'))
@@ -130,7 +143,16 @@ export default function CadastroPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">{t('signup.whatsappLabel')}</Label>
-            <Input id="phone" name="phone" required placeholder="48999999999" inputMode="tel" />
+            <Input
+              id="phone"
+              name="phone"
+              required
+              placeholder="(48) 99999-8888"
+              inputMode="tel"
+              maxLength={15}
+              value={phoneDisplay}
+              onChange={(e) => setPhoneDisplay(maskPhoneBR(e.target.value))}
+            />
             <p className="text-xs text-muted-foreground">{t('signup.whatsappHelp')}</p>
             {phoneError && <p className="text-sm text-destructive">{phoneError}</p>}
           </div>

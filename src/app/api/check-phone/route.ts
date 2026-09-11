@@ -1,11 +1,12 @@
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db, user } from '@/lib/db'
-import { toE164BR } from '@/lib/phone'
+import { isValidPhoneBR, toE164BR } from '@/lib/phone'
 
 export async function POST(req: Request) {
   const { phone } = await req.json()
   if (!phone) return NextResponse.json({ error: 'missingPhone' }, { status: 400 })
+  if (!isValidPhoneBR(phone)) return NextResponse.json({ error: 'invalidPhone' }, { status: 400 })
 
   const e164 = toE164BR(phone)
 
