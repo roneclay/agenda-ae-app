@@ -32,6 +32,8 @@ export const auth = betterAuth({
   },
   trustedOrigins: [
     process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
+    'https://agendadinho.com.br',
+    'https://www.agendadinho.com.br',
     'https://*.vercel.app',
   ],
 })
