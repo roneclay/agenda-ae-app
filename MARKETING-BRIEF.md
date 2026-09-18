@@ -4,7 +4,7 @@
 
 ## O que é
 
-**Agendadinho** ([agendadinho.com.br](https://agendadinho.com.br)) é um sistema de agendamento online pra profissionais autônomos da área de **beleza**: cabeleireiro(a), barbeiro(a), manicure, esteticista, lash designer, sobrancelhas, maquiador(a).
+**Agendadinho** ([agendadinho.com.br](https://agendadinho.com.br)) é um sistema de agendamento online pra profissionais autônomos da área de **beleza**: cabeleireiro(a), manicure, esteticista, lash designer, sobrancelhas, maquiador(a).
 
 O profissional recebe um **link público** (ex: `agendadinho.com.br/agendar/seu-nome`) que ele compartilha com os clientes. O cliente agenda sozinho — sem baixar app, sem criar conta, sem trocar mensagem no WhatsApp pra combinar horário.
 
@@ -43,7 +43,9 @@ Direto, informal, brasileiro — sem jargão corporativo. Fala com quem "vive de
 
 ## Público-alvo
 
-Profissional autônomo ou pequeno salão/barbearia, sem equipe de TI, que hoje agenda por WhatsApp/caderno e sente a dor do no-show e da troca de mensagem. Não é um público que quer "sistema de gestão completo" — quer resolver uma dor específica rápido.
+Profissional autônomo ou pequeno salão de beleza, sem equipe de TI, que hoje agenda por WhatsApp/caderno e sente a dor do no-show e da troca de mensagem. Não é um público que quer "sistema de gestão completo" — quer resolver uma dor específica rápido.
+
+**Fora de foco por ora (decisão deliberada, não definitiva):** barbeiro/barbearia. Não é porque o produto não sirva pra esse público — é uma escolha de foco de nicho pra manter a mensagem afiada enquanto o produto é novo. Pode ser revisitado depois.
 
 ## O que NÃO usar na comunicação
 
