@@ -15,10 +15,6 @@ export async function TermosContent() {
         <p className="mt-1 text-sm text-muted-foreground">{t('updatedAt')}</p>
       </div>
 
-      <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
-        {t('disclaimer')}
-      </div>
-
       <div className="space-y-6">
         {SECTION_KEYS.map((key) => {
           const paragraphs = t.raw(`sections.${key}.paragraphs`) as string[]
