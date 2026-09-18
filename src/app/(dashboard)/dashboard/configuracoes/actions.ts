@@ -4,8 +4,8 @@ import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
-import { getCurrentProfessional } from '@/lib/auth/session'
-import { db, professional } from '@/lib/db'
+import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
+import { db, emailLog, professional, user } from '@/lib/db'
 import { normalizePhone } from '@/lib/phone'
 
 const Schema = z.object({
@@ -69,4 +69,25 @@ export async function toggleAcceptingBookings() {
     .where(eq(professional.id, pro.id))
   revalidatePath('/dashboard/configuracoes')
   revalidatePath('/dashboard')
+}
+
+export type DeleteAccountState = { error?: string; ok?: boolean }
+
+/**
+ * Apaga a conta e todos os dados vinculados (LGPD, seção 8 dos Termos de Uso).
+ * professional.userId → user.id e todas as tabelas por professionalId têm
+ * onDelete: 'cascade', exceto email_log, que precisa ser limpo à mão antes.
+ */
+export async function deleteAccount(): Promise<DeleteAccountState> {
+  const session = await requireSession()
+  const pro = await getCurrentProfessional()
+
+  await db.transaction(async (tx) => {
+    if (pro) {
+      await tx.delete(emailLog).where(eq(emailLog.professionalId, pro.id))
+    }
+    await tx.delete(user).where(eq(user.id, session.user.id))
+  })
+
+  return { ok: true }
 }

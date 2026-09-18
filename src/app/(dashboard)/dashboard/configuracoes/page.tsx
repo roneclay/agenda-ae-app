@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
+import { DeleteAccountDialog } from './delete-account-dialog'
 import { ProfileForm } from './profile-form'
 
 export default async function ConfiguracoesPage() {
@@ -28,6 +29,16 @@ export default async function ConfiguracoesPage() {
       </Card>
 
       <ProfileForm pro={pro} />
+
+      <Card className="border-destructive/40">
+        <CardHeader>
+          <CardTitle className="text-destructive">{t('dangerZoneTitle')}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-muted-foreground">{t('deleteAccountDescription')}</p>
+          <DeleteAccountDialog />
+        </CardContent>
+      </Card>
     </div>
   )
 }

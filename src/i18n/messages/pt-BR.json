@@ -235,7 +235,16 @@
       "whatsappLabel": "WhatsApp",
       "addressLabel": "Endereço",
       "saving": "Salvando...",
-      "save": "Salvar alterações"
+      "save": "Salvar alterações",
+      "dangerZoneTitle": "Zona de risco",
+      "deleteAccountDescription": "Excluir sua conta remove seu cadastro, serviços, horários, clientes e histórico de agendamentos permanentemente. Essa ação não pode ser desfeita.",
+      "deleteAccountButton": "Excluir minha conta",
+      "deleteAccountDialogTitle": "Tem certeza que quer excluir sua conta?",
+      "deleteAccountDialogDescription": "Isso vai apagar seu cadastro, serviços, horários, clientes e histórico de agendamentos pra sempre. Não tem como desfazer.",
+      "deleteAccountConfirmLabel": "Digite {word} pra confirmar",
+      "deleteAccountConfirmButton": "Sim, excluir minha conta",
+      "deleteAccountDeleting": "Excluindo...",
+      "deleteAccountSuccess": "Conta excluída. Sentiremos sua falta."
     },
     "whatsappSimulator": {
       "title": "Simulador WhatsApp",
