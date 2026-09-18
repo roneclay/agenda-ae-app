@@ -12,7 +12,7 @@ Motor único deployado em múltiplos domínios/nichos: **beauty, legal, petcare,
 1. Profissional cadastra → confirma email → onboarding (dados + 1 serviço + horários → link público ativa)
 2. Link público `/agendar/[slug]` — sem login, wizard 4 etapas: serviços → horário → dados → confirmação
 3. **V1 não tem bot de WhatsApp/chat** — só agenda online (link público). O código do bot (Claude Haiku) existe mas está fora do escopo de lançamento por decisão de produto.
-4. Lembretes automáticos 24h, 6h e 2h antes (WhatsApp + email). No lembrete de 6h, pede confirmação de presença via link público (`/confirmar/[id]`) — se não confirmar até 2h antes, cancela automaticamente e libera o horário (avisa o profissional por e-mail).
+4. Lembretes automáticos 24h, 6h e 2h antes **por e-mail** (WhatsApp é capacidade futura — sem integração real nem UI de conexão hoje; a página `/dashboard/whatsapp` é só um simulador do bot, fora de escopo). No lembrete de 6h, pede confirmação de presença via link público (`/confirmar/[id]`) — se não confirmar até 2h antes, cancela automaticamente e libera o horário (avisa o profissional por e-mail).
 5. Profissional paga via **Mercado Pago** (Pix e cartão)
 
 ---
@@ -68,7 +68,6 @@ Verificar cada flag antes de chamar a integração correspondente.
 - Bot de IA nunca diz "não tem horário"
 - `/agendar/[slug]` é pública (sem auth); profissional controla `is_accepting_bookings`
 - **Onboarding gate**: link público só ativa após dados básicos + 1 serviço + horários configurados
-- Dashboard mostra banner amarelo até WhatsApp Business estar conectado
 - Modelo de horários: padrão semanal multi-window + overrides por data, 7 dias rolantes para cliente, tudo em BRT
 
 ---

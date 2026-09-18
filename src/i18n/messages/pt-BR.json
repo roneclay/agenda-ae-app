@@ -161,11 +161,6 @@
       "success": "Cancelado",
       "button": "Cancelar"
     },
-    "whatsappBanner": {
-      "title": "Sua integração WhatsApp não está configurada",
-      "description": "Sem ela, seus clientes não recebem confirmações nem lembretes automáticos.",
-      "button": "Configurar agora"
-    },
     "horarios": {
       "weeklySaved": "Padrão semanal salvo",
       "title": "Horários",
