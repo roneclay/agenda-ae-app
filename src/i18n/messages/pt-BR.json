@@ -726,26 +726,26 @@
         "title": "2. Cadastro e WhatsApp",
         "paragraphs": [
           "Pra criar uma conta, pedimos seu nome, e-mail, senha e um número de WhatsApp — e cada número só pode estar vinculado a uma conta. Isso existe pra garantir que cada profissional tenha só uma conta de verdade, e pra que a gente consiga entrar em contato se precisar.",
-          "Seu número de WhatsApp não é compartilhado com terceiros nem usado pra nada além de identificar sua conta e, quando você conectar sua própria integração de WhatsApp Business, mandar lembrete pros seus clientes."
+          "Seu número de WhatsApp não é compartilhado com terceiros nem usado pra nada além de identificar sua conta e entrar em contato com você se precisarmos."
         ]
       },
       "s3": {
         "title": "3. O que você (profissional) pode fazer no sistema",
         "paragraphs": [
-          "Você cadastra seus próprios serviços, horários e clientes, e usa o link público gerado pra receber agendamentos. Os dados que você insere sobre seus clientes (nome, WhatsApp, histórico de atendimento) são de sua responsabilidade — você é quem coleta e usa esses dados diretamente com seus clientes, o Agendadinho só guarda e organiza isso pra você."
+          "Você cadastra seus próprios serviços e horários, e usa o link público gerado pra receber agendamentos. Os clientes se cadastram sozinhos ao agendar pelo seu link — os dados que eles preenchem (nome, WhatsApp, histórico de atendimento) ficam guardados e organizados pra você, mas o uso que você faz desses dados fora do sistema (contato direto, por exemplo) é de sua responsabilidade."
         ]
       },
       "s4": {
         "title": "4. Quais dados coletamos",
         "paragraphs": [
-          "Sobre você (profissional): nome, e-mail, senha (criptografada), WhatsApp, dados de pagamento processados pelo Mercado Pago (não guardamos número de cartão).",
-          "Sobre seus clientes (inseridos por você): nome, WhatsApp, e-mail, histórico de agendamentos com você."
+          "Sobre você (profissional): nome, e-mail, senha (criptografada), WhatsApp, dados de pagamento processados por um processador de pagamento terceirizado (não guardamos número de cartão).",
+          "Sobre seus clientes (preenchidos por eles mesmos ao agendar pelo seu link): nome, WhatsApp, e-mail, histórico de agendamentos com você."
         ]
       },
       "s5": {
         "title": "5. Como usamos os dados",
         "paragraphs": [
-          "Pra organizar sua agenda, enviar lembrete automático (24h, 6h e 2h antes de cada horário) e confirmação de presença pros seus clientes, processar o pagamento da sua assinatura via Mercado Pago, e mandar avisos importantes sobre sua conta por e-mail."
+          "Pra organizar sua agenda, enviar lembrete automático (24h, 6h e 2h antes de cada horário) e confirmação de presença pros seus clientes, processar o pagamento da sua assinatura, e mandar avisos importantes sobre sua conta por e-mail."
         ]
       },
       "s6": {
@@ -758,7 +758,7 @@
       "s7": {
         "title": "7. Pagamento e cancelamento",
         "paragraphs": [
-          "O plano Pro custa R$ 29,90/mês, com 14 dias grátis pra testar. Você pode pagar por Pix ou cartão de crédito (via Mercado Pago) e cancelar quando quiser — se já pagou o mês, seu acesso continua até completar esse período."
+          "O plano Pro custa R$ 29,90/mês, com 14 dias grátis pra testar. Você pode pagar por Pix ou cartão de crédito e cancelar quando quiser — se já pagou o mês, seu acesso continua até completar esse período."
         ]
       },
       "s8": {
