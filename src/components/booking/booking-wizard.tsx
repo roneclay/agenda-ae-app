@@ -1,5 +1,6 @@
 'use client'
 
+import { BellRingIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -8,7 +9,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { isValidPhoneBR, maskPhoneBR, toE164BR } from '@/lib/phone'
 import { formatDuration } from '@/lib/utils'
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 type Service = {
   id: string
@@ -61,6 +65,10 @@ export function BookingWizard({
   const [chosenSlot, setChosenSlot] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [done, setDone] = useState(false)
+  const [whatsappDisplay, setWhatsappDisplay] = useState('')
+  const [email, setEmail] = useState('')
+  const [whatsappError, setWhatsappError] = useState('')
+  const [emailError, setEmailError] = useState('')
 
   const selectedServices = services.filter((s) => selected.has(s.id))
   const totalDuration = selectedServices.reduce((a, s) => a + s.durationMinutes, 0)
@@ -90,6 +98,18 @@ export function BookingWizard({
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!chosenSlot) return
+    setWhatsappError('')
+    setEmailError('')
+
+    if (!isValidPhoneBR(whatsappDisplay)) {
+      setWhatsappError(t('whatsappInvalid'))
+      return
+    }
+    if (!EMAIL_RE.test(email)) {
+      setEmailError(t('emailInvalid'))
+      return
+    }
+
     setSubmitting(true)
     const form = new FormData(e.currentTarget)
     const res = await fetch('/api/appointments', {
@@ -102,8 +122,8 @@ export function BookingWizard({
         scheduledAt: chosenSlot,
         customer: {
           name: String(form.get('name') ?? ''),
-          whatsappId: String(form.get('whatsapp') ?? ''),
-          email: String(form.get('email') ?? '') || undefined,
+          whatsappId: toE164BR(whatsappDisplay),
+          email,
         },
       }),
     })
@@ -284,12 +304,37 @@ export function BookingWizard({
           </div>
           <div className="space-y-2">
             <Label htmlFor="whatsapp">{t('whatsappLabel')}</Label>
-            <Input id="whatsapp" name="whatsapp" required placeholder="+5548999999999" />
+            <Input
+              id="whatsapp"
+              name="whatsapp"
+              required
+              inputMode="tel"
+              maxLength={15}
+              placeholder="(48) 99999-8888"
+              value={whatsappDisplay}
+              onChange={(e) => setWhatsappDisplay(maskPhoneBR(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">{t('whatsappHint')}</p>
+            {whatsappError && <p className="text-sm text-destructive">{whatsappError}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">{t('emailLabel')}</Label>
-            <Input id="email" name="email" type="email" required />
-            <p className="text-xs text-muted-foreground">{t('emailHint')}</p>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && <p className="text-sm text-destructive">{emailError}</p>}
+            <div className="flex items-start gap-2.5 rounded-lg border border-primary/20 bg-primary/5 p-3">
+              <BellRingIcon className="mt-0.5 size-4 shrink-0 text-primary" />
+              <p className="text-xs text-muted-foreground">
+                <span className="font-semibold text-foreground">{t('emailHintTitle')}</span>{' '}
+                {t('emailHintBody')}
+              </p>
+            </div>
           </div>
 
           <div className="flex gap-2">
