@@ -16,6 +16,9 @@ export const PIX_RECEIVER_LEGAL_NAME = 'RONI CLEI JESUS DOS SANTOS'
 /** E-mail de contato de suporte, mostrado no rodapé de todas as páginas. */
 export const SUPPORT_EMAIL = 'atendimento@agendadinho.com.br'
 
+/** Instagram oficial do Agendadinho, mostrado no rodapé das páginas de marketing. */
+export const INSTAGRAM_URL = 'https://www.instagram.com/agendadinhobr'
+
 export type NichePalette = {
   /** Base brand color (buttons, links, active states) */
   base: string

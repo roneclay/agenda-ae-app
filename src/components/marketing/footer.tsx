@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import type { NicheConfig } from '@/lib/config/niches'
-import { SUPPORT_EMAIL } from '@/lib/config/niches'
+import { INSTAGRAM_URL, SUPPORT_EMAIL } from '@/lib/config/niches'
 import { getNavLinks } from './nav'
 
 export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
@@ -22,6 +22,14 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
               <p className="text-xl font-extrabold text-foreground">{niche.brandName}</p>
             </div>
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">{t('footer.tagline')}</p>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-block text-sm text-muted-foreground underline hover:text-foreground"
+            >
+              {t('footer.instagram')}
+            </a>
           </div>
           <div>
             <p className="text-sm font-bold text-foreground">{t('footer.productHeading')}</p>
