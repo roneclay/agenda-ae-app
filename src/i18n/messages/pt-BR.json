@@ -433,7 +433,7 @@
       "badgeTagline": "14 dias grátis, sem cartão",
       "hero": {
         "headline": "Chega de perder {appointmentNoun} por <highlight>{customerNoun} que sumiu</highlight>.",
-        "description": "Agenda com buraco, mensagem pra lá e pra cá pra combinar horário, {customerNoun} que confirma e não aparece — e você vira recepcionista, atendente e {professionalNoun} ao mesmo tempo. O {brandName} <b>organiza os horários, confirma presença e manda lembrete automático</b>, tudo sozinho.",
+        "description": "Horário vago na agenda, mensagem pra lá e pra cá pra combinar horário, {customerNoun} que confirma e não aparece — e você vira recepcionista, atendente e {professionalNoun} ao mesmo tempo. O {brandName} <b>organiza os horários, confirma presença e manda lembrete automático</b>, tudo sozinho.",
         "ctaPrimary": "Criar conta grátis",
         "trust1": "Sem cartão",
         "trust2": "Sem complicação",
