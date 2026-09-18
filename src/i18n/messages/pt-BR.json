@@ -743,7 +743,7 @@
       "s4": {
         "title": "4. Quais dados coletamos",
         "paragraphs": [
-          "Sobre você (profissional): nome, e-mail, senha (criptografada), WhatsApp verificado, dados de pagamento processados pelo Mercado Pago (não guardamos número de cartão).",
+          "Sobre você (profissional): nome, e-mail, senha (criptografada), WhatsApp, dados de pagamento processados pelo Mercado Pago (não guardamos número de cartão).",
           "Sobre seus clientes (inseridos por você): nome, WhatsApp, e-mail, histórico de agendamentos com você."
         ]
       },
