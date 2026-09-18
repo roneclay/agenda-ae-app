@@ -6,13 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { type OnboardingState, saveBasics } from './actions'
 
@@ -29,12 +22,6 @@ type SlugStatus = 'idle' | 'checking' | 'available' | 'taken' | 'invalid'
 
 export function BasicsStep({ defaultName }: { defaultName: string }) {
   const t = useTranslations('onboarding.basics')
-  const NICHE_OPTIONS = [
-    { value: 'beauty', label: t('nicheOptions.beauty') },
-    { value: 'legal', label: t('nicheOptions.legal') },
-    { value: 'petcare', label: t('nicheOptions.petcare') },
-    { value: 'fitness', label: t('nicheOptions.fitness') },
-  ] as const
 
   const [state, action, pending] = useActionState<OnboardingState, FormData>(saveBasics, {})
   const [slug, setSlug] = useState('')
@@ -101,22 +88,6 @@ export function BasicsStep({ defaultName }: { defaultName: string }) {
             {state.fieldErrors?.slug && (
               <p className="text-sm text-destructive">{state.fieldErrors.slug}</p>
             )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="niche">{t('nicheLabel')}</Label>
-            <Select name="niche" defaultValue="beauty">
-              <SelectTrigger id="niche">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {NICHE_OPTIONS.map((o) => (
-                  <SelectItem key={o.value} value={o.value}>
-                    {o.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           {state.fieldErrors?.phone && (

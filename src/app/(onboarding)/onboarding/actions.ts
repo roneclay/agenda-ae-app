@@ -1,10 +1,12 @@
 'use server'
 
 import { and, eq } from 'drizzle-orm'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { z } from 'zod'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
+import { getNicheFromHost } from '@/lib/config/niches'
 import { dayLabel } from '@/lib/dates'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 import { sendBoasVindas } from '@/lib/email/send'
@@ -25,7 +27,6 @@ const Step1Schema = z.object({
     .trim()
     .min(3, 'Link muito curto')
     .regex(/^[a-z0-9-]+$/, 'Use apenas letras, números e hífens'),
-  niche: z.enum(['beauty', 'legal', 'petcare', 'fitness']),
 })
 
 export type OnboardingState = {
@@ -42,7 +43,6 @@ export async function saveBasics(
   const parsed = Step1Schema.safeParse({
     name: formData.get('name'),
     slug: slugify(String(formData.get('slug') ?? '')),
-    niche: formData.get('niche'),
   })
 
   if (!parsed.success) {
@@ -54,8 +54,9 @@ export async function saveBasics(
     return { fieldErrors }
   }
 
-  const { name, slug, niche } = parsed.data
+  const { name, slug } = parsed.data
   const t = await getTranslations('onboarding')
+  const niche = getNicheFromHost((await headers()).get('host') ?? '').niche
 
   const [conflict] = await db
     .select({ id: professional.id, userId: professional.userId })

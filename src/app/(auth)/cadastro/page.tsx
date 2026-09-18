@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import { GoogleSignInButton } from '@/components/auth/google-signin-button'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -168,6 +169,12 @@ export default function CadastroPage() {
       </CardHeader>
       <form onSubmit={onSubmit}>
         <CardContent className="space-y-4">
+          <GoogleSignInButton />
+          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="h-px flex-1 bg-border" />
+            {t('orDivider')}
+            <div className="h-px flex-1 bg-border" />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="name">{t('signup.nameLabel')}</Label>
             <Input id="name" name="name" required autoComplete="name" />

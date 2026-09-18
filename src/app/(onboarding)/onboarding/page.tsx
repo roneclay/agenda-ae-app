@@ -14,6 +14,7 @@ export default async function OnboardingPage() {
   const t = await getTranslations('onboarding')
 
   if (pro?.onboardingCompleted) redirect('/dashboard')
+  if (!pro && !session.user.phone) redirect('/onboarding/whatsapp')
 
   let step: 1 | 2 | 3 = 1
   if (pro) {

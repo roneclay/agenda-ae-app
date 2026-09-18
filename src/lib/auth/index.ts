@@ -30,11 +30,20 @@ export const auth = betterAuth({
       await sendVerificationEmail({ to: user.email, name: user.name, url })
     },
   },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    },
+  },
   user: {
     additionalFields: {
       phone: {
         type: 'string',
-        required: true,
+        // Login com Google não coleta WhatsApp — a conta é criada sem telefone e
+        // o gate em (onboarding)/layout.tsx redireciona pra completar antes de
+        // seguir. Cadastro por e-mail continua exigindo o campo no formulário.
+        required: false,
         unique: true,
         input: true,
       },
