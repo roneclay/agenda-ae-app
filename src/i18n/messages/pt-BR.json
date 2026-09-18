@@ -1,4 +1,8 @@
 {
+  "common": {
+    "copyLink": "Copiar link",
+    "copied": "Copiado!"
+  },
   "auth": {
     "errors": {
       "invalidEmailOrPassword": "Email ou senha inválidos",
@@ -17,6 +21,12 @@
       "genericResetRequest": "Erro ao solicitar redefinição",
       "genericResetPassword": "Erro ao redefinir"
     },
+    "google": {
+      "button": "Continuar com Google",
+      "redirecting": "Redirecionando...",
+      "error": "Não conseguimos continuar com o Google agora. Tente de novo."
+    },
+    "orDivider": "ou",
     "login": {
       "title": "Entrar",
       "description": "Acesse sua agenda.",
@@ -90,22 +100,25 @@
     "phoneTaken": "Esse WhatsApp já está cadastrado em outra agenda.",
     "heading": "Vamos configurar sua agenda",
     "subtitle": "Três passos rápidos. Seu link público só fica ativo no final.",
+    "whatsappStep": {
+      "title": "Só mais um passo",
+      "description": "Sua conta Google não tem WhatsApp — precisamos dele pra identificar sua agenda.",
+      "label": "WhatsApp",
+      "invalid": "Digite um WhatsApp válido, com DDD (ex: (48) 99999-8888).",
+      "taken": "Esse WhatsApp já está sendo usado por outra conta.",
+      "genericError": "Não conseguimos salvar agora. Tente de novo em instantes.",
+      "saving": "Salvando...",
+      "continue": "Continuar"
+    },
     "stepper": {
       "basics": "Dados básicos",
       "firstService": "Primeiro serviço",
       "hours": "Horários"
     },
     "basics": {
-      "nicheOptions": {
-        "beauty": "Beleza (nail, lash, cabelo, barba)",
-        "legal": "Advocacia",
-        "petcare": "Pet (banho, tosa, veterinário)",
-        "fitness": "Fitness (personal trainer)"
-      },
-      "nameLabel": "Nome de exibição",
+      "nameLabel": "Nome da sua agenda",
       "linkLabel": "Seu link público",
       "linkPlaceholder": "seu-nome",
-      "nicheLabel": "Nicho",
       "saving": "Salvando...",
       "continue": "Continuar",
       "checking": "Verificando…",

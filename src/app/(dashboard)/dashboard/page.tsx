@@ -1,6 +1,7 @@
 import { and, eq, gte, lte, ne } from 'drizzle-orm'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+import { CopyLinkButton } from '@/components/copy-link-button'
 import { CancelAppointmentButton } from '@/components/dashboard/cancel-appointment'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
@@ -28,6 +29,7 @@ export default async function DashboardPage() {
   const t = await getTranslations('dashboard.home')
   const tStatus = await getTranslations('dashboard.appointmentStatus')
   const niche = NICHES[pro.niche]
+  const publicUrl = `${process.env.NEXT_PUBLIC_APP_URL}/agendar/${pro.slug}`
   const start = new Date()
   start.setHours(0, 0, 0, 0)
   const end = new Date(start)
@@ -78,9 +80,12 @@ export default async function DashboardPage() {
 
       {todayAppointments.length === 0 ? (
         <Card>
-          <CardContent className="py-12 text-center text-muted-foreground">
+          <CardContent className="flex flex-col items-center gap-3 py-12 text-center text-muted-foreground">
             {t('emptyState', { appointmentNoun: niche.appointmentNoun })}
-            <div className="mt-3 font-mono text-sm text-foreground">/agendar/{pro.slug}</div>
+            <div className="select-all break-all font-mono text-sm text-foreground">
+              {publicUrl}
+            </div>
+            <CopyLinkButton url={publicUrl} />
           </CardContent>
         </Card>
       ) : (
