@@ -5,6 +5,26 @@ import type { NicheConfig } from '@/lib/config/niches'
 import { INSTAGRAM_URL, SUPPORT_EMAIL } from '@/lib/config/niches'
 import { getNavLinks } from './nav'
 
+/** Lucide não tem ícones de marca (removidos por licenciamento) — SVG no mesmo estilo (Feather). */
+function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
+  )
+}
+
 export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
   const t = await getTranslations('marketing')
   const tSupport = await getTranslations('supportFooter')
@@ -26,8 +46,9 @@ export async function MarketingFooter({ niche }: { niche: NicheConfig }) {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm text-muted-foreground underline hover:text-foreground"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
             >
+              <InstagramIcon className="size-4" />
               {t('footer.instagram')}
             </a>
           </div>
