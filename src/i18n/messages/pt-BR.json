@@ -597,7 +597,7 @@
     "confirm": "Confirmar",
     "confirming": "Confirmando...",
     "doneTitle": "{appointmentNoun} confirmado! 🎉",
-    "doneDescription": "Você receberá um lembrete pelo WhatsApp 24h antes do horário marcado.",
+    "doneDescription": "Você receberá um lembrete por e-mail 24h antes do horário marcado.",
     "genericError": "Erro ao agendar",
     "slotConflict": "Esse horário não comporta a duração total dos serviços selecionados. Escolha outro horário ou remova um serviço."
   },
