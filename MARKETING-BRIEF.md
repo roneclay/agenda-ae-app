@@ -15,10 +15,12 @@ Hoje esses profissionais organizam a agenda trocando mensagem no WhatsApp: "que 
 ## Como resolve
 
 - **Link público de agendamento** — cliente escolhe serviço, vê os horários disponíveis de verdade e agenda sozinho.
-- **Lembretes automáticos** 24h, 6h e 2h antes do horário (WhatsApp + e-mail).
+- **Lembretes automáticos por e-mail** 24h, 6h e 2h antes do horário — funciona pra todo mundo, sem nenhuma configuração.
 - **Confirmação de presença** — no lembrete de 6h, pede pro cliente confirmar; se não confirmar até 2h antes, cancela automaticamente e libera o horário pra outra pessoa.
 - **Controle de horários** — janelas semanais + bloqueios/exceções por data específica.
 - Nunca mostra "sem horário" pro cliente — sempre sugere a alternativa mais próxima.
+
+**Sobre lembrete por WhatsApp — atenção, isto NÃO é plug-and-play:** o produto suporta enviar lembrete/confirmação por WhatsApp, mas exige que o próprio profissional conecte sua conta do WhatsApp Business (configuração técnica). Até conectar, o dashboard mostra um banner ("Sua integração WhatsApp não está configurada") e só o lembrete por e-mail funciona. **Não comunicar "WhatsApp automático incluso" como diferencial pronto contra concorrentes** — isso não reflete a experiência real de um cliente novo hoje.
 
 ## Preço e oferta
 
@@ -31,7 +33,7 @@ Hoje esses profissionais organizam a agenda trocando mensagem no WhatsApp: "que 
 - **Em produção**, recebendo cadastros reais.
 - Cadastro com e-mail e WhatsApp exigidos, ambos únicos por conta (não dá pra criar conta duplicada pra ficar reiniciando o trial).
 - Onboarding: dados básicos → primeiro serviço → horários → link fica ativo.
-- Dashboard com banner até o profissional conectar o próprio WhatsApp Business (fora isso, o produto já funciona sem essa conexão — lembrete por e-mail funciona desde já).
+- Lembrete por WhatsApp exige o profissional conectar a própria conta WhatsApp Business (ver seção "Como resolve") — não é algo que já vem funcionando pro cliente novo. Lembrete por e-mail funciona desde já, sem configuração.
 
 ## Tom de voz
 
@@ -52,3 +54,4 @@ Profissional autônomo ou pequeno salão de beleza, sem equipe de TI, que hoje a
 - Não mencionar "multi-nicho", "outros nichos" ou verticais como jurídico/pet/fitness — o produto público é 100% beleza, ponto. (A base de código é reaproveitável pra outros nichos no futuro, mas isso é um detalhe técnico interno, não é um atributo do produto atual.)
 - Não afirmar que o WhatsApp é "verificado por SMS" — hoje só garantimos que é único por conta, não que passou por confirmação via código.
 - Bot de WhatsApp/IA conversacional: existe no código mas está **fora do escopo do lançamento** — não comunicar como recurso disponível.
+- **Não afirmar "WhatsApp automático incluso" ou comparar preço com concorrentes usando isso como diferencial** — exige configuração manual do profissional (conta WhatsApp Business própria), não vem pronto. Só o lembrete por e-mail é automático de fato pro cliente novo.
