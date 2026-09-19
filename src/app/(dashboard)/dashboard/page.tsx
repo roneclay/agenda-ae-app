@@ -1,4 +1,4 @@
-import { and, eq, gte, lte, ne } from 'drizzle-orm'
+import { and, eq, gte, inArray, lte, ne } from 'drizzle-orm'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { CopyLinkButton } from '@/components/copy-link-button'
@@ -11,7 +11,7 @@ import { getCurrentProfessional } from '@/lib/auth/session'
 import { brtWallToUtcMs } from '@/lib/availability'
 import { NICHES } from '@/lib/config/niches'
 import { todayInBRT } from '@/lib/dates'
-import { appointment, customer, db } from '@/lib/db'
+import { appointment, appointmentService, customer, db, service } from '@/lib/db'
 import { maskPhoneBR } from '@/lib/phone'
 
 function formatBRL(cents: number) {
@@ -84,6 +84,29 @@ export default async function DashboardPage({
     )
     .orderBy(appointment.scheduledAt)
 
+  const serviceRows = dayAppointments.length
+    ? await db
+        .select({
+          appointmentId: appointmentService.appointmentId,
+          serviceName: service.name,
+        })
+        .from(appointmentService)
+        .innerJoin(service, eq(service.id, appointmentService.serviceId))
+        .where(
+          inArray(
+            appointmentService.appointmentId,
+            dayAppointments.map((a) => a.id),
+          ),
+        )
+    : []
+
+  const serviceNamesByAppointment = new Map<string, string[]>()
+  for (const row of serviceRows) {
+    const names = serviceNamesByAppointment.get(row.appointmentId) ?? []
+    names.push(row.serviceName)
+    serviceNamesByAppointment.set(row.appointmentId, names)
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -146,8 +169,11 @@ export default async function DashboardPage({
                   {date >= today && <CancelAppointmentButton id={a.id} />}
                 </div>
               </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                {a.durationMinutes} min · {formatBRL(a.totalCents)}
+              <CardContent className="text-sm">
+                <p>{(serviceNamesByAppointment.get(a.id) ?? []).join(', ')}</p>
+                <p className="text-muted-foreground">
+                  {a.durationMinutes} min · {formatBRL(a.totalCents)}
+                </p>
               </CardContent>
             </Card>
           ))}
