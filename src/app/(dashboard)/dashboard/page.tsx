@@ -1,16 +1,16 @@
 import { and, eq, gte, lte, ne } from 'drizzle-orm'
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { CopyLinkButton } from '@/components/copy-link-button'
 import { CancelAppointmentButton } from '@/components/dashboard/cancel-appointment'
+import { DateNav } from '@/components/dashboard/date-nav'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentProfessional } from '@/lib/auth/session'
 import { brtWallToUtcMs } from '@/lib/availability'
 import { NICHES } from '@/lib/config/niches'
-import { addDays, todayInBRT } from '@/lib/dates'
+import { todayInBRT } from '@/lib/dates'
 import { appointment, customer, db } from '@/lib/db'
 
 function formatBRL(cents: number) {
@@ -48,6 +48,12 @@ export default async function DashboardPage({
   const [year, month, day] = date.split('-').map(Number)
   const start = new Date(brtWallToUtcMs(year, month, day, 0))
   const end = new Date(brtWallToUtcMs(year, month, day, 24 * 60))
+  const dateLabel = start.toLocaleDateString('pt-BR', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+    timeZone: 'America/Sao_Paulo',
+  })
 
   const dayAppointments = await db
     .select({
@@ -77,29 +83,8 @@ export default async function DashboardPage({
           <h1 className="text-3xl font-semibold tracking-tight">
             {isToday ? t('title') : t('titleOtherDay')}
           </h1>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Link
-              href={`/dashboard?date=${addDays(date, -1)}`}
-              className={buttonVariants({ variant: 'ghost', size: 'icon', className: 'size-7' })}
-            >
-              <ChevronLeftIcon className="size-4" />
-              <span className="sr-only">{t('prevDay')}</span>
-            </Link>
-            <span>
-              {start.toLocaleDateString('pt-BR', {
-                weekday: 'long',
-                day: '2-digit',
-                month: 'long',
-                timeZone: 'America/Sao_Paulo',
-              })}
-            </span>
-            <Link
-              href={`/dashboard?date=${addDays(date, 1)}`}
-              className={buttonVariants({ variant: 'ghost', size: 'icon', className: 'size-7' })}
-            >
-              <ChevronRightIcon className="size-4" />
-              <span className="sr-only">{t('nextDay')}</span>
-            </Link>
+          <div className="flex items-center gap-2">
+            <DateNav date={date} label={dateLabel} />
             {!isToday && (
               <Link
                 href="/dashboard"

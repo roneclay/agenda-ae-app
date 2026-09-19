@@ -165,8 +165,6 @@
     "home": {
       "title": "Sua agenda hoje",
       "titleOtherDay": "Sua agenda",
-      "prevDay": "Dia anterior",
-      "nextDay": "Próximo dia",
       "goToday": "Hoje",
       "publicLink": "Ver link público",
       "emptyState": "Nenhum {appointmentNoun} agendado para hoje. Compartilhe seu link público para receber agendamentos:",
