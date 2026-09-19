@@ -57,7 +57,13 @@ describe('deriveSlots', () => {
   test('slot que colide com o início do horário ocupado não aparece', () => {
     const busyStart = brtWallToUtcMs(2026, 8, 27, 15 * 60)
     const busy = [{ start: busyStart, end: busyStart + 30 * 60_000 }]
-    const slots = deriveSlots({ date: DATE, windows: FULL_DAY, busy, totalDurationMin: 60, now: NOW })
+    const slots = deriveSlots({
+      date: DATE,
+      windows: FULL_DAY,
+      busy,
+      totalDurationMin: 60,
+      now: NOW,
+    })
     const overlapping = slots.find(
       (s) => s.startsAt === new Date(brtWallToUtcMs(2026, 8, 27, 15 * 60)).toISOString(),
     )
@@ -66,7 +72,13 @@ describe('deriveSlots', () => {
 
   test('bug: agendar para hoje não deve oferecer horário que já passou', () => {
     const now = brtWallToUtcMs(2026, 8, 27, 14 * 60) // 14:00 BRT
-    const slots = deriveSlots({ date: DATE, windows: FULL_DAY, busy: [], totalDurationMin: 60, now })
+    const slots = deriveSlots({
+      date: DATE,
+      windows: FULL_DAY,
+      busy: [],
+      totalDurationMin: 60,
+      now,
+    })
     const past = slots.find(
       (s) => s.startsAt === new Date(brtWallToUtcMs(2026, 8, 27, 13 * 60)).toISOString(),
     )
