@@ -43,11 +43,13 @@ export function deriveSlots({
   windows,
   busy,
   totalDurationMin,
+  now = Date.now(),
 }: {
   date: DateParts
   windows: Window[]
   busy: BusyRange[]
   totalDurationMin: number
+  now?: number
 }): Slot[] {
   const { year, month1to12, day } = date
   const slots: Slot[] = []
@@ -55,6 +57,7 @@ export function deriveSlots({
   for (const window of windows) {
     for (let m = window.startMin; m + SLOT_STEP_MIN <= window.endMin; m += SLOT_STEP_MIN) {
       const slotStartMs = brtWallToUtcMs(year, month1to12, day, m)
+      if (slotStartMs < now) continue
       const desiredEndMs = slotStartMs + totalDurationMin * 60_000
 
       let nextBoundary = brtWallToUtcMs(year, month1to12, day, window.endMin)
@@ -91,18 +94,22 @@ export function isRangeFree({
   busy,
   startsAtIso,
   durationMin,
+  now = Date.now(),
 }: {
   date: DateParts
   windows: Window[]
   busy: BusyRange[]
   startsAtIso: string
   durationMin: number
+  now?: number
 }): boolean {
   if (windows.length === 0) return false
   const { year, month1to12, day } = date
 
   const startMs = new Date(startsAtIso).getTime()
   const endMs = startMs + durationMin * 60_000
+
+  if (startMs < now) return false
 
   const withinWindow = windows.some((w) => {
     const wStart = brtWallToUtcMs(year, month1to12, day, w.startMin)
