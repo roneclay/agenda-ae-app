@@ -12,6 +12,7 @@ import { brtWallToUtcMs } from '@/lib/availability'
 import { NICHES } from '@/lib/config/niches'
 import { todayInBRT } from '@/lib/dates'
 import { appointment, customer, db } from '@/lib/db'
+import { maskPhoneBR } from '@/lib/phone'
 
 function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -23,6 +24,12 @@ function formatTime(date: Date) {
     minute: '2-digit',
     timeZone: 'America/Sao_Paulo',
   })
+}
+
+function formatPhoneDisplay(whatsappId: string) {
+  const digits = whatsappId.replace(/\D/g, '')
+  const local = digits.length === 13 && digits.startsWith('55') ? digits.slice(2) : digits
+  return maskPhoneBR(local)
 }
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/
@@ -63,6 +70,7 @@ export default async function DashboardPage({
       totalCents: appointment.totalCents,
       status: appointment.status,
       customerName: customer.name,
+      customerWhatsapp: customer.whatsappId,
     })
     .from(appointment)
     .innerJoin(customer, eq(customer.id, appointment.customerId))
@@ -124,10 +132,15 @@ export default async function DashboardPage({
         <div className="grid gap-3">
           {dayAppointments.map((a) => (
             <Card key={a.id}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-base">
-                  {formatTime(a.scheduledAt)} — {a.customerName ?? t('customerFallback')}
-                </CardTitle>
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="text-base">
+                    {formatTime(a.scheduledAt)} — {a.customerName ?? t('customerFallback')}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    {formatPhoneDisplay(a.customerWhatsapp)}
+                  </p>
+                </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="outline">{tStatus(a.status)}</Badge>
                   {date >= today && <CancelAppointmentButton id={a.id} />}
