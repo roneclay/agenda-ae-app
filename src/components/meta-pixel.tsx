@@ -30,16 +30,21 @@ export function MetaPixel() {
     const isInitialLoad = lastTracked.current === null
     lastTracked.current = location
     // The initial PageView is fired by the base snippet below; the effect
-    // only handles client-side navigations afterwards.
+    // only handles client-side navigations afterwards. Runs after Next has
+    // already pushed the new URL, so the pixel reads the updated location.
     if (isInitialLoad) return
     window.fbq?.('track', 'PageView')
   }, [location])
 
   if (!PIXEL_ID) return null
 
+  // The snippet turns off the pixel's own history.pushState tracking and lets
+  // repeated PageViews through. By default fbevents.js drops every manual
+  // PageView after the first one on a page and only reports navigations from
+  // its own pushState hook, so the effect above would never reach Meta.
   return (
     <Script id="meta-pixel" strategy="afterInteractive">
-      {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(PIXEL_ID)});fbq('track','PageView');`}
+      {`!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];n.disablePushState=!0;n.allowDuplicatePageViews=!0;t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(PIXEL_ID)});fbq('track','PageView');`}
     </Script>
   )
 }
