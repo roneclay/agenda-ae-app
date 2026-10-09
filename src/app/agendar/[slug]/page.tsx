@@ -5,7 +5,13 @@ import { BookingWizard } from '@/components/booking/booking-wizard'
 import { SupportFooter } from '@/components/support-footer'
 import { NICHES } from '@/lib/config/niches'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
+import { buildPageMetadata } from '@/lib/seo'
 import { isBillingBlocked } from '@/lib/subscription'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  return buildPageMetadata(`/agendar/${slug}`)
+}
 
 export default async function AgendarPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

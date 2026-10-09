@@ -3,6 +3,9 @@ import { MarketingFooter } from '@/components/marketing/footer'
 import { MarketingNav } from '@/components/marketing/nav'
 import { TermosContent } from '@/components/termos-content'
 import { getNicheFromHost } from '@/lib/config/niches'
+import { buildPageMetadata } from '@/lib/seo'
+
+export const generateMetadata = () => buildPageMetadata('/termos')
 
 export default async function TermosPage() {
   const headersList = await headers()

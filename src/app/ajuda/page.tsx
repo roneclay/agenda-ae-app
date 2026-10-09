@@ -3,6 +3,9 @@ import { AjudaContent } from '@/components/ajuda-content'
 import { MarketingFooter } from '@/components/marketing/footer'
 import { MarketingNav } from '@/components/marketing/nav'
 import { getNicheFromHost } from '@/lib/config/niches'
+import { buildPageMetadata } from '@/lib/seo'
+
+export const generateMetadata = () => buildPageMetadata('/ajuda')
 
 export default async function AjudaPublicPage() {
   const headersList = await headers()

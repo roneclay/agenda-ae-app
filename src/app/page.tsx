@@ -4,6 +4,9 @@ import { MarketingFooter } from '@/components/marketing/footer'
 import { MarketingNav } from '@/components/marketing/nav'
 import { getNicheFromHost } from '@/lib/config/niches'
 import { getProPriceCents } from '@/lib/config/settings'
+import { buildPageMetadata } from '@/lib/seo'
+
+export const generateMetadata = () => buildPageMetadata('/')
 
 export default async function Home() {
   const headersList = await headers()

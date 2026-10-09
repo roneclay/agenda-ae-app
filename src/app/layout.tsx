@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import { headers } from 'next/headers'
 import { NextIntlClientProvider } from 'next-intl'
-import { getTranslations } from 'next-intl/server'
 import { Suspense } from 'react'
 import { MetaPixel } from '@/components/meta-pixel'
 import { Toaster } from '@/components/ui/sonner'
 import { getNicheFromHost } from '@/lib/config/niches'
+import { buildPageMetadata } from '@/lib/seo'
 import './globals.css'
 
 const sans = Plus_Jakarta_Sans({
@@ -22,34 +22,7 @@ const mono = JetBrains_Mono({
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers()
-  const niche = getNicheFromHost(headersList.get('host') ?? '')
-  const t = await getTranslations('meta')
-  const title = t('title', { brandName: niche.brandName })
-  const description = t('description', { brandName: niche.brandName })
-
-  return {
-    metadataBase: new URL(APP_URL),
-    title,
-    description,
-    alternates: { canonical: '/' },
-    robots: { index: true, follow: true },
-    openGraph: {
-      type: 'website',
-      locale: 'pt_BR',
-      siteName: niche.brandName,
-      url: '/',
-      title,
-      description,
-      images: niche.logoUrl ? ['/og-agendadinho.jpg'] : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: niche.logoUrl ? ['/og-agendadinho.jpg'] : [],
-    },
-  }
+  return { metadataBase: new URL(APP_URL), ...(await buildPageMetadata()) }
 }
 
 export default async function RootLayout({
