@@ -1,13 +1,17 @@
 import { eq } from 'drizzle-orm'
+import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { SupportFooter } from '@/components/support-footer'
 import { NICHES } from '@/lib/config/niches'
 import { appointment, appointmentService, customer, db, professional, service } from '@/lib/db'
+import { noindexMetadata } from '@/lib/seo'
 import { cancelAppointment, confirmAppointment, rescheduleAppointment } from './actions'
 
 function formatBRL(cents: number) {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
+
+export const metadata: Metadata = noindexMetadata
 
 export default async function ConfirmarPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

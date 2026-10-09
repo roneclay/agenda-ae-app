@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,7 +7,10 @@ import { getTranslations } from 'next-intl/server'
 import { SignOutButton } from '@/components/dashboard/sign-out-button'
 import { SupportFooter } from '@/components/support-footer'
 import { getCurrentProfessional, requireSession } from '@/lib/auth/session'
+import { noindexMetadata } from '@/lib/seo'
 import { isBillingBlocked } from '@/lib/subscription'
+
+export const metadata: Metadata = noindexMetadata
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await requireSession()

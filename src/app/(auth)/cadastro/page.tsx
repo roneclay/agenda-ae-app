@@ -165,7 +165,9 @@ export default function CadastroPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('signup.title')}</CardTitle>
+        <CardTitle>
+          <h1>{t('signup.title')}</h1>
+        </CardTitle>
       </CardHeader>
       <form onSubmit={onSubmit}>
         <CardContent className="space-y-4">

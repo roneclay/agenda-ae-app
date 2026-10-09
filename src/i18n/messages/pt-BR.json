@@ -425,7 +425,39 @@
   },
   "meta": {
     "title": "{brandName} — Agenda online para quem vive de atendimento",
-    "description": "{brandName} organiza sua agenda, confirma presença e envia lembrete automático. Link público de agendamento, sem complicação."
+    "description": "{brandName} organiza sua agenda, confirma presença e envia lembrete automático. Link público de agendamento, sem complicação.",
+    "pages": {
+      "cadastro": {
+        "title": "Criar conta grátis — {brandName}",
+        "description": "Crie sua conta no {brandName} em poucos minutos e receba seu link público de agendamento. 14 dias grátis, sem cartão."
+      },
+      "login": {
+        "title": "Entrar — {brandName}",
+        "description": "Acesse sua agenda no {brandName}."
+      },
+      "termos": {
+        "title": "Termos de Uso e Política de Privacidade — {brandName}",
+        "description": "Termos de uso e política de privacidade do {brandName}: quais dados coletamos, como usamos, por quanto tempo guardamos, pagamento, cancelamento e seus direitos pela LGPD."
+      },
+      "ajuda": {
+        "title": "Central de ajuda — {brandName}",
+        "description": "Respostas para as dúvidas mais comuns sobre o {brandName}: como criar seu link de agendamento, como o cliente agenda, lembretes automáticos, pagamento e gerenciamento da agenda."
+      }
+    },
+    "agendar": {
+      "title": "Agende com {name} — {brandName}",
+      "descriptionWithServices": "Agende {services} com {name} online, sem precisar criar conta. Escolha o dia e o horário e confirme em poucos cliques.",
+      "descriptionNoServices": "Agende com {name} online, sem precisar criar conta. Escolha o dia e o horário e confirme em poucos cliques."
+    },
+    "breadcrumb": {
+      "home": "Início"
+    },
+    "llms": {
+      "summary": "{brandName} é um sistema de agendamento online para profissionais autônomos. O profissional cria uma conta, cadastra serviços e horários e recebe um link público de agendamento; os clientes agendam sem login e escolhem o horário em poucos cliques. O sistema envia lembretes automáticos por e-mail e pede a confirmação de presença. O plano Pro custa {price} por mês, com 14 dias grátis e sem cartão, e o pagamento é feito por Pix ou cartão.",
+      "pagesHeading": "Páginas principais",
+      "contactHeading": "Contato",
+      "contact": "Suporte por e-mail: {email}"
+    }
   },
   "marketing": {
     "nav": {

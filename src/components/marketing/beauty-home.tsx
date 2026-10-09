@@ -2,7 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { AjudaContent } from '@/components/ajuda-content'
-import type { NicheConfig } from '@/lib/config/niches'
+import { INSTAGRAM_URL, type NicheConfig, SUPPORT_EMAIL } from '@/lib/config/niches'
+import { getFaqJsonLd } from '@/lib/seo'
 import { HeroVideo } from './hero-video'
 
 const TRUST_STRIP_PROFESSIONS = [
@@ -78,6 +79,13 @@ export async function BeautyHome({
         name: brandName,
         url: APP_URL,
         logo: niche.logoUrl ? `${APP_URL}${niche.logoUrl}` : undefined,
+        sameAs: [INSTAGRAM_URL],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'customer support',
+          email: SUPPORT_EMAIL,
+          availableLanguage: 'pt-BR',
+        },
       },
       {
         '@type': 'SoftwareApplication',
@@ -98,6 +106,7 @@ export async function BeautyHome({
           },
         },
       },
+      await getFaqJsonLd(),
     ],
   }
 

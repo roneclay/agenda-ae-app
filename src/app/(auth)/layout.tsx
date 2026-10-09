@@ -1,8 +1,12 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { SupportFooter } from '@/components/support-footer'
 import { getSession } from '@/lib/auth/session'
+import { noindexMetadata } from '@/lib/seo'
+
+export const metadata: Metadata = noindexMetadata
 
 export default async function AuthLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession()

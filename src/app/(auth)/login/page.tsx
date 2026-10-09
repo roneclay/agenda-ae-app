@@ -95,7 +95,9 @@ export default function LoginPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('login.title')}</CardTitle>
+        <CardTitle>
+          <h1>{t('login.title')}</h1>
+        </CardTitle>
         <CardDescription>{t('login.description')}</CardDescription>
       </CardHeader>
       <Suspense fallback={null}>
