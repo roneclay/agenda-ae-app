@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { NextIntlClientProvider } from 'next-intl'
 import { Suspense } from 'react'
 import { MetaPixel } from '@/components/meta-pixel'
+import { TrackBridge } from '@/components/track-bridge'
 import { Toaster } from '@/components/ui/sonner'
 import { getNicheFromHost } from '@/lib/config/niches'
 import { buildPageMetadata } from '@/lib/seo'
@@ -52,6 +53,7 @@ export default async function RootLayout({
           <Toaster richColors position="top-center" />
           <Suspense fallback={null}>
             <MetaPixel />
+            <TrackBridge />
           </Suspense>
         </NextIntlClientProvider>
       </body>

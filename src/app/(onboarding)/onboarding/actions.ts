@@ -10,6 +10,7 @@ import { getNicheFromHost } from '@/lib/config/niches'
 import { dayLabel } from '@/lib/dates'
 import { db, professional, service, weeklyScheduleWindow } from '@/lib/db'
 import { sendBoasVindas } from '@/lib/email/send'
+import { queueTrackEvent } from '@/lib/track-server'
 
 const slugify = (input: string) =>
   input
@@ -99,6 +100,7 @@ export async function saveBasics(
       isAcceptingBookings: false,
     })
     await sendBoasVindas({ to: session.user.email, name })
+    await queueTrackEvent('trial_iniciado')
   }
 
   redirect('/onboarding')
@@ -248,6 +250,8 @@ export async function saveSchedule(
       })
       .where(eq(professional.id, pro.id))
   })
+
+  if (!pro.onboardingCompleted) await queueTrackEvent('cadastro_completo')
 
   redirect('/dashboard')
 }
