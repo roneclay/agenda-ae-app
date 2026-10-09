@@ -3,6 +3,8 @@ import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import { headers } from 'next/headers'
 import { NextIntlClientProvider } from 'next-intl'
 import { getTranslations } from 'next-intl/server'
+import { Suspense } from 'react'
+import { MetaPixel } from '@/components/meta-pixel'
 import { Toaster } from '@/components/ui/sonner'
 import { getNicheFromHost } from '@/lib/config/niches'
 import './globals.css'
@@ -75,6 +77,9 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           {children}
           <Toaster richColors position="top-center" />
+          <Suspense fallback={null}>
+            <MetaPixel />
+          </Suspense>
         </NextIntlClientProvider>
       </body>
     </html>
