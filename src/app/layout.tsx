@@ -3,6 +3,7 @@ import { JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google'
 import { headers } from 'next/headers'
 import { NextIntlClientProvider } from 'next-intl'
 import { Suspense } from 'react'
+import { GoogleAnalytics } from '@/components/google-analytics'
 import { MetaPixel } from '@/components/meta-pixel'
 import { TrackBridge } from '@/components/track-bridge'
 import { Toaster } from '@/components/ui/sonner'
@@ -54,6 +55,7 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <MetaPixel />
             <TrackBridge />
+            <GoogleAnalytics />
           </Suspense>
         </NextIntlClientProvider>
       </body>
